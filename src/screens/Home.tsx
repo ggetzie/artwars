@@ -1,9 +1,11 @@
 import React from 'react';
 import {View, Button} from 'react-native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '.';
 
-const Home: React.FC<{
-  navigation: any;
-}> = ({navigation}) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+
+const Home = ({navigation}: Props) => {
   return (
     <View>
       <Button
