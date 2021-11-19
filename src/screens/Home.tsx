@@ -8,6 +8,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 const Home = ({navigation}: Props) => {
   return (
     <View>
+      <Button title="New Game" onPress={() => navigation.navigate('NewGame')} />
       <Button
         title="Settings"
         onPress={() => navigation.navigate('Settings')}
