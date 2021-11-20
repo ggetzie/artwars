@@ -11,6 +11,9 @@ const CityMain = ({navigation}: Props) => {
   return (
     <View>
       <Text>{gameState.player}</Text>
+      <Button title="Your Art" />
+      <Button title="Auctions" />
+      <Button title="Collector" />
       <Button onPress={() => navigation.navigate('Home')} title="Quit" />
     </View>
   );
