@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Prehistoric",
+    "start": -30000,
+    "end": -3000
+  },
+  {
+    "name": "Ancient",
+    "start": -3500,
+    "end": -1100
+  },
+  {
+    "name": "Classical",
+    "start": -800,
+    "end": -300
+  },
+  {
+    "name": "Medieval",
+    "start": 750,
+    "end": 1400
+  },
+  {
+    "name": "Renaissance",
+    "start": 1400,
+    "end": 1600
+  },
+  {
+    "name": "Baroque",
+    "start": 1600,
+    "end": 1750
+  },
+  {
+    "name": "Rococo",
+    "start": 1700,
+    "end": 1750
+  },
+  {
+    "name": "Neo-Classical",
+    "start": 1750,
+    "end": 1880
+  },
+  {
+    "name": "Romantic",
+    "start": 1750,
+    "end": 1880
+  },
+  {
+    "name": "Realist",
+    "start": 1830,
+    "end": 1870
+  },
+  {
+    "name": "Impressionist",
+    "start": 1860,
+    "end": 1880
+  },
+  {
+    "name": "Post-Impressionist",
+    "start": 1885,
+    "end": 1920
+  },
+  {
+    "name": "Expressionist",
+    "start": 1890,
+    "end": 1939
+  },
+  {
+    "name": "Cubist/Futurist",
+    "start": 1905,
+    "end": 1939
+  },
+  {
+    "name": "Surrealist",
+    "start": 1922,
+    "end": 1939
+  },
+  {
+    "name": "Abstract Expressionist",
+    "start": 1945,
+    "end": 2021
+  },
+  {
+    "name": "Pop Art",
+    "start": 1955,
+    "end": 2021
+  },
+  {
+    "name": "Contemporary",
+    "start": 1970,
+    "end": 2021
+  }
+]
