@@ -3,10 +3,12 @@ import type {RootState} from '../store';
 
 interface gameState {
   player: string;
+  balance: number;
 }
 
 const initialState: gameState = {
   player: 'Player',
+  balance: 2000000,
 };
 
 export const gameSlice = createSlice({
@@ -16,10 +18,20 @@ export const gameSlice = createSlice({
     setPlayer: (state, action: PayloadAction<string>) => {
       state.player = action.payload;
     },
+    creditBalance: (state, action: PayloadAction<number>) => {
+      state.balance = state.balance + action.payload;
+    },
+    debitBalance: (state, action: PayloadAction<number>) => {
+      state.balance = state.balance - action.payload;
+    },
+    updateBalance: (state, action: PayloadAction<number>) => {
+      state.balance = action.payload;
+    },
   },
 });
 
-export const {setPlayer} = gameSlice.actions;
+export const {setPlayer, creditBalance, debitBalance, updateBalance} =
+  gameSlice.actions;
 export const selectPlayer = (state: RootState) => state.game.player;
 
 export default gameSlice.reducer;
