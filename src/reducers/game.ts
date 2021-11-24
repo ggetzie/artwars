@@ -1,14 +1,21 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import type {RootState} from '../store';
+import {Cities, setupNPCs, NPC, Categories} from '../util';
 
 interface gameState {
   player: string;
   balance: number;
+  npcs: NPC[];
+  currentCity: Cities;
 }
+
+const npcs = setupNPCs();
 
 const initialState: gameState = {
   player: 'Player',
   balance: 2000000,
+  npcs: npcs,
+  currentCity: Cities.London,
 };
 
 export const gameSlice = createSlice({
