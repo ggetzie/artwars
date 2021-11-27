@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import type {RootState} from '../store';
-import {Cities, setupNPCs, NPC, Categories} from '../util';
+import {Cities, setupNPCs, NPC} from '../util';
 
 interface gameState {
   player: string;
@@ -34,24 +34,16 @@ export const gameSlice = createSlice({
     updateBalance: (state, action: PayloadAction<number>) => {
       state.balance = action.payload;
     },
+    setCity: (state, action: PayloadAction<Cities>) => {
+      state.currentCity = action.payload;
+    },
   },
 });
 
-export const {setPlayer, creditBalance, debitBalance, updateBalance} =
+export const {setPlayer, creditBalance, debitBalance, updateBalance, setCity} =
   gameSlice.actions;
 export const selectPlayer = (state: RootState) => state.game.player;
+export const selectCity = (state: RootState) => state.game.currentCity;
+export const selectBalance = (state: RootState) => state.game.balance;
 
 export default gameSlice.reducer;
-
-// export default function gameReducer(
-//   state = initialState,
-//   action: reduxPayloadAction,
-// ) {
-//   switch (action.type) {
-//     case SET_PLAYER:
-//       return {
-//         ...state,
-//         player: action.payload,
-//       };
-//   }
-// }
