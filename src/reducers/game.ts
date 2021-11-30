@@ -1,21 +1,32 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import type {RootState} from '../store';
-import {Cities, setupNPCs, NPC} from '../util';
+import {
+  Cities,
+  CityName,
+  setupNPCs,
+  NPC,
+  setupArtworks,
+  ArtWork,
+} from '../util';
 
 interface gameState {
   player: string;
   balance: number;
   npcs: NPC[];
-  currentCity: Cities;
+  currentCity: CityName;
+  artworks: ArtWork[];
 }
 
 const npcs = setupNPCs();
+const artData = require('../../res/data/artworks_categorized.json');
+const artworks = setupArtworks(artData, Object.values(Cities), npcs);
 
 const initialState: gameState = {
   player: 'Player',
   balance: 2000000,
   npcs: npcs,
   currentCity: Cities.London,
+  artworks: artworks,
 };
 
 export const gameSlice = createSlice({
@@ -34,7 +45,7 @@ export const gameSlice = createSlice({
     updateBalance: (state, action: PayloadAction<number>) => {
       state.balance = action.payload;
     },
-    setCity: (state, action: PayloadAction<Cities>) => {
+    setCity: (state, action: PayloadAction<CityName>) => {
       state.currentCity = action.payload;
     },
   },

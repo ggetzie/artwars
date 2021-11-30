@@ -20,6 +20,7 @@ const CityMain = ({navigation}: Props) => {
   const city = selectCity(game);
   const player = selectPlayer(game);
   const balance = selectBalance(game);
+
   return (
     <View>
       <Text>{player}</Text>
@@ -27,13 +28,9 @@ const CityMain = ({navigation}: Props) => {
       <Picker
         selectedValue={city}
         onValueChange={(itemValue, _) => dispatch(setCity(itemValue))}>
-        <Picker.Item label={Cities.HongKong} value={Cities.HongKong} />
-        <Picker.Item label={Cities.London} value={Cities.London} />
-        <Picker.Item label={Cities.LosAngeles} value={Cities.LosAngeles} />
-        <Picker.Item label={Cities.Moscow} value={Cities.Moscow} />
-        <Picker.Item label={Cities.NewYork} value={Cities.NewYork} />
-        <Picker.Item label={Cities.Riyadh} value={Cities.Riyadh} />
-        <Picker.Item label={Cities.SanFrancisco} value={Cities.SanFrancisco} />
+        {Object.entries(Cities).map(([k, v]) => (
+          <Picker.Item key={k} label={v} value={v} />
+        ))}
       </Picker>
       <Button title="Your Art" />
       <Button title="Auctions" />

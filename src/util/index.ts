@@ -1,57 +1,50 @@
-const enum Cities {
-  NewYork = 'New York',
-  London = 'London',
-  Moscow = 'Moscow',
-  SanFrancisco = 'San Francisco',
-  Riyadh = 'Riyadh',
-  LosAngeles = 'Los Angeles',
-  HongKong = 'Hong Kong',
-}
+const Cities = {
+  NewYork: 'New York',
+  London: 'London',
+  Moscow: 'Moscow',
+  SanFrancisco: 'San Francisco',
+  Riyadh: 'Riyadh',
+  LosAngeles: 'Los Angeles',
+  HongKong: 'Hong Kong',
+} as const;
 
-const enum Categories {
-  Prehistoric = 'Prehistoric',
-  Ancient = 'Ancient',
-  Classical = 'Classical',
-  Medieval = 'Medieval',
-  Renaissance = 'Renaissance',
-  Baroque = 'Baroque',
-  Rococo = 'Rococo',
-  NeoClassical = 'Neo-Classical',
-  Romantic = 'Romantic',
-  Realist = 'Realist',
-  Impressionist = 'Impressionist',
-  PostImpressionist = 'Post-Impressionist',
-  Expressionist = 'Expressionist',
-  CubistFuturist = 'Cubist/Futurist',
-  Surrealist = 'Surrealist',
-  AbstractExpressionist = 'Abstract Expressionist',
-  PopArt = 'Pop Art',
-  Contemporary = 'Contemporary',
-}
+const MAX_OWNED_BY_NPC = 10;
+const MAX_ON_AUCTION = 20;
+
+export type CityName = typeof Cities[keyof typeof Cities];
+
+const Categories = {
+  Prehistoric: 'Prehistoric',
+  Ancient: 'Ancient',
+  Classical: 'Classical',
+  Medieval: 'Medieval',
+  Renaissance: 'Renaissance',
+  Baroque: 'Baroque',
+  Rococo: 'Rococo',
+  NeoClassical: 'Neo-Classical',
+  Romantic: 'Romantic',
+  Realist: 'Realist',
+  Impressionist: 'Impressionist',
+  PostImpressionist: 'Post-Impressionist',
+  Expressionist: 'Expressionist',
+  CubistFuturist: 'Cubist/Futurist',
+  Surrealist: 'Surrealist',
+  AbstractExpressionist: 'Abstract Expressionist',
+  PopArt: 'Pop Art',
+  Contemporary: 'Contemporary',
+};
+export type CategoryName = typeof Categories[keyof typeof Categories];
 
 export type Category = {
-  name: Categories;
+  name: CategoryName;
   start: number;
   end: number;
 };
 
-const categories: Category[] = require('../../res/data/categories.json');
-
 export type NPC = {
   name: string;
-  city: Cities;
-  preference: Categories;
-};
-
-export type ArtWork = {
-  title: string;
-  artist: string;
-  value: number;
-  urls: string[];
-  category: Categories;
-  city: Cities;
-  year: number;
-  owner: string | undefined;
+  city: CityName;
+  preference: CategoryName;
 };
 
 function randInt(min: number, max: number): number {
@@ -60,7 +53,9 @@ function randInt(min: number, max: number): number {
   return res;
 }
 
-function randomChoiceNR(arr: string[]): {selected: any; remaining: any[]} {
+function randomChoiceNR(arr: any[]): {selected: any; remaining: any[]} {
+  // select a random element from an array without replacement
+  // returns the selected element and the original array without the selection
   if (arr.length === 0) {
     throw 'Empty array';
   }
@@ -71,9 +66,18 @@ function randomChoiceNR(arr: string[]): {selected: any; remaining: any[]} {
   };
 }
 
+function randomChoiceR(arr: any[]): any {
+  // select a random element from an array
+  if (arr.length === 0) {
+    throw 'Empty array';
+  }
+  const index = randInt(0, arr.length);
+  return arr[index];
+}
+
 function setupNPCs(): NPC[] {
   let npcs: NPC[] = [];
-  const categoryNames = categories.map(c => c.name);
+  const categoryNames = Object.values(Categories);
   let prefs = randomChoiceNR(categoryNames);
   npcs.push({
     name: 'Buffy Chadwick',
@@ -126,4 +130,55 @@ function setupNPCs(): NPC[] {
   return npcs;
 }
 
-export {Cities, setupNPCs, Categories};
+export type ArtWork = {
+  title: string;
+  artist: string;
+  value: number;
+  urls: string[];
+  category: CategoryName;
+  year: number;
+  city: CityName | undefined;
+  owner: string | undefined;
+  auction: boolean | undefined;
+};
+
+function getNPCForCity(city: CityName, npcs: NPC[]) {
+  for (const npc of npcs) {
+    if (npc.city === city) {
+      return npc;
+    }
+  }
+  throw `No NPC found for city ${city}`;
+}
+
+function setupArtworks(
+  data: ArtWork[],
+  cities: CityName[],
+  npcs: NPC[],
+): ArtWork[] {
+  let res = [];
+  const chanceOwnedByNPC = MAX_OWNED_BY_NPC / (data.length / cities.length);
+  const chanceOnAuction = MAX_ON_AUCTION / (data.length / cities.length);
+  for (const aw of data) {
+    const city = randomChoiceR(cities);
+    let owner = '';
+    let auction = false;
+    if (Math.random() <= chanceOwnedByNPC) {
+      const npc = getNPCForCity(city, npcs);
+      owner = npc.name;
+    } else {
+      if (Math.random() <= chanceOnAuction) {
+        auction = true;
+      }
+    }
+    res.push({
+      ...aw,
+      city: city,
+      auction: auction,
+      owner: owner,
+    });
+  }
+  return res;
+}
+
+export {Cities, setupNPCs, Categories, setupArtworks};
