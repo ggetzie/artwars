@@ -8,6 +8,7 @@ export type RootStackParamList = {
   Settings: undefined;
   NewGame: undefined;
   CityMain: undefined;
+  YourArt: undefined;
 };
 
 export {Home, Settings, NewGame, CityMain};

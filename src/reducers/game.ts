@@ -18,8 +18,7 @@ interface gameState {
 }
 
 const npcs = setupNPCs();
-const artData = require('../../res/data/artworks_categorized.json');
-const artworks = setupArtworks(artData, Object.values(Cities), npcs);
+const artworks = setupArtworks(Object.values(Cities), npcs);
 
 const initialState: gameState = {
   player: 'Player',

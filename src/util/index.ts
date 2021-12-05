@@ -6,6 +6,7 @@ const Cities = {
   Riyadh: 'Riyadh',
   LosAngeles: 'Los Angeles',
   HongKong: 'Hong Kong',
+  Dubai: 'Dubai',
 } as const;
 
 const MAX_OWNED_BY_NPC = 10;
@@ -76,70 +77,27 @@ function randomChoiceR(arr: any[]): any {
 }
 
 function setupNPCs(): NPC[] {
-  let npcs: NPC[] = [];
+  const npcs: NPC[] = require('../../res/data/npcs.json');
   const categoryNames = Object.values(Categories);
   let prefs = randomChoiceNR(categoryNames);
-  npcs.push({
-    name: 'Buffy Chadwick',
-    city: Cities.NewYork,
-    preference: prefs.selected,
-  });
-
-  prefs = randomChoiceNR(prefs.remaining);
-  npcs.push({
-    name: 'Lord Worthinghamshire',
-    city: Cities.London,
-    preference: prefs.selected,
-  });
-
-  prefs = randomChoiceNR(prefs.remaining);
-  npcs.push({
-    name: 'Yuri Smirnoff',
-    city: Cities.Moscow,
-    preference: prefs.selected,
-  });
-
-  prefs = randomChoiceNR(prefs.remaining);
-  npcs.push({
-    name: 'Gavin Belson',
-    city: Cities.SanFrancisco,
-    preference: prefs.selected,
-  });
-
-  prefs = randomChoiceNR(prefs.remaining);
-  npcs.push({
-    name: 'The Prince',
-    city: Cities.Riyadh,
-    preference: prefs.selected,
-  });
-
-  prefs = randomChoiceNR(prefs.remaining);
-  npcs.push({
-    name: 'Bleve Blartin',
-    city: Cities.LosAngeles,
-    preference: prefs.selected,
-  });
-
-  prefs = randomChoiceNR(prefs.remaining);
-  npcs.push({
-    name: 'Carrie Lam',
-    city: Cities.HongKong,
-    preference: prefs.selected,
-  });
+  for (let npc of npcs) {
+    npc.preference = prefs.selected;
+    prefs = randomChoiceNR(prefs.remaining);
+  }
 
   return npcs;
 }
 
 export type ArtWork = {
-  title: string;
   artist: string;
-  value: number;
+  title: string;
   urls: string[];
   category: CategoryName;
   year: number;
-  city: CityName | undefined;
-  owner: string | undefined;
-  auction: boolean | undefined;
+  value: number;
+  city: CityName;
+  owner: string;
+  auction: boolean;
 };
 
 function getNPCForCity(city: CityName, npcs: NPC[]) {
@@ -151,11 +109,8 @@ function getNPCForCity(city: CityName, npcs: NPC[]) {
   throw `No NPC found for city ${city}`;
 }
 
-function setupArtworks(
-  data: ArtWork[],
-  cities: CityName[],
-  npcs: NPC[],
-): ArtWork[] {
+function setupArtworks(cities: CityName[], npcs: NPC[]): ArtWork[] {
+  const data: ArtWork[] = require('../../res/data/artworks.json');
   let res = [];
   const chanceOwnedByNPC = MAX_OWNED_BY_NPC / (data.length / cities.length);
   const chanceOnAuction = MAX_ON_AUCTION / (data.length / cities.length);
