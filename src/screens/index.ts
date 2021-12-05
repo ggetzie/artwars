@@ -9,6 +9,9 @@ export type RootStackParamList = {
   NewGame: undefined;
   CityMain: undefined;
   YourArt: undefined;
+  AuctionList: undefined;
+  AuctionDetail: undefined;
+  Collector: undefined;
 };
 
 export {Home, Settings, NewGame, CityMain};

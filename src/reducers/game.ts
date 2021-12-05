@@ -8,6 +8,7 @@ import {
   setupArtworks,
   ArtWork,
 } from '../util';
+import {ArtWorkFilter} from '../util/awFilter';
 
 interface gameState {
   player: string;
@@ -55,5 +56,7 @@ export const {setPlayer, creditBalance, debitBalance, updateBalance, setCity} =
 export const selectPlayer = (state: RootState) => state.game.player;
 export const selectCity = (state: RootState) => state.game.currentCity;
 export const selectBalance = (state: RootState) => state.game.balance;
+export const filterArtWorks = (state: RootState, criteria: ArtWorkFilter) =>
+  state.game.artworks.filter(aw => criteria.match(aw));
 
 export default gameSlice.reducer;

@@ -89,6 +89,7 @@ function setupNPCs(): NPC[] {
 }
 
 export type ArtWork = {
+  id: number;
   artist: string;
   title: string;
   urls: string[];
@@ -135,5 +136,10 @@ function setupArtworks(cities: CityName[], npcs: NPC[]): ArtWork[] {
   }
   return res;
 }
+
+export type ArtByCityItem = {
+  title: CityName;
+  data: ArtWork[];
+};
 
 export {Cities, setupNPCs, Categories, setupArtworks};
