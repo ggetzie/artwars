@@ -32,7 +32,7 @@ const CityMain = ({navigation}: Props) => {
           <Picker.Item key={k} label={v} value={v} />
         ))}
       </Picker>
-      <Button title="Your Art" />
+      <Button title="Your Art" onPress={() => navigation.navigate('YourArt')} />
       <Button title="Auctions" />
       <Button title="Collector" />
       <Button onPress={() => navigation.navigate('Home')} title="Quit" />

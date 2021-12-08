@@ -19,12 +19,6 @@ const SectionItem = ({artwork}: {artwork: ArtWork}) => (
   </View>
 );
 
-const EmptyItem = () => (
-  <View style={styles.item}>
-    <Text style={styles.itemText}>No artworks here</Text>
-  </View>
-);
-
 const YourArt = ({navigation}: Props) => {
   const game = useAppSelector(state => state);
   const city = selectCity(game);
@@ -52,10 +46,14 @@ const YourArt = ({navigation}: Props) => {
         sections={artByCity}
         keyExtractor={(item: ArtWork, _: number) => `${item.id}`}
         renderItem={({item}) => <SectionItem artwork={item} />}
-        renderSectionHeader={({section: {title}}) => (
-          <Text style={styles.header}>{title}</Text>
+        renderSectionHeader={({section}) => (
+          <>
+            <Text style={styles.header}>{section.title}</Text>
+            {section.data.length === 0 && (
+              <Text style={styles.itemText}>No Art in this City</Text>
+            )}
+          </>
         )}
-        ListEmptyComponent={() => <EmptyItem />}
       />
       <Button title="Back" onPress={() => navigation.goBack()} />
     </View>

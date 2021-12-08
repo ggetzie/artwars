@@ -3,7 +3,6 @@ const Cities = {
   London: 'London',
   Moscow: 'Moscow',
   SanFrancisco: 'San Francisco',
-  Riyadh: 'Riyadh',
   LosAngeles: 'Los Angeles',
   HongKong: 'Hong Kong',
   Dubai: 'Dubai',

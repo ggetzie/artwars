@@ -15,7 +15,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {store} from './src/store';
-import {Home, Settings, NewGame, CityMain} from './src/screens';
+import {Home, Settings, NewGame, CityMain, YourArt} from './src/screens';
 import {RootStackParamList} from './src/screens';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -29,6 +29,7 @@ const App = () => {
           <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="NewGame" component={NewGame} />
           <Stack.Screen name="CityMain" component={CityMain} />
+          <Stack.Screen name="YourArt" component={YourArt} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
