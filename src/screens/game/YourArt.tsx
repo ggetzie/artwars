@@ -23,8 +23,8 @@ const YourArt = ({navigation}: Props) => {
   const game = useAppSelector(state => state);
   const city = selectCity(game);
   const player = selectPlayer(game);
-  const ownedFilter = new ArtWorkFilter();
-  ownedFilter.owner = o => o === player;
+  const ownedFilter = new ArtWorkFilter({owner: o => o === player});
+
   const otherCities = Object.values(Cities)
     .filter(c => c !== city)
     .sort();

@@ -1,98 +1,95 @@
 import {CategoryName, CityName, ArtWork} from '.';
-export type StringFilter = (s?: string) => boolean;
-export type NumberFilter = (n?: number) => boolean;
-export type BoolFilter = (b?: boolean) => boolean;
-export type CategoryFilter = (c: CategoryName) => boolean;
-export type CityFilter = (c?: CityName) => boolean;
+export type FilterFunc<Type> = (a?: Type) => boolean;
 
-const alwaysTrue = (_: any): boolean => true;
-const alwaysFalse = (_: any): boolean => false;
+const alwaysTrue: FilterFunc<any> = (_: any): boolean => true;
+const alwaysFalse: FilterFunc<any> = (_: any): boolean => false;
+
+export type awFilterArgs = {
+  title?: FilterFunc<string>;
+  artist?: FilterFunc<string>;
+  value?: FilterFunc<number>;
+  category?: FilterFunc<CategoryName>;
+  year?: FilterFunc<number>;
+  city?: FilterFunc<CityName>;
+  owner?: FilterFunc<string>;
+  auction?: FilterFunc<boolean>;
+};
 
 export class ArtWorkFilter {
-  title: StringFilter;
-  artist: StringFilter;
-  value: NumberFilter;
-  category: CategoryFilter;
-  year: NumberFilter;
-  city: CityFilter;
-  owner: StringFilter;
-  auction: BoolFilter;
+  title: FilterFunc<string>;
+  artist: FilterFunc<string>;
+  value: FilterFunc<number>;
+  category: FilterFunc<CategoryName>;
+  year: FilterFunc<number>;
+  city: FilterFunc<CityName>;
+  owner: FilterFunc<string>;
+  auction: FilterFunc<boolean>;
   method: 'and' | 'or';
 
-  constructor(
-    method: 'and' | 'or' = 'and',
-    title?: StringFilter,
-    artist?: StringFilter,
-    value?: NumberFilter,
-    category?: CategoryFilter,
-    year?: NumberFilter,
-    city?: CityFilter,
-    owner?: StringFilter,
-    auction?: BoolFilter,
-  ) {
+  constructor(args: awFilterArgs, method: 'and' | 'or' = 'and') {
     this.method = method;
-    if (typeof title === 'undefined') {
+    if (typeof args.title === 'undefined') {
       this.method === 'and'
         ? (this.title = alwaysTrue)
         : (this.title = alwaysFalse);
     } else {
-      this.title = title;
+      this.title = args.title;
     }
 
-    if (typeof artist === 'undefined') {
+    if (typeof args.artist === 'undefined') {
       this.method === 'and'
         ? (this.artist = alwaysTrue)
         : (this.artist = alwaysFalse);
     } else {
-      this.artist = artist;
+      this.artist = args.artist;
     }
 
-    if (typeof value === 'undefined') {
+    if (typeof args.value === 'undefined') {
       this.method === 'and'
         ? (this.value = alwaysTrue)
         : (this.value = alwaysFalse);
     } else {
-      this.value = value;
+      this.value = args.value;
     }
 
-    if (typeof category === 'undefined') {
+    if (typeof args.category === 'undefined') {
       this.method === 'and'
         ? (this.category = alwaysTrue)
         : (this.category = alwaysFalse);
     } else {
-      this.category = category;
+      this.category = args.category;
     }
 
-    if (typeof year === 'undefined') {
+    if (typeof args.year === 'undefined') {
       this.method === 'and'
         ? (this.year = alwaysTrue)
         : (this.year = alwaysFalse);
     } else {
-      this.year = year;
+      this.year = args.year;
     }
 
-    if (typeof city === 'undefined') {
+    if (typeof args.city === 'undefined') {
       this.method === 'and'
         ? (this.city = alwaysTrue)
         : (this.city = alwaysFalse);
     } else {
-      this.city = city;
+      this.city = args.city;
     }
 
-    if (typeof owner === 'undefined') {
+    if (typeof args.owner === 'undefined') {
       this.method === 'and'
         ? (this.owner = alwaysTrue)
         : (this.owner = alwaysFalse);
     } else {
-      this.owner = owner;
+      this.owner = args.owner;
     }
 
-    if (typeof auction === 'undefined') {
+    if (typeof args.auction === 'undefined') {
       this.method === 'and'
         ? (this.auction = alwaysTrue)
         : (this.auction = alwaysFalse);
     } else {
-      this.auction = auction;
+      this.auction = args.auction;
     }
   }
 
