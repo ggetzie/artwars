@@ -8,17 +8,19 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 const About = (_: Props) => {
   return (
     <View>
-      <Text>Developed by </Text>
-      <Text
-        style={styles.link}
-        onPress={() => Linking.openURL('https://kotsf.com')}>
-        Kotsf Limited
-      </Text>
-      <Text>in collaboration with </Text>
-      <Text
-        style={styles.link}
-        onPress={() => Linking.openURL('https://msteinberg.art')}>
-        Monica Steinberg
+      <Text>
+        Developed by{' '}
+        <Text
+          style={styles.link}
+          onPress={() => Linking.openURL('https://kotsf.com')}>
+          Kotsf Limited
+        </Text>{' '}
+        in collaboration with{' '}
+        <Text
+          style={styles.link}
+          onPress={() => Linking.openURL('https://msteinberg.art')}>
+          Monica Steinberg
+        </Text>
       </Text>
     </View>
   );
