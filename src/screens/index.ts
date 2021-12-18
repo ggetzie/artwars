@@ -3,6 +3,7 @@ import Settings from './Settings';
 import NewGame from './NewGame';
 import CityMain from './game/CityMain';
 import YourArt from './game/YourArt';
+import About from './About';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -13,6 +14,7 @@ export type RootStackParamList = {
   AuctionList: undefined;
   AuctionDetail: undefined;
   Collector: undefined;
+  About: undefined;
 };
 
-export {Home, Settings, NewGame, CityMain, YourArt};
+export {Home, Settings, NewGame, CityMain, YourArt, About};

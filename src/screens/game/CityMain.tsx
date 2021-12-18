@@ -34,7 +34,10 @@ const CityMain = ({navigation}: Props) => {
       </Picker>
       <Button title="Your Art" onPress={() => navigation.navigate('YourArt')} />
       <Button title="Auctions" />
-      <Button title="Collector" />
+      <Button
+        title="Collector"
+        onPress={() => navigation.navigate('Collector')}
+      />
       <Button onPress={() => navigation.navigate('Home')} title="Quit" />
     </View>
   );

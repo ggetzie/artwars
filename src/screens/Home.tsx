@@ -13,6 +13,7 @@ const Home = ({navigation}: Props) => {
         title="Settings"
         onPress={() => navigation.navigate('Settings')}
       />
+      <Button title="About" onPress={() => navigation.navigate('About')} />
     </View>
   );
 };
