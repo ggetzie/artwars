@@ -15,7 +15,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 type Props = NativeStackScreenProps<RootStackParamList, 'CityMain'>;
 
 const CityMain = ({navigation}: Props) => {
-  const game = useAppSelector(state => state);
+  const game = useAppSelector(state => state.game);
   const dispatch = useAppDispatch();
   const city = selectCity(game);
   const player = selectPlayer(game);

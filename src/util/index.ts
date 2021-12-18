@@ -100,7 +100,13 @@ export type ArtWork = {
   auction: boolean;
 };
 
-function getNPCForCity(city: CityName, npcs: NPC[]) {
+export type Transaction = {
+  id: number;
+  price: number;
+  newOwner: string;
+};
+
+export function getNPCForCity(city: CityName, npcs: NPC[]) {
   for (const npc of npcs) {
     if (npc.city === city) {
       return npc;

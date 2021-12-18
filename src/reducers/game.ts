@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import type {RootState} from '../store';
 import {
   Cities,
   CityName,
@@ -7,8 +6,10 @@ import {
   NPC,
   setupArtworks,
   ArtWork,
+  getNPCForCity,
 } from '../util';
 import {ArtWorkFilter} from '../util/awFilter';
+import {Transaction} from '../util';
 
 interface gameState {
   player: string;
@@ -48,15 +49,37 @@ export const gameSlice = createSlice({
     setCity: (state, action: PayloadAction<CityName>) => {
       state.currentCity = action.payload;
     },
+    transact: (state, action: PayloadAction<Transaction>) => {
+      // Buy or sell an artwork.
+      // Change the owner. Add/deduct price to/from player's balance.
+      // Set value of artwork to last sale price.
+      const index = action.payload.id;
+      let aw = state.artworks[index];
+      state.balance += action.payload.price;
+      aw.owner = action.payload.newOwner;
+      aw.value = Math.abs(action.payload.price);
+      state.artworks = state.artworks
+        .slice(0, index)
+        .concat([aw])
+        .concat(state.artworks.slice(index + 1));
+    },
   },
 });
 
-export const {setPlayer, creditBalance, debitBalance, updateBalance, setCity} =
-  gameSlice.actions;
-export const selectPlayer = (state: RootState) => state.game.player;
-export const selectCity = (state: RootState) => state.game.currentCity;
-export const selectBalance = (state: RootState) => state.game.balance;
-export const filterArtWorks = (state: RootState, criteria: ArtWorkFilter) =>
-  state.game.artworks.filter(aw => criteria.match(aw));
+export const {
+  setPlayer,
+  creditBalance,
+  debitBalance,
+  updateBalance,
+  setCity,
+  transact,
+} = gameSlice.actions;
+export const selectPlayer = (game: gameState) => game.player;
+export const selectCity = (game: gameState) => game.currentCity;
+export const selectBalance = (game: gameState) => game.balance;
+export const selectNPC = (game: gameState, city: CityName) =>
+  getNPCForCity(city, game.npcs);
+export const filterArtWorks = (game: gameState, criteria: ArtWorkFilter) =>
+  game.artworks.filter(aw => criteria.match(aw));
 
 export default gameSlice.reducer;

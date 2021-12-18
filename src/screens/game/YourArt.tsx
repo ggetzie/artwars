@@ -20,7 +20,7 @@ const SectionItem = ({artwork}: {artwork: ArtWork}) => (
 );
 
 const YourArt = ({navigation}: Props) => {
-  const game = useAppSelector(state => state);
+  const game = useAppSelector(state => state.game);
   const city = selectCity(game);
   const player = selectPlayer(game);
   const ownedFilter = new ArtWorkFilter({owner: o => o === player});
