@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, Button, FlatList} from 'react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {GameTabParamList} from '.';
 
 import {useAppSelector} from '../../hooks';
 import {
@@ -9,11 +10,11 @@ import {
   selectNPC,
   // selectPlayer,
 } from '../../reducers/game';
-import {RootStackParamList} from '..';
+
 import {ArtWorkFilter} from '../../util/awFilter';
 import {ArtWork} from '../../util';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Portfolio'>;
+type Props = BottomTabNavigationProp<GameTabParamList, 'Collector'>;
 
 const ArtItem = ({artwork}: {artwork: ArtWork}) => {
   return (
@@ -26,7 +27,7 @@ const ArtItem = ({artwork}: {artwork: ArtWork}) => {
   );
 };
 
-const Collector = ({navigation}: Props) => {
+const Collector = (_: Props) => {
   const game = useAppSelector(state => state.game);
   const city = selectCity(game);
   const npc = selectNPC(game, city);
@@ -48,7 +49,6 @@ const Collector = ({navigation}: Props) => {
           renderItem={item => <ArtItem artwork={item.item} />}
         />
       </View>
-      <Button title="Back" onPress={() => navigation.goBack()} />
     </View>
   );
 };

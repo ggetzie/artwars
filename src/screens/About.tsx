@@ -3,7 +3,7 @@ import {View, Text, Linking, StyleSheet} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '.';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'About'>;
 
 const About = (_: Props) => {
   return (

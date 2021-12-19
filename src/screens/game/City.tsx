@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text, Button} from 'react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '..';
+import {View, Text} from 'react-native';
+
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {GameTabParamList} from '.';
 import {
   setCity,
   selectCity,
@@ -12,9 +13,9 @@ import {Picker} from '@react-native-picker/picker';
 import {Cities} from '../../util';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'City'>;
+type Props = BottomTabNavigationProp<GameTabParamList, 'City'>;
 
-const City = ({navigation}: Props) => {
+const City = (_: Props) => {
   const game = useAppSelector(state => state.game);
   const dispatch = useAppDispatch();
   const city = selectCity(game);
@@ -32,16 +33,6 @@ const City = ({navigation}: Props) => {
           <Picker.Item key={k} label={v} value={v} />
         ))}
       </Picker>
-      <Button
-        title="Portfolio"
-        onPress={() => navigation.navigate('Portfolio')}
-      />
-      <Button title="Auctions" />
-      <Button
-        title="Collector"
-        onPress={() => navigation.navigate('Collector')}
-      />
-      <Button onPress={() => navigation.navigate('Home')} title="Quit" />
     </View>
   );
 };

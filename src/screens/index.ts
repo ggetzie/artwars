@@ -1,20 +1,15 @@
 import Home from './Home';
 import Settings from './Settings';
 import NewGame from './NewGame';
-import City from './game/City';
-import Portfolio from './game/Portfolio';
 import About from './About';
+import Game from './game/';
 
 export type RootStackParamList = {
   Home: undefined;
   Settings: undefined;
   NewGame: undefined;
-  City: undefined;
-  Portfolio: undefined;
-  AuctionList: undefined;
-  AuctionDetail: undefined;
-  Collector: undefined;
   About: undefined;
+  Game: undefined;
 };
 
-export {Home, Settings, NewGame, City, Portfolio, About};
+export {Home, Settings, NewGame, About, Game};

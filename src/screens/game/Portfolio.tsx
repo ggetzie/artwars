@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, Button, StyleSheet, SectionList} from 'react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {GameTabParamList} from '.';
 
 import {useAppSelector} from '../../hooks';
 import {filterArtWorks, selectCity, selectPlayer} from '../../reducers/game';
@@ -8,7 +10,7 @@ import {RootStackParamList} from '..';
 import {ArtWorkFilter} from '../../util/awFilter';
 import {Cities, ArtByCityItem, ArtWork} from '../../util';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Portfolio'>;
+type Props = BottomTabNavigationProp<GameTabParamList, 'Portfolio'>;
 
 const SectionItem = ({artwork}: {artwork: ArtWork}) => (
   <View style={styles.item}>
@@ -19,7 +21,7 @@ const SectionItem = ({artwork}: {artwork: ArtWork}) => (
   </View>
 );
 
-const Portfolio = ({navigation}: Props) => {
+const Portfolio = (_: Props) => {
   const game = useAppSelector(state => state.game);
   const city = selectCity(game);
   const player = selectPlayer(game);
@@ -55,7 +57,6 @@ const Portfolio = ({navigation}: Props) => {
           </>
         )}
       />
-      <Button title="Back" onPress={() => navigation.goBack()} />
     </View>
   );
 };
