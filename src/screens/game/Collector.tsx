@@ -13,7 +13,7 @@ import {RootStackParamList} from '..';
 import {ArtWorkFilter} from '../../util/awFilter';
 import {ArtWork} from '../../util';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'YourArt'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'Portfolio'>;
 
 const ArtItem = ({artwork}: {artwork: ArtWork}) => {
   return (

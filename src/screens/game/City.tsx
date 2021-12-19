@@ -12,9 +12,9 @@ import {Picker} from '@react-native-picker/picker';
 import {Cities} from '../../util';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'CityMain'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'City'>;
 
-const CityMain = ({navigation}: Props) => {
+const City = ({navigation}: Props) => {
   const game = useAppSelector(state => state.game);
   const dispatch = useAppDispatch();
   const city = selectCity(game);
@@ -32,7 +32,10 @@ const CityMain = ({navigation}: Props) => {
           <Picker.Item key={k} label={v} value={v} />
         ))}
       </Picker>
-      <Button title="Your Art" onPress={() => navigation.navigate('YourArt')} />
+      <Button
+        title="Portfolio"
+        onPress={() => navigation.navigate('Portfolio')}
+      />
       <Button title="Auctions" />
       <Button
         title="Collector"
@@ -43,4 +46,4 @@ const CityMain = ({navigation}: Props) => {
   );
 };
 
-export default CityMain;
+export default City;

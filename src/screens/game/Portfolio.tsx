@@ -8,7 +8,7 @@ import {RootStackParamList} from '..';
 import {ArtWorkFilter} from '../../util/awFilter';
 import {Cities, ArtByCityItem, ArtWork} from '../../util';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'YourArt'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'Portfolio'>;
 
 const SectionItem = ({artwork}: {artwork: ArtWork}) => (
   <View style={styles.item}>
@@ -19,7 +19,7 @@ const SectionItem = ({artwork}: {artwork: ArtWork}) => (
   </View>
 );
 
-const YourArt = ({navigation}: Props) => {
+const Portfolio = ({navigation}: Props) => {
   const game = useAppSelector(state => state.game);
   const city = selectCity(game);
   const player = selectPlayer(game);
@@ -80,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default YourArt;
+export default Portfolio;
