@@ -8,7 +8,7 @@ import {useAppDispatch, useAppSelector} from '../hooks';
 type Props = NativeStackScreenProps<RootStackParamList, 'NewGame'>;
 
 const NewGame = ({navigation}: Props) => {
-  const game = useAppSelector(state => state);
+  const game = useAppSelector(state => state.game);
   const player = selectPlayer(game);
   const dispatch = useAppDispatch();
   return (
@@ -21,7 +21,7 @@ const NewGame = ({navigation}: Props) => {
       <Button
         title="Start"
         onPress={() => {
-          navigation.navigate('CityMain');
+          navigation.navigate('Game');
         }}
       />
     </View>

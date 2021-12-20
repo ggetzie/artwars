@@ -15,14 +15,12 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Game'>;
 
 const Game = (_: Props) => {
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="City" component={City} />
-        <Tab.Screen name="Portfolio" component={Portfolio} />
-        <Tab.Screen name="Collector" component={Collector} />
-        <Tab.Screen name="Auctions" component={AuctionList} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Tab.Navigator>
+      <Tab.Screen name="City" component={City} />
+      <Tab.Screen name="Portfolio" component={Portfolio} />
+      <Tab.Screen name="Collector" component={Collector} />
+      <Tab.Screen name="Auctions" component={AuctionList} />
+    </Tab.Navigator>
   );
 };
 

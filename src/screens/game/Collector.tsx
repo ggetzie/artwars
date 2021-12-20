@@ -12,20 +12,9 @@ import {
 } from '../../reducers/game';
 
 import {ArtWorkFilter} from '../../util/awFilter';
-import {ArtWork} from '../../util';
+import {ArtItem} from '../../components';
 
 type Props = BottomTabNavigationProp<GameTabParamList, 'Collector'>;
-
-const ArtItem = ({artwork}: {artwork: ArtWork}) => {
-  return (
-    <View>
-      <Text>{artwork.title}</Text>
-      <Text>{artwork.artist}</Text>
-      <Text>{artwork.value}</Text>
-      <Button title="Buy" />
-    </View>
-  );
-};
 
 const Collector = (_: Props) => {
   const game = useAppSelector(state => state.game);
