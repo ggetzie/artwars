@@ -1,13 +1,29 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableHighlight,
+  GestureResponderEvent,
+} from 'react-native';
 import {ArtWork} from '../util';
-const ArtItem = ({artwork}: {artwork: ArtWork}) => {
+
+const ArtItem = ({
+  artwork,
+  onPress,
+}: {
+  artwork: ArtWork;
+  onPress: (event: GestureResponderEvent) => void;
+}) => {
+  const value = artwork.value.toLocaleString('en-US');
   return (
-    <View style={styles.card}>
-      <Text>{artwork.title}</Text>
-      <Text>{artwork.artist}</Text>
-      <Text>{artwork.value}</Text>
-    </View>
+    <TouchableHighlight onPress={onPress}>
+      <View style={styles.card}>
+        <Text>{artwork.title}</Text>
+        <Text>by {artwork.artist}</Text>
+        <Text>Value: ${value}</Text>
+      </View>
+    </TouchableHighlight>
   );
 };
 
