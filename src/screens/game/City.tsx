@@ -27,6 +27,7 @@ const City = (_: Props) => {
       <Text>{player}</Text>
       <Text>{balance}</Text>
       <Picker
+        accessibilityLabel="Change city"
         selectedValue={city}
         onValueChange={(itemValue, _) => dispatch(setCity(itemValue))}>
         {Object.entries(Cities).map(([k, v]) => (

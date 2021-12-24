@@ -29,7 +29,11 @@ const App = () => {
           <Stack.Screen name="NewGame" component={NewGame} />
           <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="About" component={About} />
-          <Stack.Screen name="Game" component={Game} />
+          <Stack.Screen
+            name="Game"
+            component={Game}
+            options={{headerBackVisible: false, title: 'Art Wars'}}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

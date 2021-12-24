@@ -81,5 +81,7 @@ export const selectNPC = (game: gameState, city: CityName) =>
   getNPCForCity(city, game.npcs);
 export const filterArtWorks = (game: gameState, criteria: ArtWorkFilter) =>
   game.artworks.filter(aw => criteria.match(aw));
+export const currentNPC = (game: gameState) =>
+  getNPCForCity(game.currentCity, game.npcs);
 
 export default gameSlice.reducer;

@@ -8,6 +8,8 @@ import City from './City';
 import Portfolio from './Portfolio';
 import Collector from './Collector';
 import AuctionList from './AuctionList';
+import {useAppSelector} from '../../hooks';
+import {currentNPC, selectCity} from '../../reducers/game';
 
 const ACTIVE_COLOR = 'dodgerblue';
 const INACTIVE_COLOR = 'gray';
@@ -16,6 +18,9 @@ const Tab = createBottomTabNavigator();
 type Props = NativeStackScreenProps<RootStackParamList, 'Game'>;
 
 const Game = ({route}: Props) => {
+  const game = useAppSelector(state => state.game);
+  const city = selectCity(game);
+  const npc = currentNPC(game);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -45,9 +50,13 @@ const Game = ({route}: Props) => {
         tabBarInactiveTintColor: INACTIVE_COLOR,
         tabBarStyle: {paddingBottom: 3, paddingTop: 5},
       })}>
-      <Tab.Screen name="City" component={City} />
+      <Tab.Screen name="City" component={City} options={{title: city}} />
       <Tab.Screen name="Portfolio" component={Portfolio} />
-      <Tab.Screen name="Collector" component={Collector} />
+      <Tab.Screen
+        name="Collector"
+        component={Collector}
+        options={{title: npc.name}}
+      />
       <Tab.Screen name="Auctions" component={AuctionList} />
     </Tab.Navigator>
   );
