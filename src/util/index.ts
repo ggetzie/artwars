@@ -1,3 +1,5 @@
+import {valueToNode} from '@babel/types';
+
 const Cities = {
   NewYork: 'New York',
   London: 'London',
@@ -45,6 +47,15 @@ export type NPC = {
   name: string;
   city: CityName;
   preference: CategoryName;
+  bio: string;
+  dialogue: {
+    offer: {
+      insulted: string;
+      reject: string;
+      accept: string;
+      enthusiasm: string;
+    };
+  };
 };
 
 function randInt(min: number, max: number): number {
@@ -87,6 +98,15 @@ function setupNPCs(): NPC[] {
   return npcs;
 }
 
+export function getNPCForCity(city: CityName, npcs: NPC[]) {
+  for (const npc of npcs) {
+    if (npc.city === city) {
+      return npc;
+    }
+  }
+  throw `No NPC found for city ${city}`;
+}
+
 export type ArtWork = {
   id: number;
   artist: string;
@@ -105,15 +125,6 @@ export type Transaction = {
   price: number;
   newOwner: string;
 };
-
-export function getNPCForCity(city: CityName, npcs: NPC[]) {
-  for (const npc of npcs) {
-    if (npc.city === city) {
-      return npc;
-    }
-  }
-  throw `No NPC found for city ${city}`;
-}
 
 function setupArtworks(cities: CityName[], npcs: NPC[]): ArtWork[] {
   const data: ArtWork[] = require('../../res/data/artworks.json');
@@ -147,4 +158,26 @@ export type ArtByCityItem = {
   data: ArtWork[];
 };
 
-export {Cities, setupNPCs, Categories, setupArtworks};
+export type OfferResponse = 'insulted' | 'reject' | 'accept' | 'enthusiasm';
+
+function considerOffer(
+  artwork: ArtWork,
+  offer: number,
+  preference: CategoryName,
+): OfferResponse {
+  const preferred = artwork.category === preference;
+  const ratio = offer / artwork.value;
+  const minRatio = preferred ? 0.915 : 0.7;
+  const maxRatio = preferred ? 1.25 : 1.1;
+  if (ratio < minRatio) {
+    return 'insulted';
+  } else if (ratio > maxRatio) {
+    return 'enthusiasm';
+  } else {
+    const threshold = Math.exp(ratio) - Math.exp(minRatio);
+    const roll = Math.random();
+    return Math.random() <= threshold ? 'accept' : 'reject';
+  }
+}
+
+export {Cities, setupNPCs, Categories, setupArtworks, considerOffer};

@@ -2,36 +2,99 @@
   {
     "name": "Buffy Chadwick",
     "city": "New York",
-    "preference": ""
+    "preference": "",
+    "bio": "Heiress to the Chadwick Iron Smelting fortune, My Manhattan penthouse is often considered an unofficial wing of the Guggenheim.",
+    "dialogue": {
+      "offer": {
+        "insulted": "Oh darling, don't be gauche",
+        "reject": "Hmm...nah",
+        "accept": "Well, all right. I guess I can buy another poodle.",
+        "enthusiasm": "Oh, you've made me so happy. So very happy!"
+      }
+    }
   },
   {
-    "name": "Lord Worthinghamshire",
+    "name": "Lord Worthinghamshire VII",
     "city": "London",
-    "preference": ""
+    "preference": "",
+    "bio": "My ancestor Lord Worthinghamshire I was able to obtain art for free by looting it from the colonies. Now, people insist we 'pay' instead. Rubbish!",
+    "dialogue": {
+      "offer": {
+        "insulted": "Come now, old boy, there's no need to be rude",
+        "reject": "Not today, chap",
+        "accept": "Very well",
+        "enthusiasm": "Surely you're taking the piss, eh? What? You're serious?"
+      }
+    }
   },
   {
     "name": "Yuri Smirnoff",
     "city": "Moscow",
-    "preference": ""
+    "preference": "",
+    "bio": "I quote-unquote 'made' a lot of money in the fall of the USSR. Need to get it out of Russia without my friend Vladimir getting suspicious.",
+    "dialogue": {
+      "offer": {
+        "insulted": "You make me another offer like that I will break your legs.",
+        "reject": "Nyet",
+        "accept": "Da",
+        "enthusiasm": "Very generous! I include free bottle of vodka."
+      }
+    }
   },
   {
     "name": "Gavin Belson",
     "city": "San Francisco",
-    "preference": ""
+    "preference": "",
+    "bio": "Every piece I contribute to my private museum is another tax deduction! Of course it's open to the public. Drop by any time between 3:17 and 3:23pm on any third Tuesday of the month during a full moon.",
+    "dialogue": {
+      "offer": {
+        "insulted": "Don't waste my time.",
+        "reject": "Oooo, you were so close.",
+        "accept": "I grudgingly accept.",
+        "enthusiasm": "You got it! No backsies!"
+      }
+    }
   },
   {
     "name": "The Prince",
     "city": "Dubai",
-    "preference": ""
+    "preference": "",
+    "bio": "My grandfather rode a camel. My father drives a Mercedes. I also drive a Mercedes. Sometimes two. I stand with one foot on each and wear them like roller skates. Oh, also I buy art.",
+    "dialogue": {
+      "offer": {
+        "insulted": "May the fleas of a thousand camels infest your crotch.",
+        "reject": "You know we like to haggle, right?",
+        "accept": "Fine! I'll allow it! You can rob me this one time!",
+        "enthusiasm": "A thousand blessings on your house."
+      }
+    }
   },
   {
     "name": "Bleve Blartin",
     "city": "Los Angeles",
-    "preference": ""
+    "preference": "",
+    "bio": "I love art more than most collectors, because I too am an artist. Have you seen my directorial debut, 'Fartin in Memphis'? A triumph!",
+    "dialogue": {
+      "offer": {
+        "insulted": "Come on now, I get more than that for cutting the ribbon a Walgreens.",
+        "reject": "Let me think about it and get back to you.",
+        "accept": "All right. I was getting bored of that piece anyway.",
+        "enthusiasm": "Hachi Machi, with that I can finally make my dream film: 'Fartin in Tallahassee!'"
+      }
+    }
   },
   {
     "name": "JD Wong",
     "city": "Hong Kong",
-    "preference": ""
+    "preference": "",
+    "bio": "The rolling 10-year average ROI on a carefully curated art portfolio can outperform stocks, bonds, and most commodities. It is an underrated investment strategy.",
+    "dialogue": {
+      "offer": {
+        "insulted": "In finance that would be what we call 'getting fucked'.",
+        "reject": "Just not enough juice in this tank.",
+        "accept": "That is an acceptable profit.",
+        "enthusiasm": "Looks like bonus season came early this year."
+      }
+    }
   }
 ]

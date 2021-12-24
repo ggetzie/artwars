@@ -9,6 +9,7 @@ import {
   filterArtWorks,
   selectCity,
   selectNPC,
+  selectPlayer,
   // selectPlayer,
 } from '../../reducers/game';
 
@@ -34,6 +35,8 @@ type ListProps = NativeStackScreenProps<CollectorStackParamList, 'List'>;
 const Offer = ({navigation, route}: OfferProps) => {
   const artwork = route.params.artwork;
   const value = artwork.value.toLocaleString('en-US');
+  const game = useAppSelector(state => state.game);
+  const player = selectPlayer(game);
   return (
     <View>
       <Text>{artwork.title}</Text>
@@ -56,7 +59,7 @@ const CollectorList = ({navigation}: ListProps) => {
   return (
     <View>
       <View>
-        <Text>{npc.name}</Text>
+        <Text>{npc.bio}</Text>
         <Text>Likes: {npc.preference}</Text>
       </View>
       <View>
