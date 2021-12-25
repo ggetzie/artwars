@@ -3,18 +3,17 @@ import {View, Text, Button, FlatList, Modal, TextInput} from 'react-native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {GameTabParamList} from '.';
 
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {
   currentNPC,
   filterArtWorks,
-  selectCity,
-  selectNPC,
+  selectBalance,
   selectPlayer,
-  // selectPlayer,
+  transact,
 } from '../../reducers/game';
 
 import {ArtWorkFilter} from '../../util/awFilter';
-import {ArtWork} from '../../util';
+import {ArtWork, considerOffer, Transaction} from '../../util';
 import {ArtItem} from '../../components';
 import {
   createNativeStackNavigator,
@@ -37,13 +36,59 @@ const Offer = ({navigation, route}: OfferProps) => {
   const value = artwork.value.toLocaleString('en-US');
   const game = useAppSelector(state => state.game);
   const player = selectPlayer(game);
+  const npc = currentNPC(game);
+  const [offer, setOffer] = useState(0);
+  const [message, setMessage] = useState('Go ahead, make an offer.');
+  const dispatch = useAppDispatch();
+  const balance = selectBalance(game);
   return (
     <View>
       <Text>{artwork.title}</Text>
       <Text>Value: ${value}</Text>
-      <TextInput placeholder="Enter offer amount" keyboardType="numeric" />
-      <Button title="Make Offer" />
+      <TextInput
+        placeholder="Enter offer amount"
+        keyboardType="numeric"
+        onChangeText={value => setOffer(parseInt(value))}
+      />
+      <Button
+        title="Make Offer"
+        onPress={() => {
+          if (offer > balance) {
+            setMessage("You don't have that much money!");
+            return;
+          }
+          const response = considerOffer(artwork, offer, npc.preference);
+          if (response === 'accept' || response === 'enthusiasm') {
+            const t: Transaction = {
+              id: artwork.id,
+              price: -1 * offer,
+              newOwner: player,
+            };
+            dispatch(transact(t));
+            setTimeout(() => navigation.goBack(), 2000);
+          } else {
+            setTimeout(() => setMessage('Try again'), 2000);
+          }
+          switch (response) {
+            case 'accept':
+              setMessage(npc.dialogue.offer.accept);
+              break;
+            case 'enthusiasm':
+              setMessage(npc.dialogue.offer.enthusiasm);
+              break;
+            case 'insulted':
+              setMessage(npc.dialogue.offer.insulted);
+              break;
+            case 'reject':
+              setMessage(npc.dialogue.offer.reject);
+              break;
+            default:
+              setMessage('Huh?');
+          }
+        }}
+      />
       <Button title="Cancel" onPress={() => navigation.goBack()} />
+      <Text>{message}</Text>
     </View>
   );
 };

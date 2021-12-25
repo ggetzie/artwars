@@ -169,6 +169,9 @@ function considerOffer(
   const ratio = offer / artwork.value;
   const minRatio = preferred ? 0.915 : 0.7;
   const maxRatio = preferred ? 1.25 : 1.1;
+  console.log(
+    `offer: ${offer} ratio: ${ratio}, minRatio: ${minRatio}, maxRatio: ${maxRatio}`,
+  );
   if (ratio < minRatio) {
     return 'insulted';
   } else if (ratio > maxRatio) {

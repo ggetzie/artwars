@@ -90,8 +90,8 @@
     "bio": "The rolling 10-year average ROI on a carefully curated art portfolio can outperform stocks, bonds, and most commodities. It is an underrated investment strategy.",
     "dialogue": {
       "offer": {
-        "insulted": "In finance that would be what we call 'getting fucked'.",
-        "reject": "Just not enough juice in this tank.",
+        "insulted": "In finance that would be what we call 'getting screwed'.",
+        "reject": "Ehh, the juice ain't worth the squeeze.",
         "accept": "That is an acceptable profit.",
         "enthusiasm": "Looks like bonus season came early this year."
       }
