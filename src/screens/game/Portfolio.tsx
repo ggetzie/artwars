@@ -6,22 +6,41 @@ import {GameTabParamList} from '.';
 
 import {useAppSelector} from '../../hooks';
 import {filterArtWorks, selectCity, selectPlayer} from '../../reducers/game';
-import {RootStackParamList} from '..';
 import {ArtWorkFilter} from '../../util/awFilter';
 import {Cities, ArtByCityItem, ArtWork} from '../../util';
+import {ArtItem} from '../../components';
+import {
+  createNativeStackNavigator,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 type Props = BottomTabNavigationProp<GameTabParamList, 'Portfolio'>;
 
-const SectionItem = ({artwork}: {artwork: ArtWork}) => (
-  <View style={styles.item}>
-    <Text style={styles.itemText}>{artwork.title}</Text>
-    <Text style={styles.itemText}>by: {artwork.artist}</Text>
-    <Text style={styles.itemText}>Category: {artwork.category}</Text>
-    <Text style={styles.itemText}>value: {artwork.value}</Text>
-  </View>
-);
+const PortfolioStack = createNativeStackNavigator();
+type PortfolioStackParamList = {
+  List: undefined;
+  Detail: {artwork: ArtWork};
+};
 
-const Portfolio = (_: Props) => {
+type DetailProps = NativeStackScreenProps<PortfolioStackParamList, 'Detail'>;
+type ListProps = NativeStackScreenProps<PortfolioStackParamList, 'List'>;
+
+const PortfolioDetail = ({navigation, route}: DetailProps) => {
+  const artwork = route.params.artwork;
+  return (
+    <View style={styles.container}>
+      <FontAwesome5.Button
+        name={'times-circle'}
+        onPress={() => navigation.goBack()}
+        style={{alignSelf: 'flex-end'}}
+      />
+      <ArtItem artwork={artwork} />
+    </View>
+  );
+};
+
+const PortfolioList = ({navigation}: ListProps) => {
   const game = useAppSelector(state => state.game);
   const city = selectCity(game);
   const player = selectPlayer(game);
@@ -43,11 +62,16 @@ const Portfolio = (_: Props) => {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <SectionList
         sections={artByCity}
         keyExtractor={(item: ArtWork, _: number) => `${item.id}`}
-        renderItem={({item}) => <SectionItem artwork={item} />}
+        renderItem={({item}) => (
+          <ArtItem
+            artwork={item}
+            onPress={() => navigation.navigate('Detail', {artwork: item})}
+          />
+        )}
         renderSectionHeader={({section}) => (
           <>
             <Text style={styles.header}>{section.title}</Text>
@@ -58,6 +82,23 @@ const Portfolio = (_: Props) => {
         )}
       />
     </View>
+  );
+};
+
+const Portfolio = (_: Props) => {
+  return (
+    <PortfolioStack.Navigator>
+      <PortfolioStack.Screen
+        name={'List'}
+        component={PortfolioList}
+        options={{headerShown: false}}
+      />
+      <PortfolioStack.Screen
+        name={'Detail'}
+        component={PortfolioDetail}
+        options={{presentation: 'modal', headerShown: false}}
+      />
+    </PortfolioStack.Navigator>
   );
 };
 

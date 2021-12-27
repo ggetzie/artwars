@@ -13,7 +13,7 @@ const ArtItem = ({
   onPress,
 }: {
   artwork: ArtWork;
-  onPress: (event: GestureResponderEvent) => void;
+  onPress?: (event: GestureResponderEvent) => void;
 }) => {
   const value = artwork.value.toLocaleString('en-US');
   return (
@@ -22,6 +22,7 @@ const ArtItem = ({
         <Text>{artwork.title}</Text>
         <Text>by {artwork.artist}</Text>
         <Text>Value: ${value}</Text>
+        <Text>Category: {artwork.category}</Text>
       </View>
     </TouchableHighlight>
   );
