@@ -13,7 +13,6 @@ import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 type Props = BottomTabNavigationProp<GameTabParamList, 'Portfolio'>;
 

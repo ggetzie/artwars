@@ -7,7 +7,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import City from './City';
 import Portfolio from './Portfolio';
 import Collector from './Collector';
-import AuctionList from './AuctionList';
+import Auction from './Auction';
 import {useAppSelector} from '../../hooks';
 import {currentNPC, selectCity} from '../../reducers/game';
 
@@ -57,7 +57,7 @@ const Game = ({route}: Props) => {
         component={Collector}
         options={{title: npc.name}}
       />
-      <Tab.Screen name="Auctions" component={AuctionList} />
+      <Tab.Screen name="Auctions" component={Auction} />
     </Tab.Navigator>
   );
 };
