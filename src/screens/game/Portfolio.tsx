@@ -8,7 +8,7 @@ import {useAppSelector} from '../../hooks';
 import {filterArtWorks, selectCity, selectPlayer} from '../../reducers/game';
 import {ArtWorkFilter} from '../../util/awFilter';
 import {Cities, ArtByCityItem, ArtWork} from '../../util';
-import {ArtItem} from '../../components';
+import {ArtItem, CloseButton} from '../../components';
 import {
   createNativeStackNavigator,
   NativeStackScreenProps,
@@ -30,11 +30,7 @@ const PortfolioDetail = ({navigation, route}: DetailProps) => {
   const artwork = route.params.artwork;
   return (
     <View style={styles.container}>
-      <FontAwesome5.Button
-        name={'times-circle'}
-        onPress={() => navigation.goBack()}
-        style={{alignSelf: 'flex-end'}}
-      />
+      <CloseButton onPress={() => navigation.goBack()} />
       <ArtItem artwork={artwork} />
     </View>
   );
