@@ -7,6 +7,9 @@ import {
   setupArtworks,
   ArtWork,
   getNPCForCity,
+  CategoryName,
+  Categories,
+  randomCategory,
 } from '../util';
 import {ArtWorkFilter} from '../util/awFilter';
 import {Transaction} from '../util';
@@ -17,6 +20,7 @@ interface gameState {
   npcs: NPC[];
   currentCity: CityName;
   artworks: ArtWork[];
+  hot: CategoryName;
 }
 
 const npcs = setupNPCs();
@@ -28,6 +32,7 @@ const initialState: gameState = {
   npcs: npcs,
   currentCity: Cities.London,
   artworks: artworks,
+  hot: randomCategory(),
 };
 
 export const gameSlice = createSlice({
@@ -49,6 +54,9 @@ export const gameSlice = createSlice({
     setCity: (state, action: PayloadAction<CityName>) => {
       state.currentCity = action.payload;
     },
+    setHot: (state, action: PayloadAction<CategoryName>) => {
+      state.hot = action.payload;
+    },
     transact: (state, action: PayloadAction<Transaction>) => {
       // Buy or sell an artwork.
       // Change the owner. Add/deduct price to/from player's balance.
@@ -58,9 +66,18 @@ export const gameSlice = createSlice({
       state.balance += action.payload.price;
       aw.owner = action.payload.newOwner;
       aw.value = Math.abs(action.payload.price);
+      aw.auction = false;
       state.artworks = state.artworks
         .slice(0, index)
         .concat([aw])
+        .concat(state.artworks.slice(index + 1));
+    },
+    updateArtwork: (state, action: PayloadAction<ArtWork>) => {
+      // replace ArtWork with one with updated data
+      const index = action.payload.id;
+      state.artworks = state.artworks
+        .slice(0, index)
+        .concat([action.payload])
         .concat(state.artworks.slice(index + 1));
     },
   },
@@ -73,15 +90,24 @@ export const {
   updateBalance,
   setCity,
   transact,
+  updateArtwork,
 } = gameSlice.actions;
+
 export const selectPlayer = (game: gameState) => game.player;
+
 export const selectCity = (game: gameState) => game.currentCity;
+
 export const selectBalance = (game: gameState) => game.balance;
+
 export const selectNPC = (game: gameState, city: CityName) =>
   getNPCForCity(city, game.npcs);
+
 export const filterArtWorks = (game: gameState, criteria: ArtWorkFilter) =>
   game.artworks.filter(aw => criteria.match(aw));
+
 export const currentNPC = (game: gameState) =>
   getNPCForCity(game.currentCity, game.npcs);
+
+export const currentHot = (game: gameState) => game.hot;
 
 export default gameSlice.reducer;

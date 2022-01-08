@@ -64,6 +64,10 @@ function randInt(min: number, max: number): number {
   return res;
 }
 
+function randRange(min: number, max: number): number {
+  return Math.random() * (max - min) + min;
+}
+
 function randomChoiceNR(arr: any[]): {selected: any; remaining: any[]} {
   // select a random element from an array without replacement
   // returns the selected element and the original array without the selection
@@ -183,4 +187,61 @@ function considerOffer(
   }
 }
 
-export {Cities, setupNPCs, Categories, setupArtworks, considerOffer};
+function initialAsking(value: number, isHot: boolean): number {
+  const bidFloor = isHot ? 0.95 : 0.75;
+  const bidCeiling = isHot ? 1.25 : 1.05;
+  const roll = randRange(bidFloor, bidCeiling);
+  return Math.round(roll * value);
+}
+
+function bidIncrement(value: number): number {
+  if (value <= 1000) {
+    return 100;
+  }
+
+  if (value <= 10_000) {
+    return 500;
+  }
+
+  if (value <= 100_000) {
+    return 1_000;
+  }
+
+  if (value <= 1_000_00) {
+    return 5_000;
+  }
+
+  if (value <= 10_000_00) {
+    return 10_000;
+  }
+
+  return 50_000;
+}
+
+function randomCategory(): CategoryName {
+  return randomChoiceR(Object.keys(Categories));
+}
+
+function otherBidders(value: number, asking: number, isHot: boolean): boolean {
+  const ratio = asking / value;
+  const base = 100;
+  const upperLimit = isHot ? 0.95 : 0.75;
+  const roll = Math.random();
+  if (ratio < 1) {
+    return roll < upperLimit;
+  } else {
+    return roll < Math.pow(base, -ratio) * (upperLimit * base);
+  }
+}
+
+export {
+  Cities,
+  setupNPCs,
+  Categories,
+  setupArtworks,
+  considerOffer,
+  initialAsking,
+  bidIncrement,
+  randomCategory,
+  otherBidders,
+};

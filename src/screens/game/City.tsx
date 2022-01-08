@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {GameTabParamList} from '.';
@@ -8,6 +8,7 @@ import {
   selectCity,
   selectPlayer,
   selectBalance,
+  currentHot,
 } from '../../reducers/game';
 import {Picker} from '@react-native-picker/picker';
 import {Cities} from '../../util';
@@ -21,11 +22,16 @@ const City = (_: Props) => {
   const city = selectCity(game);
   const player = selectPlayer(game);
   const balance = selectBalance(game);
+  const hot = currentHot(game);
 
   return (
     <View>
       <Text>{player}</Text>
       <Text>{balance}</Text>
+      <Text>
+        Welcome to {city}! <Text style={styles.hot}>{hot}</Text> artworks are SO
+        HOT right now!
+      </Text>
       <Picker
         accessibilityLabel="Change city"
         selectedValue={city}
@@ -37,5 +43,11 @@ const City = (_: Props) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  hot: {
+    color: 'red',
+  },
+});
 
 export default City;

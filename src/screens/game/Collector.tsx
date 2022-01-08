@@ -69,22 +69,23 @@ const Offer = ({navigation, route}: OfferProps) => {
           } else {
             setTimeout(() => setMessage('Try again'), 2000);
           }
-          switch (response) {
-            case 'accept':
-              setMessage(npc.dialogue.offer.accept);
-              break;
-            case 'enthusiasm':
-              setMessage(npc.dialogue.offer.enthusiasm);
-              break;
-            case 'insulted':
-              setMessage(npc.dialogue.offer.insulted);
-              break;
-            case 'reject':
-              setMessage(npc.dialogue.offer.reject);
-              break;
-            default:
-              setMessage('Huh?');
-          }
+          setMessage(npc.dialogue.offer[response]);
+          // switch (response) {
+          //   case 'accept':
+          //     setMessage(npc.dialogue.offer.accept);
+          //     break;
+          //   case 'enthusiasm':
+          //     setMessage(npc.dialogue.offer.enthusiasm);
+          //     break;
+          //   case 'insulted':
+          //     setMessage(npc.dialogue.offer.insulted);
+          //     break;
+          //   case 'reject':
+          //     setMessage(npc.dialogue.offer.reject);
+          //     break;
+          //   default:
+          //     setMessage('Huh?');
+          // }
         }}
       />
       <Button title="Cancel" onPress={() => navigation.goBack()} />
