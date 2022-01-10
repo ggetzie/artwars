@@ -59,7 +59,7 @@ export type NPC = {
 };
 
 function randInt(min: number, max: number): number {
-  // return a random number between min and max (min included, max excluded)
+  // return a random integer between min and max (min included, max excluded)
   const res = Math.floor(Math.random() * (max - min)) + min;
   return res;
 }
@@ -79,6 +79,10 @@ function randomChoiceNR(arr: any[]): {selected: any; remaining: any[]} {
     selected: arr[index],
     remaining: arr.slice(0, index).concat(arr.slice(index + 1)),
   };
+}
+
+function diceRoll(threshold: number): boolean {
+  return Math.random() <= threshold;
 }
 
 function randomChoiceR(arr: any[]): any {
@@ -122,6 +126,7 @@ export type ArtWork = {
   city: CityName;
   owner: string;
   auction: boolean;
+  destroyed: boolean;
 };
 
 export type Transaction = {
@@ -152,6 +157,7 @@ function setupArtworks(cities: CityName[], npcs: NPC[]): ArtWork[] {
       city: city,
       auction: auction,
       owner: owner,
+      destroyed: false,
     });
   }
   return res;
@@ -244,4 +250,7 @@ export {
   bidIncrement,
   randomCategory,
   otherBidders,
+  diceRoll,
+  randRange,
+  randomChoiceR,
 };

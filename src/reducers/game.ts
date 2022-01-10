@@ -13,6 +13,7 @@ import {
 } from '../util';
 import {ArtWorkFilter} from '../util/awFilter';
 import {Transaction} from '../util';
+import {parseSync} from '@babel/core';
 
 interface gameState {
   player: string;
@@ -21,6 +22,8 @@ interface gameState {
   currentCity: CityName;
   artworks: ArtWork[];
   hot: CategoryName;
+  underInvestigation: boolean;
+  turn: number;
 }
 
 const npcs = setupNPCs();
@@ -33,6 +36,8 @@ const initialState: gameState = {
   currentCity: Cities.London,
   artworks: artworks,
   hot: randomCategory(),
+  underInvestigation: false,
+  turn: 0,
 };
 
 export const gameSlice = createSlice({
@@ -80,6 +85,17 @@ export const gameSlice = createSlice({
         .concat([action.payload])
         .concat(state.artworks.slice(index + 1));
     },
+    setArtworks: (state, action: PayloadAction<ArtWork[]>) => {
+      state.artworks = action.payload.sort(
+        (a: ArtWork, b: ArtWork): number => a.id - b.id,
+      );
+    },
+    setInvestigation: (state, action: PayloadAction<boolean>) => {
+      state.underInvestigation = action.payload;
+    },
+    nextTurn: state => {
+      state.turn += 1;
+    },
   },
 });
 
@@ -91,6 +107,9 @@ export const {
   setCity,
   transact,
   updateArtwork,
+  setHot,
+  setArtworks,
+  setInvestigation,
 } = gameSlice.actions;
 
 export const selectPlayer = (game: gameState) => game.player;
@@ -98,6 +117,8 @@ export const selectPlayer = (game: gameState) => game.player;
 export const selectCity = (game: gameState) => game.currentCity;
 
 export const selectBalance = (game: gameState) => game.balance;
+
+export const selectArtworks = (game: gameState) => game.artworks;
 
 export const selectNPC = (game: gameState, city: CityName) =>
   getNPCForCity(city, game.npcs);
@@ -109,5 +130,10 @@ export const currentNPC = (game: gameState) =>
   getNPCForCity(game.currentCity, game.npcs);
 
 export const currentHot = (game: gameState) => game.hot;
+
+export const isUnderInvestigation = (game: gameState) =>
+  game.underInvestigation;
+
+export const currentTurn = (game: gameState) => game.turn;
 
 export default gameSlice.reducer;
