@@ -16,7 +16,6 @@ import {
 } from '../util';
 import {ArtWorkFilter} from '../util/awFilter';
 import {Transaction} from '../util';
-import {parseSync} from '@babel/core';
 
 interface gameState {
   player: string;
@@ -28,10 +27,6 @@ interface gameState {
   underInvestigation: boolean;
   turn: number;
   messages: string[];
-}
-
-interface AdjustmentMap {
-  [index: CategoryName]: number;
 }
 
 const npcs = setupNPCs();
@@ -214,13 +209,15 @@ export const gameSlice = createSlice({
       const newHot = randomCategory();
       state.hot = newHot;
       // set category factors
-      let adjustments: AdjustmentMap = {};
-      for (let category of Object.keys(Categories)) {
-        adjustments[category] =
-          category === newHot ? randRange(1.5, 3) : randRange(0.5, 1.5);
+      let adjustments = new Map();
+      for (let category of Object.values(Categories)) {
+        adjustments.set(
+          category,
+          category === newHot ? randRange(1.5, 3) : randRange(0.5, 1.5),
+        );
       }
       for (let aw of artworks) {
-        const factor = adjustments[aw.category];
+        const factor = adjustments.get(aw.category);
         aw.value = aw.value * factor;
       }
       state.artworks = artworks;
@@ -260,7 +257,7 @@ export const filterArtWorks = (game: gameState, criteria: ArtWorkFilter) =>
 export const currentNPC = (game: gameState) =>
   getNPCForCity(game.currentCity, game.npcs);
 
-export const currentHot = (game: gameState) => game.hot;
+export const currentHot = (game: gameState): CategoryName => game.hot;
 
 export const isUnderInvestigation = (game: gameState) =>
   game.underInvestigation;

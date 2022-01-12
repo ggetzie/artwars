@@ -1,5 +1,3 @@
-import {valueToNode} from '@babel/types';
-
 const Cities = {
   NewYork: 'New York',
   London: 'London',
@@ -34,8 +32,28 @@ const Categories = {
   AbstractExpressionist: 'Abstract Expressionist',
   PopArt: 'Pop Art',
   Contemporary: 'Contemporary',
-};
+} as const;
+
 export type CategoryName = typeof Categories[keyof typeof Categories];
+// export type CategoryName =
+//   | 'Prehistoric'
+//   | 'Ancient'
+//   | 'Classical'
+//   | 'Medieval'
+//   | 'Renaissance'
+//   | 'Baroque'
+//   | 'Rococo'
+//   | 'Neo-Classical'
+//   | 'Romantic'
+//   | 'Realist'
+//   | 'Impressionist'
+//   | 'Post-Impressionist'
+//   | 'Expressionist'
+//   | 'Cubist/Futurist'
+//   | 'Surrealist'
+//   | 'Abstract Expressionist'
+//   | 'Pop Art'
+//   | 'Contemporary';
 
 export type Category = {
   name: CategoryName;
@@ -96,8 +114,7 @@ function randomChoiceR(arr: any[]): any {
 
 function setupNPCs(): NPC[] {
   const npcs: NPC[] = require('../../res/data/npcs.json');
-  const categoryNames = Object.values(Categories);
-  let prefs = randomChoiceNR(categoryNames);
+  let prefs = randomChoiceNR(Object.values(Categories));
   for (let npc of npcs) {
     npc.preference = prefs.selected;
     prefs = randomChoiceNR(prefs.remaining);
@@ -225,7 +242,7 @@ function bidIncrement(value: number): number {
 }
 
 function randomCategory(): CategoryName {
-  return randomChoiceR(Object.keys(Categories));
+  return randomChoiceR(Object.values(Categories));
 }
 
 function otherBidders(value: number, asking: number, isHot: boolean): boolean {
