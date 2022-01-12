@@ -14,10 +14,10 @@
     }
   },
   {
-    "name": "Lord Worthinghamshire VII",
+    "name": "Popsy",
     "city": "London",
     "preference": "",
-    "bio": "My ancestor Lord Worthinghamshire I was able to obtain art for free by looting it from the colonies. Now, people insist we 'pay' instead. Rubbish!",
+    "bio": "Hello! I'm Lord Worthinghamshire VII, but my friends call me Popsy. My ancestor Lord Worthinghamshire I was able to obtain art for free by looting it from the colonies. Now, people insist we 'pay' instead. Rubbish!",
     "dialogue": {
       "offer": {
         "insulted": "Come now, old boy, there's no need to be rude",

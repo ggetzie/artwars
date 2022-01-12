@@ -10,6 +10,9 @@ import {
   CategoryName,
   Categories,
   randomCategory,
+  diceRoll,
+  randomChoiceR,
+  randRange,
 } from '../util';
 import {ArtWorkFilter} from '../util/awFilter';
 import {Transaction} from '../util';
@@ -24,6 +27,11 @@ interface gameState {
   hot: CategoryName;
   underInvestigation: boolean;
   turn: number;
+  messages: string[];
+}
+
+interface AdjustmentMap {
+  [index: CategoryName]: number;
 }
 
 const npcs = setupNPCs();
@@ -38,6 +46,7 @@ const initialState: gameState = {
   hot: randomCategory(),
   underInvestigation: false,
   turn: 0,
+  messages: [],
 };
 
 export const gameSlice = createSlice({
@@ -96,6 +105,127 @@ export const gameSlice = createSlice({
     nextTurn: state => {
       state.turn += 1;
     },
+    processTurn: state => {
+      // randomly select new hot category
+      // adjust artwork valuations
+      // hot category artworks go up 1.5x - 3x (select random factor)
+      // other categories change value 0.5x - 1.5x (select random for each)
+      // random events occur that change prices of artwork in the player's portfolio
+      // or cause other effects
+      //  - suspected forgery: price 0.1x, 5% chance
+      //  - IRS investigation: unable to relocate artworks: 5% chance to start, 33% chance to remove.
+      //  - Fire: all artwork in that city destroyed: 0.5% chance
+      //  - Theft: 1 artwork removed from portfolio: 1% chance
+      //  - Artist has major museum retrospective: 5% chance, Artworks 1.5x
+      //  - Artist declared problematic: 1% chance, Artworks 0.5x
+      //  - Art repatriated: lose artwork 1% chance,
+      let messages: string[] = [];
+      let artworks = [...state.artworks];
+
+      const portfolioIds = artworks
+        .filter(artwork => artwork.owner === state.player)
+        .map(artwork => artwork.id);
+
+      // process events specific to player
+      if (portfolioIds.length > 0) {
+        // IRS investigation, start or lift
+        const irs = state.underInvestigation;
+        if (irs) {
+          if (diceRoll(0.33)) {
+            setInvestigation(false);
+            messages.push(
+              "You're in the clear! Your tax fraud investigation has been cleared.",
+            );
+          } else {
+            if (diceRoll(0.05)) {
+              setInvestigation(true);
+              messages.push(
+                "Tax authorities have become suspicious of your dealings. You're unable to move artworks between cities.",
+              );
+            }
+          }
+        }
+        // Fire?
+        const hadAFire = diceRoll(0.005);
+        if (hadAFire) {
+          const playerCities = portfolioIds.map(awId => artworks[awId].city);
+          const fireCity = randomChoiceR(playerCities);
+          for (let id of portfolioIds) {
+            if (artworks[id].city === fireCity) {
+              artworks[id].destroyed = true;
+              artworks[id].value = 0;
+            }
+          }
+          messages.push(
+            `Oh no! A fire in ${fireCity} destroyed your warehouse and all artworks there.`,
+          );
+        }
+
+        // Theft?
+        const hadATheft = diceRoll(0.01);
+        if (hadATheft) {
+          const nonDestroyed = portfolioIds.filter(
+            awId => !artworks[awId].destroyed,
+          );
+          const stolen = randomChoiceR(nonDestroyed);
+          artworks[stolen].owner = 'anon';
+          messages.push(`A dastardly thief stole ${artworks[stolen].title}!`);
+        }
+
+        // Retrospective?
+        const hadARetro = diceRoll(0.05);
+        const playerArtists = portfolioIds.map(id => artworks[id].artist);
+        if (hadARetro) {
+          const selected = randomChoiceR(playerArtists);
+          messages.push(
+            `A major museum just announced a retrospective of ${selected}. Their work increased in value by 50%!`,
+          );
+          for (let aw of artworks) {
+            if (aw.artist === selected) {
+              aw.value = Math.round(aw.value * 1.5);
+            }
+          }
+        }
+        // Problematic?
+        const problematic = diceRoll(0.01);
+        if (problematic) {
+          const selected = randomChoiceR(playerArtists);
+          messages.push(
+            `${selected} has been declared problematic! Their work decreased in value by 50%!`,
+          );
+          for (let aw of artworks) {
+            if (aw.artist === selected) {
+              aw.value = Math.round(aw.value * 0.5);
+            }
+          }
+        }
+
+        // Repatriated?
+        const repatriated = diceRoll(0.01);
+        if (repatriated) {
+          const selected = randomChoiceR(portfolioIds);
+          messages.push(
+            `${artworks[selected].title} has been repatriated to its home country and returned to the rightful owners.`,
+          );
+          artworks[selected].owner = 'anon';
+        }
+      }
+      // Update values for all based on category
+      const newHot = randomCategory();
+      state.hot = newHot;
+      // set category factors
+      let adjustments: AdjustmentMap = {};
+      for (let category of Object.keys(Categories)) {
+        adjustments[category] =
+          category === newHot ? randRange(1.5, 3) : randRange(0.5, 1.5);
+      }
+      for (let aw of artworks) {
+        const factor = adjustments[aw.category];
+        aw.value = aw.value * factor;
+      }
+      state.artworks = artworks;
+      state.messages = messages;
+    },
   },
 });
 
@@ -110,6 +240,7 @@ export const {
   setHot,
   setArtworks,
   setInvestigation,
+  processTurn,
 } = gameSlice.actions;
 
 export const selectPlayer = (game: gameState) => game.player;
@@ -135,5 +266,13 @@ export const isUnderInvestigation = (game: gameState) =>
   game.underInvestigation;
 
 export const currentTurn = (game: gameState) => game.turn;
+
+export const portfolioValue = (game: gameState) =>
+  game.artworks
+    .filter(aw => aw.owner === game.player)
+    .map(aw => aw.value)
+    .reduce((p, c) => p + c, 0);
+
+export const getMessages = (game: gameState) => game.messages;
 
 export default gameSlice.reducer;

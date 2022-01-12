@@ -9,6 +9,7 @@ import {
 import {useAppSelector} from '../hooks';
 import {currentHot} from '../reducers/game';
 import {ArtWork} from '../util';
+import BaseStyles from '../styles/base';
 
 const ArtItem = ({
   artwork,
@@ -28,7 +29,7 @@ const ArtItem = ({
         <Text>Value: ${value}</Text>
         <Text>
           Category:{' '}
-          <Text style={hot === artwork.category ? styles.hot : {}}>
+          <Text style={hot === artwork.category ? BaseStyles.hot : {}}>
             {artwork.category}
           </Text>
         </Text>
@@ -41,9 +42,6 @@ const styles = StyleSheet.create({
   card: {
     paddingBottom: 10,
     paddingHorizontal: 10,
-  },
-  hot: {
-    color: 'red',
   },
 });
 

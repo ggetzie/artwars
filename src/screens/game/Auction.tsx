@@ -14,7 +14,6 @@ import {ArtItem, CloseButton} from '../../components';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {
   currentHot,
-  debitBalance,
   filterArtWorks,
   selectBalance,
   selectCity,
@@ -36,7 +35,7 @@ type AuctionStackParamList = {
 type DetailProps = NativeStackScreenProps<AuctionStackParamList, 'Detail'>;
 type ListProps = NativeStackScreenProps<AuctionStackParamList, 'List'>;
 
-const AuctionDetail = ({navigation, route}: DetailProps) => {
+const AuctionBuy = ({navigation, route}: DetailProps) => {
   // Auction Logic: Once a player has placed a bid they cannot leave the detail
   // screen unless they win the auction or quit (lose). If they quit with
   // another bid being the current highest bid, the artwork will be sold for the
@@ -161,7 +160,7 @@ const Auction = (_: Props) => {
       />
       <AuctionStack.Screen
         name={'Detail'}
-        component={AuctionDetail}
+        component={AuctionBuy}
         options={{presentation: 'modal', headerShown: false}}
       />
     </AuctionStack.Navigator>

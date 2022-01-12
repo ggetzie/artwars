@@ -47,6 +47,7 @@ const PortfolioList = ({navigation}: ListProps) => {
   const citiesSorted = [city].concat(otherCities);
 
   const ownedArt = filterArtWorks(game, ownedFilter);
+  const totalValue = ownedArt.map(aw => aw.value).reduce((p, c) => p + c);
   const artByCity: ArtByCityItem[] = citiesSorted.map(c => ({
     title: c,
     data: [],
@@ -58,6 +59,7 @@ const PortfolioList = ({navigation}: ListProps) => {
 
   return (
     <View style={styles.container}>
+      <Text>Portfolio Value: ${totalValue.toLocaleString('en-US')}</Text>
       <SectionList
         sections={artByCity}
         keyExtractor={(item: ArtWork, _: number) => `${item.id}`}
