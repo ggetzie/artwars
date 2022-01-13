@@ -12,6 +12,11 @@ const BaseStyles = StyleSheet.create({
   hot: {
     color: 'red',
   },
+  pickerLabel: {
+    marginTop: 5,
+    fontSize: 18,
+    fontWeight: '500',
+  },
 });
 
 export default BaseStyles;

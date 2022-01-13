@@ -19,16 +19,7 @@ import {
   getMessages,
 } from '../../reducers/game';
 import {Picker} from '@react-native-picker/picker';
-import {
-  Cities,
-  randomCategory,
-  Categories,
-  CategoryName,
-  randRange,
-  diceRoll,
-  randomChoiceR,
-  ArtWork,
-} from '../../util';
+import {Cities} from '../../util';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import BaseStyles from '../../styles/base';
 
@@ -50,9 +41,9 @@ const City = (_: Props) => {
       <Text>Cash on hand: ${balance.toLocaleString('en-US')}</Text>
       <Text>Portfolio Value: ${totalValue.toLocaleString('en-US')}</Text>
       <Text>
-        Welcome to {city}! <Text style={BaseStyles.hot}>{hot}</Text> artworks
-        are SO HOT right now!
+        <Text style={BaseStyles.hot}>{hot}</Text> artworks are SO HOT right now!
       </Text>
+      <Text style={BaseStyles.pickerLabel}>Change City</Text>
       <Picker
         accessibilityLabel="Change city"
         selectedValue={city}

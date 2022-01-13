@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
 import {View, Text, Button, FlatList, Modal, TextInput} from 'react-native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {
+  createNativeStackNavigator,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+
 import {GameTabParamList} from '.';
 
 import {useAppDispatch, useAppSelector} from '../../hooks';
@@ -15,10 +20,7 @@ import {
 import {ArtWorkFilter} from '../../util/awFilter';
 import {ArtWork, considerOffer, Transaction} from '../../util';
 import {ArtItem} from '../../components';
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+import BaseStyle from '../../styles/base';
 
 type Props = BottomTabNavigationProp<GameTabParamList, 'Collector'>;
 
@@ -101,15 +103,14 @@ const CollectorList = ({navigation}: ListProps) => {
     game,
     new ArtWorkFilter({owner: o => o === npc.name}),
   );
-  // const player = selectPlayer(game);
   return (
-    <View>
+    <View style={BaseStyle.container}>
       <View>
         <Text>{npc.bio}</Text>
         <Text>Likes: {npc.preference}</Text>
       </View>
       <View>
-        <Text>Collection</Text>
+        <Text style={BaseStyle.heading1}>Collection</Text>
         <FlatList
           data={artworks}
           renderItem={({item}) => (

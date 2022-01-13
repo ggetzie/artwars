@@ -218,7 +218,7 @@ export const gameSlice = createSlice({
       }
       for (let aw of artworks) {
         const factor = adjustments.get(aw.category);
-        aw.value = aw.value * factor;
+        aw.value = Math.round(aw.value * factor);
       }
       state.artworks = artworks;
       state.messages = messages;
