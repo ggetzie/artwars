@@ -13,6 +13,7 @@ export type awFilterArgs = {
   city?: FilterFunc<CityName>;
   owner?: FilterFunc<string>;
   auction?: FilterFunc<boolean>;
+  destroyed?: FilterFunc<boolean>;
 };
 
 export class ArtWorkFilter {
@@ -24,6 +25,7 @@ export class ArtWorkFilter {
   city: FilterFunc<CityName>;
   owner: FilterFunc<string>;
   auction: FilterFunc<boolean>;
+  destroyed: FilterFunc<boolean>;
   method: 'and' | 'or';
 
   constructor(args: awFilterArgs, method: 'and' | 'or' = 'and') {
@@ -91,6 +93,13 @@ export class ArtWorkFilter {
     } else {
       this.auction = args.auction;
     }
+    if (typeof args.destroyed === 'undefined') {
+      this.method === 'and'
+        ? (this.destroyed = alwaysTrue)
+        : (this.destroyed = alwaysFalse);
+    } else {
+      this.destroyed = args.destroyed;
+    }
   }
 
   match(aw: ArtWork): boolean {
@@ -104,6 +113,7 @@ export class ArtWorkFilter {
     res.push(this.city(aw.city));
     res.push(this.owner(aw.owner));
     res.push(this.auction(aw.auction));
+    res.push(this.destroyed(aw.destroyed));
     if (this.method === 'and') {
       return res.every(p => p);
     } else {

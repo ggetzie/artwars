@@ -7,7 +7,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import City from './City';
 import Portfolio from './Portfolio';
 import Collector from './Collector';
-import Auction from './Auction';
+import Auction from './auction/';
 import {useAppSelector} from '../../hooks';
 import {currentNPC, selectCity} from '../../reducers/game';
 

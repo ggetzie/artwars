@@ -2,40 +2,26 @@ import React, {useState} from 'react';
 
 import {View, Text, StyleSheet, FlatList, Button} from 'react-native';
 
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {GameTabParamList} from '.';
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {ArtWork, bidIncrement, otherBidders, Transaction} from '../../util';
-import {ArtItem, CloseButton} from '../../components';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {ArtWork, bidIncrement, otherBidders, Transaction} from '../../../util';
+import {AuctionStackParamList} from '.';
+import {ArtItem, CloseButton} from '../../../components';
+import {useAppDispatch, useAppSelector} from '../../../hooks';
 import {
   currentHot,
-  filterArtWorks,
   selectBalance,
-  selectCity,
   selectPlayer,
   transact,
   updateArtwork,
-} from '../../reducers/game';
-import {ArtWorkFilter} from '../../util/awFilter';
-import {initialAsking} from '../../util';
+} from '../../../reducers/game';
+import {initialAsking} from '../../../util';
 
-type Props = BottomTabNavigationProp<GameTabParamList, 'Auction'>;
+import BaseStyles from '../../../styles/base';
 
-const AuctionStack = createNativeStackNavigator();
-type AuctionStackParamList = {
-  List: undefined;
-  Detail: {artwork: ArtWork};
-};
+type Props = NativeStackScreenProps<AuctionStackParamList, 'Buy'>;
 
-type DetailProps = NativeStackScreenProps<AuctionStackParamList, 'Detail'>;
-type ListProps = NativeStackScreenProps<AuctionStackParamList, 'List'>;
-
-const AuctionBuy = ({navigation, route}: DetailProps) => {
+const Buy = ({navigation, route}: Props) => {
   // Auction Logic: Once a player has placed a bid they cannot leave the detail
   // screen unless they win the auction or quit (lose). If they quit with
   // another bid being the current highest bid, the artwork will be sold for the
@@ -67,7 +53,7 @@ const AuctionBuy = ({navigation, route}: DetailProps) => {
     setBidStarted(false);
   }
   return (
-    <View style={styles.container}>
+    <View style={BaseStyles.container}>
       {!bidStarted && <CloseButton onPress={() => navigation.goBack()} />}
       <ArtItem artwork={artwork} />
       <Text>Last Bid: ${lastBid.toLocaleString()}</Text>
@@ -106,6 +92,7 @@ const AuctionBuy = ({navigation, route}: DetailProps) => {
             };
             dispatch(transact(t));
             setBidStarted(false);
+            setTimeout(() => navigation.goBack(), 2000);
           }
         }}
       />
@@ -121,57 +108,11 @@ const AuctionBuy = ({navigation, route}: DetailProps) => {
         />
       )}
       {message.length > 0 && <Text>{message}</Text>}
-      {asking > balance && (
+      {asking > balance && bidStarted && (
         <Text>You don't have enough money to place this bid. 😢</Text>
       )}
     </View>
   );
 };
 
-const AuctionList = ({navigation}: ListProps) => {
-  const game = useAppSelector(state => state.game);
-  const city = selectCity(game);
-  const artworks = filterArtWorks(
-    game,
-    new ArtWorkFilter({auction: a => a === true, city: c => c === city}),
-  );
-  return (
-    <View style={styles.container}>
-      <FlatList
-        renderItem={({item}) => (
-          <ArtItem
-            artwork={item}
-            onPress={() => navigation.navigate('Detail', {artwork: item})}
-          />
-        )}
-        data={artworks}
-      />
-    </View>
-  );
-};
-
-const Auction = (_: Props) => {
-  return (
-    <AuctionStack.Navigator>
-      <AuctionStack.Screen
-        name={'List'}
-        component={AuctionList}
-        options={{headerShown: false}}
-      />
-      <AuctionStack.Screen
-        name={'Detail'}
-        component={AuctionBuy}
-        options={{presentation: 'modal', headerShown: false}}
-      />
-    </AuctionStack.Navigator>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginHorizontal: 16,
-  },
-});
-
-export default Auction;
+export default Buy;

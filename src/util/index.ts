@@ -269,5 +269,6 @@ export {
   otherBidders,
   diceRoll,
   randRange,
+  randInt,
   randomChoiceR,
 };

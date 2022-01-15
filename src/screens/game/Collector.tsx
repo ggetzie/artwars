@@ -27,13 +27,13 @@ type Props = BottomTabNavigationProp<GameTabParamList, 'Collector'>;
 const CollectorStack = createNativeStackNavigator();
 type CollectorStackParamList = {
   List: undefined;
-  Offer: {artwork: ArtWork};
+  Buy: {artwork: ArtWork};
 };
 
-type OfferProps = NativeStackScreenProps<CollectorStackParamList, 'Offer'>;
+type OfferProps = NativeStackScreenProps<CollectorStackParamList, 'Buy'>;
 type ListProps = NativeStackScreenProps<CollectorStackParamList, 'List'>;
 
-const Offer = ({navigation, route}: OfferProps) => {
+const Buy = ({navigation, route}: OfferProps) => {
   const artwork = route.params.artwork;
   const value = artwork.value.toLocaleString('en-US');
   const game = useAppSelector(state => state.game);
@@ -72,22 +72,6 @@ const Offer = ({navigation, route}: OfferProps) => {
             setTimeout(() => setMessage('Try again'), 2000);
           }
           setMessage(npc.dialogue.offer[response]);
-          // switch (response) {
-          //   case 'accept':
-          //     setMessage(npc.dialogue.offer.accept);
-          //     break;
-          //   case 'enthusiasm':
-          //     setMessage(npc.dialogue.offer.enthusiasm);
-          //     break;
-          //   case 'insulted':
-          //     setMessage(npc.dialogue.offer.insulted);
-          //     break;
-          //   case 'reject':
-          //     setMessage(npc.dialogue.offer.reject);
-          //     break;
-          //   default:
-          //     setMessage('Huh?');
-          // }
         }}
       />
       <Button title="Cancel" onPress={() => navigation.goBack()} />
@@ -116,7 +100,7 @@ const CollectorList = ({navigation}: ListProps) => {
           renderItem={({item}) => (
             <ArtItem
               artwork={item}
-              onPress={() => navigation.navigate('Offer', {artwork: item})}
+              onPress={() => navigation.navigate('Buy', {artwork: item})}
             />
           )}
         />
@@ -134,8 +118,8 @@ const Collector = (_: Props) => {
         options={{headerShown: false}}
       />
       <CollectorStack.Screen
-        name="Offer"
-        component={Offer}
+        name="Buy"
+        component={Buy}
         options={{presentation: 'modal', headerShown: false}}
       />
     </CollectorStack.Navigator>
