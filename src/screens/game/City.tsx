@@ -36,7 +36,7 @@ const City = (_: Props) => {
       <Text>Cash on hand: ${balance.toLocaleString('en-US')}</Text>
       <Text>Portfolio Value: ${totalValue.toLocaleString('en-US')}</Text>
       <Text>
-        <Text style={BaseStyles.hot}>{hot}</Text> artworks are SO HOT right now!
+        <Text style={BaseStyles.hot}>{hot}</Text> is SO HOT right now!
       </Text>
       <Text style={BaseStyles.pickerLabel}>Change City</Text>
       <Picker

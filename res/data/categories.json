@@ -1,92 +1,24 @@
 [
-  {
-    "name": "Prehistoric",
-    "start": -30000,
-    "end": -3000
-  },
-  {
-    "name": "Ancient",
-    "start": -3500,
-    "end": -1100
-  },
-  {
-    "name": "Classical",
-    "start": -800,
-    "end": -300
-  },
-  {
-    "name": "Medieval",
-    "start": 750,
-    "end": 1400
-  },
-  {
-    "name": "Renaissance",
-    "start": 1400,
-    "end": 1600
-  },
-  {
-    "name": "Baroque",
-    "start": 1600,
-    "end": 1750
-  },
-  {
-    "name": "Rococo",
-    "start": 1700,
-    "end": 1750
-  },
-  {
-    "name": "Neo-Classical",
-    "start": 1750,
-    "end": 1880
-  },
-  {
-    "name": "Romantic",
-    "start": 1750,
-    "end": 1880
-  },
-  {
-    "name": "Realist",
-    "start": 1830,
-    "end": 1870
-  },
-  {
-    "name": "Impressionist",
-    "start": 1860,
-    "end": 1880
-  },
-  {
-    "name": "Post-Impressionist",
-    "start": 1885,
-    "end": 1920
-  },
-  {
-    "name": "Expressionist",
-    "start": 1890,
-    "end": 1939
-  },
-  {
-    "name": "Cubist/Futurist",
-    "start": 1905,
-    "end": 1939
-  },
-  {
-    "name": "Surrealist",
-    "start": 1922,
-    "end": 1939
-  },
-  {
-    "name": "Abstract Expressionist",
-    "start": 1945,
-    "end": 2021
-  },
-  {
-    "name": "Pop Art",
-    "start": 1955,
-    "end": 2021
-  },
-  {
-    "name": "Contemporary",
-    "start": 1970,
-    "end": 2021
-  }
+  {"name": "Ancient Arts of Asia", "start": -5000, "end": 100},
+  {"name": "Modern Arts of Asia", "start": 1900, "end": 1960},
+  {"name": "Contemporary Chinese Art", "start": 1960, "end": 2010},
+  {"name": "Greek and Roman Art", "start": -500, "end": 500},
+  {"name": "Islamic Art", "start": 500, "end": 1200},
+  {"name": "Arts of Egypt", "start": -3500, "end": 400},
+  {"name": "Ancient Near East", "start": -5000, "end": -1000},
+  {"name": "Medieval Art", "start": 1000, "end": 1350},
+  {"name": "Decorative Arts", "start": 1400, "end": 1910},
+  {"name": "Arts of Africa", "start": -5000, "end": 1500},
+  {"name": "Ancient American", "start": -5000, "end": 1200},
+  {"name": "Oceanic Art", "start": -1000, "end": 1000},
+  {"name": "Baroque Art", "start": 1400, "end": 1600},
+  {"name": "Neoclassical Art", "start": 1700, "end": 1800},
+  {"name": "Romanticism", "start": 1750, "end": 1850},
+  {"name": "Realism", "start": 1650, "end": 1750},
+  {"name": "Impressionism and Post-Impressionism", "start": 1800, "end": 1875},
+  {"name": "20th century European Avant-Garde", "start": 1900, "end": 1960},
+  {"name": "Abstract Expressionism", "start": 1875, "end": 1925},
+  {"name": "Pop Art", "start": 1950, "end": 1975},
+  {"name": "Photography", "start": 1850, "end": 2022},
+  {"name": "Contemporary", "start": 1960, "end": 2022}
 ]
