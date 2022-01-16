@@ -38,16 +38,16 @@ const Sell = ({navigation, route}: Props) => {
   const [status, setStatus] = useState<AuctionStatus>('notStarted');
   const starting = initialAsking(artwork.value, isHot);
   const [asking, setAsking] = useState(starting);
+  const [lastBid, setLastBid] = useState(0);
   const [messages, setMessages] = useState<string[]>([]);
 
   function callForBids() {
-    const askingText = asking.toLocaleString();
     const newAsking = asking + bidIncrement(asking);
     setAsking(newAsking);
     setMessages(
       [
         `Do I hear $${newAsking.toLocaleString()}?`,
-        `Fabulous! We have a bid for $${askingText}.`,
+        `Fabulous! We have a bid for $${lastBid.toLocaleString()}.`,
       ].concat(messages),
     );
     setStatus('calledForBid');
@@ -56,17 +56,20 @@ const Sell = ({navigation, route}: Props) => {
   function checkBids() {
     const nextBid = otherBidders(artwork.value, asking, isHot);
     if (nextBid) {
+      setLastBid(asking);
       setStatus('bidMade');
     } else {
       if (status === 'firstBid') {
         setMessages(['No bidders! Try lowering the asking price.']);
         setStatus('notStarted');
       } else {
-        setMessages([`Sold! for $${asking.toLocaleString()}`].concat(messages));
+        setMessages(
+          [`Sold! for $${lastBid.toLocaleString()}`].concat(messages),
+        );
         const t: Transaction = {
           id: artwork.id,
           newOwner: 'anon',
-          price: asking,
+          price: lastBid,
         };
         dispatch(transact(t));
         setStatus('finished');
@@ -91,15 +94,14 @@ const Sell = ({navigation, route}: Props) => {
   return (
     <View style={BaseStyles.container}>
       <ArtItem artwork={artwork} />
-      <Text>Enter an asking price.</Text>
       <TextInput
         keyboardType="numeric"
-        placeholder={`Suggested asking price: $${artwork.value.toLocaleString()}`}
+        placeholder="Enter an asking price."
         onChangeText={value => {
           const num = parseInt(value);
           setAsking(num === NaN ? 0 : num);
         }}
-        editable={status == 'notStarted'}
+        editable={status === 'notStarted'}
       />
       <Button
         title="Start Auction"
@@ -107,8 +109,8 @@ const Sell = ({navigation, route}: Props) => {
         onPress={() => {
           const askingText = asking.toLocaleString();
           setMessages([
+            `Bidding starts at $${askingText}. Do I have any bids?`,
             `Ladies and Gentlemen we have ${artwork.title} for sale.`,
-            ` Bidding starts at $${askingText}. Do I have any bids?`,
           ]);
           setStatus('calledForBid');
         }}

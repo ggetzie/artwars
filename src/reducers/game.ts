@@ -141,7 +141,7 @@ export const gameSlice = createSlice({
           }
         }
         // Fire?
-        const hadAFire = diceRoll(0.005);
+        const hadAFire = diceRoll(0.01);
         if (hadAFire) {
           const playerCities = portfolioIds.map(awId => artworks[awId].city);
           const fireCity = randomChoiceR(playerCities);
@@ -157,7 +157,7 @@ export const gameSlice = createSlice({
         }
 
         // Theft?
-        const hadATheft = diceRoll(0.01);
+        const hadATheft = diceRoll(0.05);
         if (hadATheft) {
           const nonDestroyed = portfolioIds.filter(
             awId => !artworks[awId].destroyed,
@@ -168,7 +168,7 @@ export const gameSlice = createSlice({
         }
 
         // Retrospective?
-        const hadARetro = diceRoll(0.05);
+        const hadARetro = diceRoll(0.1);
         const playerArtists = portfolioIds.map(id => artworks[id].artist);
         if (hadARetro) {
           const selected = randomChoiceR(playerArtists);
@@ -182,7 +182,7 @@ export const gameSlice = createSlice({
           }
         }
         // Problematic?
-        const problematic = diceRoll(0.01);
+        const problematic = diceRoll(0.1);
         if (problematic) {
           const selected = randomChoiceR(playerArtists);
           messages.push(
@@ -196,7 +196,7 @@ export const gameSlice = createSlice({
         }
 
         // Repatriated?
-        const repatriated = diceRoll(0.01);
+        const repatriated = diceRoll(0.05);
         if (repatriated) {
           const selected = randomChoiceR(portfolioIds);
           messages.push(

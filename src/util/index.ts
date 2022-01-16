@@ -35,25 +35,6 @@ const Categories = {
 } as const;
 
 export type CategoryName = typeof Categories[keyof typeof Categories];
-// export type CategoryName =
-//   | 'Prehistoric'
-//   | 'Ancient'
-//   | 'Classical'
-//   | 'Medieval'
-//   | 'Renaissance'
-//   | 'Baroque'
-//   | 'Rococo'
-//   | 'Neo-Classical'
-//   | 'Romantic'
-//   | 'Realist'
-//   | 'Impressionist'
-//   | 'Post-Impressionist'
-//   | 'Expressionist'
-//   | 'Cubist/Futurist'
-//   | 'Surrealist'
-//   | 'Abstract Expressionist'
-//   | 'Pop Art'
-//   | 'Contemporary';
 
 export type Category = {
   name: CategoryName;

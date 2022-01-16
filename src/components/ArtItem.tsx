@@ -18,7 +18,7 @@ const ArtItem = ({
   artwork: ArtWork;
   onPress?: (event: GestureResponderEvent) => void;
 }) => {
-  const value = Math.round(artwork.value).toLocaleString('en-US');
+  const value = Math.round(artwork.value).toLocaleString();
   const game = useAppSelector(state => state.game);
   const hot = currentHot(game);
   return (

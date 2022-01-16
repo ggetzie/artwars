@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import React from 'react';
+import {View, Text, FlatList} from 'react-native';
 
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {GameTabParamList} from '.';
@@ -9,11 +9,6 @@ import {
   selectPlayer,
   selectBalance,
   currentHot,
-  setHot,
-  selectArtworks,
-  isUnderInvestigation,
-  setInvestigation,
-  setArtworks,
   portfolioValue,
   processTurn,
   getMessages,
