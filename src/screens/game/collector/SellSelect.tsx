@@ -6,13 +6,12 @@ import {
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 
-import {GameTabParamList} from '..';
-
 import {useAppDispatch, useAppSelector} from '../../../hooks';
 import {
   currentNPC,
   filterArtWorks,
   selectBalance,
+  selectCity,
   selectPlayer,
   transact,
 } from '../../../reducers/game';
@@ -22,28 +21,19 @@ import {ArtWork, considerOffer, Transaction} from '../../../util';
 import {ArtItem} from '../../../components';
 import BaseStyle from '../../../styles/base';
 import {CollectorStackParamList} from '.';
-import Buy from './Buy';
-import List from './List';
 
-type Props = BottomTabNavigationProp<GameTabParamList, 'Collector'>;
-
-const CollectorStack = createNativeStackNavigator();
-
-const Collector = (_: Props) => {
+type Props = NativeStackScreenProps<CollectorStackParamList, 'List'>;
+const SellSelect = ({navigation}: Props) => {
+  const game = useAppSelector(state => state.game);
+  const city = selectCity(game);
+  const player = selectPlayer(game);
+  const forSale = filterArtWorks(
+    game,
+    new ArtWorkFilter({owner: o => o === player, city: c => c === city}),
+  );
   return (
-    <CollectorStack.Navigator>
-      <CollectorStack.Screen
-        name="List"
-        component={List}
-        options={{headerShown: false}}
-      />
-      <CollectorStack.Screen
-        name="Buy"
-        component={Buy}
-        options={{presentation: 'modal', headerShown: false}}
-      />
-    </CollectorStack.Navigator>
+    <View style={BaseStyle.container}>
+      <Text>Oh you want to sell me something? Let's see what you've got.</Text>
+    </View>
   );
 };
-
-export default Collector;
