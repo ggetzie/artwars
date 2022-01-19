@@ -22,7 +22,7 @@ import {ArtItem} from '../../../components';
 import BaseStyle from '../../../styles/base';
 import {CollectorStackParamList} from '.';
 
-type Props = NativeStackScreenProps<CollectorStackParamList, 'List'>;
+type Props = NativeStackScreenProps<CollectorStackParamList, 'SellSelect'>;
 const SellSelect = ({navigation}: Props) => {
   const game = useAppSelector(state => state.game);
   const city = selectCity(game);
@@ -34,6 +34,17 @@ const SellSelect = ({navigation}: Props) => {
   return (
     <View style={BaseStyle.container}>
       <Text>Oh you want to sell me something? Let's see what you've got.</Text>
+      <FlatList
+        data={forSale}
+        renderItem={({item}) => (
+          <ArtItem
+            artwork={item}
+            onPress={() => navigation.navigate('Sell', {artwork: item})}
+          />
+        )}
+      />
     </View>
   );
 };
+
+export default SellSelect;

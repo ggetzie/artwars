@@ -5,11 +5,17 @@
     "preference": "",
     "bio": "Heiress to the Chadwick Iron Smelting fortune, My Manhattan penthouse is often considered an unofficial wing of the Guggenheim.",
     "dialogue": {
-      "offer": {
+      "selling": {
         "insulted": "Oh darling, don't be gauche",
         "reject": "Hmm...nah",
         "accept": "Well, all right. I guess I can buy another poodle.",
         "enthusiasm": "Oh, you've made me so happy. So very happy!"
+      },
+      "buying": {
+        "insulted": "Do you think I'm dumb just because I'm blonde?",
+        "reject": "It's lovely, but it clashes with my curtains",
+        "accept": "There is a bare corner in the butler's pantry where it might fit.",
+        "enthusiasm": "Oh, I just adore it! I'll put it on the ceiling above my bed!"
       }
     }
   },
@@ -19,11 +25,17 @@
     "preference": "",
     "bio": "Hello! I'm Lord Worthinghamshire VII, but my friends call me Popsy. My ancestor Lord Worthinghamshire I was able to obtain art for free by looting it from the colonies. Now, people insist we 'pay' instead. Rubbish!",
     "dialogue": {
-      "offer": {
+      "selling": {
         "insulted": "Come now, old boy, there's no need to be rude",
         "reject": "Not today, chap",
         "accept": "Very well",
         "enthusiasm": "Surely you're taking the piss, eh? What? You're serious?"
+      },
+      "buying": {
+        "insulted": "Do you take me for some simple-minded colonial?",
+        "reject": "Just not up to snuff, I'm afraid. High standards around here and all.",
+        "accept": "I suppose there is a spot in the East Wing it might fit.",
+        "enthusiasm": "Jolly good show! This will make a cracking addition to the collection!"
       }
     }
   },
@@ -31,13 +43,19 @@
     "name": "Yuri Smirnoff",
     "city": "Moscow",
     "preference": "",
-    "bio": "I quote-unquote 'made' a lot of money in the fall of the USSR. Need to get it out of Russia without my friend Vladimir getting suspicious.",
+    "bio": "I 'made' a lot of money in fall of USSR. Need to get it out of Russia without my friend Vladimir getting suspicious.",
     "dialogue": {
-      "offer": {
+      "selling": {
         "insulted": "You make me another offer like that I will break your legs.",
         "reject": "Nyet",
         "accept": "Da",
         "enthusiasm": "Very generous! I include free bottle of vodka."
+      },
+      "buying": {
+        "insulted": "A man in Kiev made me offer like that once. He is now goo.",
+        "reject": "Don't waste my time.",
+        "accept": "I can work with this.",
+        "enthusiasm": "This work, it reminds me of my dear babushka. I will remember it always."
       }
     }
   },
@@ -47,11 +65,17 @@
     "preference": "",
     "bio": "Every piece I contribute to my private museum is another tax deduction! Of course it's open to the public. Drop by any time between 3:17 and 3:23pm on any third Tuesday of the month during a full moon.",
     "dialogue": {
-      "offer": {
+      "selling": {
         "insulted": "Don't waste my time.",
         "reject": "Oooo, you were so close.",
         "accept": "I grudgingly accept.",
         "enthusiasm": "You got it! No backsies!"
+      },
+      "buying": {
+        "insulted": "I'm looking for Amazon here, not Pets.com. Get out of my face.",
+        "reject": "I'll think about it. Check back in a couple months.",
+        "accept": "What the hell. You miss 100% of the shots you don't take, right?",
+        "enthusiasm": "I gotta get in on this."
       }
     }
   },
@@ -61,11 +85,17 @@
     "preference": "",
     "bio": "My grandfather rode a camel. My father drives a Mercedes. I also drive a Mercedes. Sometimes two. I stand with one foot on each and wear them like roller skates. Oh, also I buy art.",
     "dialogue": {
-      "offer": {
+      "selling": {
         "insulted": "May the fleas of a thousand camels infest your crotch.",
         "reject": "You know we like to haggle, right?",
         "accept": "Fine! I'll allow it! You can rob me this one time!",
         "enthusiasm": "A thousand blessings on your house."
+      },
+      "buying": {
+        "insulted": "Are you kidding me? I would not display this in YOUR house!",
+        "reject": "A lovely work, but perhaps if you lower the price...",
+        "accept": "I suppose I can find a place for it.",
+        "enthusiasm": "Praise Allah! This work is glorious!"
       }
     }
   },
@@ -75,25 +105,37 @@
     "preference": "",
     "bio": "I love art more than most collectors, because I too am an artist. Have you seen my directorial debut, 'Fartin in Memphis'? A triumph!",
     "dialogue": {
-      "offer": {
+      "selling": {
         "insulted": "Come on now, I get more than that for cutting the ribbon a Walgreens.",
         "reject": "Let me think about it and get back to you.",
         "accept": "All right. I was getting bored of that piece anyway.",
         "enthusiasm": "Hachi Machi, with that I can finally make my dream film: 'Fartin in Tallahassee!'"
+      },
+      "buying": {
+        "insulted": "Oh, god no. Do you think I live in the Valley or something?",
+        "reject": "Don't get me wrong, it's good. But it just doesn't POP, you know? I want something that POPs",
+        "accept": "Oh, Bruce Willis has one? Well, in that case...",
+        "enthusiasm": "I love it! Green light!"
       }
     }
   },
   {
-    "name": "JD Wong",
+    "name": "JP Wong",
     "city": "Hong Kong",
     "preference": "",
     "bio": "The rolling 10-year average ROI on a carefully curated art portfolio can outperform stocks, bonds, and most commodities. It is an underrated investment strategy.",
     "dialogue": {
-      "offer": {
+      "selling": {
         "insulted": "In finance that would be what we call 'getting screwed'.",
         "reject": "Ehh, the juice ain't worth the squeeze.",
         "accept": "That is an acceptable profit.",
         "enthusiasm": "Looks like bonus season came early this year."
+      },
+      "buying": {
+        "insulted": "Come on now. I know a dog when I see a dog.",
+        "reject": "That's not going to move me to the front office",
+        "accept": "Seems like a viable play",
+        "enthusiasm": "Holey Moley, that'll make me look good come bonus season."
       }
     }
   }

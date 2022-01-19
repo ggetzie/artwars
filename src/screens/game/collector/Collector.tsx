@@ -18,12 +18,13 @@ import {
 } from '../../../reducers/game';
 
 import {ArtWorkFilter} from '../../../util/awFilter';
-import {ArtWork, considerOffer, Transaction} from '../../../util';
 import {ArtItem} from '../../../components';
 import BaseStyle from '../../../styles/base';
 import {CollectorStackParamList} from '.';
 import Buy from './Buy';
 import List from './List';
+import SellSelect from './SellSelect';
+import Sell from './Sell';
 
 type Props = BottomTabNavigationProp<GameTabParamList, 'Collector'>;
 
@@ -40,8 +41,14 @@ const Collector = (_: Props) => {
       <CollectorStack.Screen
         name="Buy"
         component={Buy}
-        options={{presentation: 'modal', headerShown: false}}
+        options={{headerShown: false}}
       />
+      <CollectorStack.Screen
+        name="SellSelect"
+        component={SellSelect}
+        options={{title: 'Select a work to sell'}}
+      />
+      <CollectorStack.Screen name="Sell" component={Sell} />
     </CollectorStack.Navigator>
   );
 };

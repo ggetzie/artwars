@@ -10,7 +10,7 @@ import {
   transact,
 } from '../../../reducers/game';
 
-import {considerOffer, Transaction} from '../../../util';
+import {considerSell, Transaction} from '../../../util';
 import {ArtItem} from '../../../components';
 import BaseStyle from '../../../styles/base';
 import {CollectorStackParamList} from '.';
@@ -41,7 +41,7 @@ const Buy = ({navigation, route}: Props) => {
             setMessage("You don't have that much money!");
             return;
           }
-          const response = considerOffer(artwork, offer, npc.preference);
+          const response = considerSell(artwork, offer, npc.preference);
           if (response === 'accept' || response === 'enthusiasm') {
             const t: Transaction = {
               id: artwork.id,
@@ -53,7 +53,7 @@ const Buy = ({navigation, route}: Props) => {
           } else {
             setTimeout(() => setMessage('Try again'), 2000);
           }
-          setMessage(npc.dialogue.offer[response]);
+          setMessage(npc.dialogue.buying[response]);
         }}
       />
       <Button title="Cancel" onPress={() => navigation.goBack()} />

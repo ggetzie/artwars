@@ -1,3 +1,5 @@
+import {NPC, setupNPCs, considerSell, considerBuy, getNPCForCity} from './npcs';
+
 const Cities = {
   NewYork: 'New York',
   London: 'London',
@@ -45,21 +47,6 @@ export type Category = {
   end: number;
 };
 
-export type NPC = {
-  name: string;
-  city: CityName;
-  preference: CategoryName;
-  bio: string;
-  dialogue: {
-    offer: {
-      insulted: string;
-      reject: string;
-      accept: string;
-      enthusiasm: string;
-    };
-  };
-};
-
 function randInt(min: number, max: number): number {
   // return a random integer between min and max (min included, max excluded)
   const res = Math.floor(Math.random() * (max - min)) + min;
@@ -94,26 +81,6 @@ function randomChoiceR(arr: any[]): any {
   }
   const index = randInt(0, arr.length);
   return arr[index];
-}
-
-function setupNPCs(): NPC[] {
-  const npcs: NPC[] = require('../../res/data/npcs.json');
-  let prefs = randomChoiceNR(Object.values(Categories));
-  for (let npc of npcs) {
-    npc.preference = prefs.selected;
-    prefs = randomChoiceNR(prefs.remaining);
-  }
-
-  return npcs;
-}
-
-export function getNPCForCity(city: CityName, npcs: NPC[]) {
-  for (const npc of npcs) {
-    if (npc.city === city) {
-      return npc;
-    }
-  }
-  throw `No NPC found for city ${city}`;
 }
 
 export type ArtWork = {
@@ -169,31 +136,6 @@ export type ArtByCityItem = {
   data: ArtWork[];
 };
 
-export type OfferResponse = 'insulted' | 'reject' | 'accept' | 'enthusiasm';
-
-function considerOffer(
-  artwork: ArtWork,
-  offer: number,
-  preference: CategoryName,
-): OfferResponse {
-  const preferred = artwork.category === preference;
-  const ratio = offer / artwork.value;
-  const minRatio = preferred ? 0.915 : 0.7;
-  const maxRatio = preferred ? 1.25 : 1.1;
-  console.log(
-    `offer: ${offer} ratio: ${ratio}, minRatio: ${minRatio}, maxRatio: ${maxRatio}`,
-  );
-  if (ratio < minRatio) {
-    return 'insulted';
-  } else if (ratio > maxRatio) {
-    return 'enthusiasm';
-  } else {
-    const threshold = Math.exp(ratio) - Math.exp(minRatio);
-    const roll = Math.random();
-    return Math.random() <= threshold ? 'accept' : 'reject';
-  }
-}
-
 function initialAsking(value: number, isHot: boolean): number {
   const bidFloor = isHot ? 0.95 : 0.75;
   const bidCeiling = isHot ? 1.25 : 1.05;
@@ -225,10 +167,6 @@ function bidIncrement(value: number): number {
   return 50_000;
 }
 
-function randomCategory(): CategoryName {
-  return randomChoiceR(Object.values(Categories));
-}
-
 function otherBidders(value: number, asking: number, isHot: boolean): boolean {
   const ratio = asking / value;
   const base = 100;
@@ -241,12 +179,18 @@ function otherBidders(value: number, asking: number, isHot: boolean): boolean {
   }
 }
 
+function randomCategory(): CategoryName {
+  return randomChoiceR(Object.values(Categories));
+}
+
 export {
   Cities,
   setupNPCs,
+  getNPCForCity,
   Categories,
   setupArtworks,
-  considerOffer,
+  considerSell,
+  considerBuy,
   initialAsking,
   bidIncrement,
   randomCategory,
@@ -255,4 +199,5 @@ export {
   randRange,
   randInt,
   randomChoiceR,
+  randomChoiceNR,
 };

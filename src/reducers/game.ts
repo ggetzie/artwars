@@ -3,7 +3,6 @@ import {
   Cities,
   CityName,
   setupNPCs,
-  NPC,
   setupArtworks,
   ArtWork,
   getNPCForCity,
@@ -14,6 +13,7 @@ import {
   randomChoiceR,
   randRange,
 } from '../util';
+import {NPC} from '../util/npcs';
 import {ArtWorkFilter} from '../util/awFilter';
 import {Transaction} from '../util';
 

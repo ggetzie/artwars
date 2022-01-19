@@ -39,6 +39,12 @@ const List = ({navigation}: Props) => {
         <Text>Likes: {npc.preference}</Text>
       </View>
       <View>
+        <Button
+          title="Sell"
+          onPress={() => navigation.navigate('SellSelect')}
+        />
+      </View>
+      <View>
         <Text style={BaseStyle.heading1}>Collection</Text>
         <FlatList
           data={artworks}
