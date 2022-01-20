@@ -29,8 +29,9 @@ const Sell = ({navigation, route}: Props) => {
   const npc = currentNPC(game);
   const hot = currentHot(game);
   const isHot = artwork.category === hot;
-  const [offer, setOffer] = useState<number>(0);
+  const [asking, setAsking] = useState<number>(0);
   const [dialogue, setDialogue] = useState<string>('');
+  const dispatch = useAppDispatch();
 
   return (
     <View style={BaseStyle.container}>
@@ -40,13 +41,23 @@ const Sell = ({navigation, route}: Props) => {
         keyboardType="numeric"
         onChangeText={value => {
           const num = parseInt(value);
-          setOffer(num === NaN ? Number.MAX_VALUE : num);
+          setAsking(num === NaN ? Number.MAX_VALUE : num);
         }}
       />
       <Button
         title="Offer"
         onPress={() => {
-          const decision = considerBuy(artwork, offer, npc.preference, isHot);
+          const decision = considerBuy(artwork, asking, npc.preference);
+          setDialogue(npc.dialogue.buying[decision]);
+          if (decision === 'accept' || decision === 'enthusiasm') {
+            const t: Transaction = {
+              id: artwork.id,
+              price: asking,
+              newOwner: npc.name,
+            };
+            dispatch(transact(t));
+          }
+          setTimeout(() => navigation.goBack(), 2000);
         }}
       />
       {dialogue.length > 0 && <Text>{dialogue}</Text>}

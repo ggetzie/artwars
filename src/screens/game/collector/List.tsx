@@ -18,7 +18,6 @@ import {
 } from '../../../reducers/game';
 
 import {ArtWorkFilter} from '../../../util/awFilter';
-import {ArtWork, considerOffer, Transaction} from '../../../util';
 import {ArtItem} from '../../../components';
 import BaseStyle from '../../../styles/base';
 import {CollectorStackParamList} from '.';

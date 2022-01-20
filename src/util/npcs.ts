@@ -65,22 +65,21 @@ function considerSell(
 
 function considerBuy(
   artwork: ArtWork,
-  offer: number,
+  asking: number,
   preference: CategoryName,
-  isHot: boolean,
 ): OfferResponse {
+  const ratio = asking / artwork.value;
   const preferred = artwork.category === preference;
-  const minRatio = preferred ? 0.915 : 0.7;
-  const maxRatio = preferred ? 1.25 : 1.1;
-  const ratio = offer / artwork.value;
+  const base = 100;
+  const minRatio = preferred ? 1.1 : 0.9;
+  const maxRatio = preferred ? 2 : 1.5;
+
   if (ratio > maxRatio) {
     return 'insulted';
   } else if (ratio < minRatio) {
     return 'enthusiasm';
   } else {
-    // TODO: check this math. Should get more likely to buy as ratio decreases
-    const threshold = Math.exp(ratio) - Math.exp(minRatio);
-    const roll = Math.random();
+    const threshold = Math.pow(base, -ratio) * (0.95 * base);
     return Math.random() >= threshold ? 'accept' : 'reject';
   }
 }

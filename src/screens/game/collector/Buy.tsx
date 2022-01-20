@@ -53,7 +53,7 @@ const Buy = ({navigation, route}: Props) => {
           } else {
             setTimeout(() => setMessage('Try again'), 2000);
           }
-          setMessage(npc.dialogue.buying[response]);
+          setMessage(npc.dialogue.selling[response]);
         }}
       />
       <Button title="Cancel" onPress={() => navigation.goBack()} />
