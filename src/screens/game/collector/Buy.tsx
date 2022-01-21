@@ -22,7 +22,7 @@ const Buy = ({navigation, route}: Props) => {
   const game = useAppSelector(state => state.game);
   const player = selectPlayer(game);
   const npc = currentNPC(game);
-  const [offer, setOffer] = useState(0);
+  const [offer, setOffer] = useState<number>(0);
   const [message, setMessage] = useState('Go ahead, make an offer.');
   const dispatch = useAppDispatch();
   const balance = selectBalance(game);
@@ -32,7 +32,11 @@ const Buy = ({navigation, route}: Props) => {
       <TextInput
         placeholder="Enter offer amount"
         keyboardType="numeric"
-        onChangeText={value => setOffer(parseInt(value))}
+        onChangeText={value => {
+          const num = parseFloat(value);
+          console.log(`Parsed value: ${num}`);
+          setOffer(num === NaN ? 0 : num);
+        }}
       />
       <Button
         title="Make Offer"

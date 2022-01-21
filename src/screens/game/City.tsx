@@ -33,8 +33,8 @@ const City = (_: Props) => {
   return (
     <View style={BaseStyles.container}>
       <Text>Hello, {player}!</Text>
-      <Text>Cash on hand: ${balance.toLocaleString('en-US')}</Text>
-      <Text>Portfolio Value: ${totalValue.toLocaleString('en-US')}</Text>
+      <Text>Cash on hand: ${balance.toLocaleString()}</Text>
+      <Text>Portfolio Value: ${totalValue.toLocaleString()}</Text>
       <Text>
         <Text style={BaseStyles.hot}>{hot}</Text> is SO HOT right now!
       </Text>
@@ -53,7 +53,7 @@ const City = (_: Props) => {
       <Text style={BaseStyles.heading1}>Messages</Text>
       <FlatList
         data={messages}
-        renderItem={item => <Text>{item}</Text>}
+        renderItem={({item}) => <Text>{item}</Text>}
         ListEmptyComponent={() => <Text>No New Messages</Text>}
       />
     </View>

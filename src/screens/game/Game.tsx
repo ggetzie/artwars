@@ -5,7 +5,7 @@ import {RootStackParamList} from '..';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import City from './City';
-import Portfolio from './Portfolio';
+import Portfolio from './portfolio/';
 import Collector from './collector';
 import Auction from './auction/';
 import {useAppSelector} from '../../hooks';

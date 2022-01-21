@@ -2,40 +2,23 @@ import React from 'react';
 import {View, Text, Button, StyleSheet, SectionList} from 'react-native';
 
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {GameTabParamList} from '.';
+import {GameTabParamList} from '..';
 
-import {useAppSelector} from '../../hooks';
-import {filterArtWorks, selectCity, selectPlayer} from '../../reducers/game';
-import {ArtWorkFilter} from '../../util/awFilter';
-import {Cities, ArtByCityItem, ArtWork} from '../../util';
-import {ArtItem, CloseButton} from '../../components';
+import {useAppSelector} from '../../../hooks';
+import {filterArtWorks, selectCity, selectPlayer} from '../../../reducers/game';
+import {ArtWorkFilter} from '../../../util/awFilter';
+import {Cities, ArtByCityItem, ArtWork} from '../../../util';
+import {ArtItem, CloseButton} from '../../../components';
 import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 
-type Props = BottomTabNavigationProp<GameTabParamList, 'Portfolio'>;
+import {PortfolioStackParamList} from '.';
 
-const PortfolioStack = createNativeStackNavigator();
-type PortfolioStackParamList = {
-  List: undefined;
-  Detail: {artwork: ArtWork};
-};
+type Props = NativeStackScreenProps<PortfolioStackParamList, 'List'>;
 
-type DetailProps = NativeStackScreenProps<PortfolioStackParamList, 'Detail'>;
-type ListProps = NativeStackScreenProps<PortfolioStackParamList, 'List'>;
-
-const PortfolioDetail = ({navigation, route}: DetailProps) => {
-  const artwork = route.params.artwork;
-  return (
-    <View style={styles.container}>
-      <CloseButton onPress={() => navigation.goBack()} />
-      <ArtItem artwork={artwork} />
-    </View>
-  );
-};
-
-const PortfolioList = ({navigation}: ListProps) => {
+const List = ({navigation}: Props) => {
   const game = useAppSelector(state => state.game);
   const city = selectCity(game);
   const player = selectPlayer(game);
@@ -82,23 +65,6 @@ const PortfolioList = ({navigation}: ListProps) => {
   );
 };
 
-const Portfolio = (_: Props) => {
-  return (
-    <PortfolioStack.Navigator>
-      <PortfolioStack.Screen
-        name={'List'}
-        component={PortfolioList}
-        options={{headerShown: false}}
-      />
-      <PortfolioStack.Screen
-        name={'Detail'}
-        component={PortfolioDetail}
-        options={{presentation: 'modal', headerShown: false}}
-      />
-    </PortfolioStack.Navigator>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -119,4 +85,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Portfolio;
+export default List;

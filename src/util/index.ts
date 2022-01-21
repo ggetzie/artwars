@@ -183,6 +183,10 @@ function randomCategory(): CategoryName {
   return randomChoiceR(Object.values(Categories));
 }
 
+function getNum(numStr: string): number {
+  return parseFloat(numStr);
+}
+
 export {
   Cities,
   setupNPCs,
