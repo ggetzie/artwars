@@ -19,7 +19,7 @@ import {
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 import {PortfolioStackParamList} from '.';
-import BaseStyles from '../../../styles/base';
+import BaseStyle from '../../../styles/base';
 
 type Props = NativeStackScreenProps<PortfolioStackParamList, 'Detail'>;
 
@@ -33,16 +33,16 @@ const Detail = ({navigation, route}: Props) => {
   }, [artwork]);
 
   return (
-    <View style={BaseStyles.container}>
+    <View style={BaseStyle.container}>
       <Text>Artist: {artwork.artist}</Text>
       <Text>Value: ${value}</Text>
       <Text>
         Category:{' '}
-        <Text style={hot === artwork.category ? BaseStyles.hot : {}}>
+        <Text style={hot === artwork.category ? BaseStyle.hot : {}}>
           {artwork.category}
         </Text>
       </Text>
-      <Text style={BaseStyles.pickerLabel}>Move to city</Text>
+      <Text style={BaseStyle.pickerLabel}>Move to city</Text>
     </View>
   );
 };

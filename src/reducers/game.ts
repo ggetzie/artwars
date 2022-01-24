@@ -34,7 +34,7 @@ const artworks = setupArtworks(Object.values(Cities), npcs);
 
 const initialState: gameState = {
   player: 'Player',
-  balance: 2000000,
+  balance: 2_000_000,
   npcs: npcs,
   currentCity: Cities.London,
   artworks: artworks,

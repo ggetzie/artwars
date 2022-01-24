@@ -16,7 +16,7 @@ import {
 import {Picker} from '@react-native-picker/picker';
 import {Cities} from '../../util';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import BaseStyles from '../../styles/base';
+import BaseStyle from '../../styles/base';
 
 type Props = BottomTabNavigationProp<GameTabParamList, 'City'>;
 
@@ -31,14 +31,14 @@ const City = (_: Props) => {
   const messages = getMessages(game);
 
   return (
-    <View style={BaseStyles.container}>
+    <View style={BaseStyle.container}>
       <Text>Hello, {player}!</Text>
       <Text>Cash on hand: ${balance.toLocaleString()}</Text>
       <Text>Portfolio Value: ${totalValue.toLocaleString()}</Text>
       <Text>
-        <Text style={BaseStyles.hot}>{hot}</Text> is SO HOT right now!
+        <Text style={BaseStyle.hot}>{hot}</Text> is SO HOT right now!
       </Text>
-      <Text style={BaseStyles.pickerLabel}>Change City</Text>
+      <Text style={BaseStyle.pickerLabel}>Change City</Text>
       <Picker
         accessibilityLabel="Change city"
         selectedValue={city}
@@ -50,7 +50,7 @@ const City = (_: Props) => {
           <Picker.Item key={k} label={v} value={v} />
         ))}
       </Picker>
-      <Text style={BaseStyles.heading1}>Messages</Text>
+      <Text style={BaseStyle.heading1}>Messages</Text>
       <FlatList
         data={messages}
         renderItem={({item}) => <Text>{item}</Text>}

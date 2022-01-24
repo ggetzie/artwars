@@ -11,7 +11,7 @@ import {useAppDispatch, useAppSelector} from '../../../hooks';
 import {currentHot, selectPlayer, transact} from '../../../reducers/game';
 import {initialAsking, randInt} from '../../../util';
 
-import BaseStyles from '../../../styles/base';
+import BaseStyle from '../../../styles/base';
 
 type Props = NativeStackScreenProps<AuctionStackParamList, 'Sell'>;
 type AuctionStatus =
@@ -92,7 +92,7 @@ const Sell = ({navigation, route}: Props) => {
   });
 
   return (
-    <View style={BaseStyles.container}>
+    <View style={BaseStyle.container}>
       <ArtItem artwork={artwork} />
       <TextInput
         keyboardType="numeric"
