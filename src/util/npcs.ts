@@ -1,4 +1,5 @@
-import {CityName, CategoryName, Categories, ArtWork, randomChoiceNR} from '.';
+import {CategoryName, Categories, ArtWork, randomChoiceNR} from '.';
+import {CityName} from './cities';
 
 export type NPC = {
   name: string;

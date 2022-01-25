@@ -1,19 +1,10 @@
 import {NPC, setupNPCs, considerSell, considerBuy, getNPCForCity} from './npcs';
 
-const Cities = {
-  NewYork: 'New York',
-  London: 'London',
-  Moscow: 'Moscow',
-  SanFrancisco: 'San Francisco',
-  LosAngeles: 'Los Angeles',
-  HongKong: 'Hong Kong',
-  Dubai: 'Dubai',
-} as const;
+import {Cities, CityName} from './cities';
 
 const MAX_OWNED_BY_NPC = 10;
 const MAX_ON_AUCTION = 20;
 
-export type CityName = typeof Cities[keyof typeof Cities];
 const Categories = {
   AncientAsia: 'Ancient Arts of Asia',
   ModernAsia: 'Modern Arts of Asia',
@@ -181,10 +172,6 @@ function otherBidders(value: number, asking: number, isHot: boolean): boolean {
 
 function randomCategory(): CategoryName {
   return randomChoiceR(Object.values(Categories));
-}
-
-function getNum(numStr: string): number {
-  return parseFloat(numStr);
 }
 
 export {

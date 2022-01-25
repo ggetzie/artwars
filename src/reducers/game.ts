@@ -1,7 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {
   Cities,
-  CityName,
   setupNPCs,
   setupArtworks,
   ArtWork,
@@ -13,6 +12,7 @@ import {
   randomChoiceR,
   randRange,
 } from '../util';
+import {CityName} from '../util/cities';
 import {NPC} from '../util/npcs';
 import {ArtWorkFilter} from '../util/awFilter';
 import {Transaction} from '../util';

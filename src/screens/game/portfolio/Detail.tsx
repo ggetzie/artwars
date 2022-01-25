@@ -1,23 +1,9 @@
 import React, {useEffect} from 'react';
-import {View, Text, Button, StyleSheet, SectionList} from 'react-native';
-
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {GameTabParamList} from '..';
+import {View, Text} from 'react-native';
 
 import {useAppSelector} from '../../../hooks';
-import {
-  currentHot,
-  filterArtWorks,
-  selectCity,
-  selectPlayer,
-} from '../../../reducers/game';
-import {ArtWorkFilter} from '../../../util/awFilter';
-import {Cities, ArtByCityItem, ArtWork} from '../../../util';
-import {ArtItem, CloseButton} from '../../../components';
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+import {currentHot} from '../../../reducers/game';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {PortfolioStackParamList} from '.';
 import BaseStyle from '../../../styles/base';
 

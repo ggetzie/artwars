@@ -1,5 +1,6 @@
 import Portfolio from './Portfolio';
-import {ArtWork, CityName} from '../../../util';
+import {ArtWork} from '../../../util';
+import {CityName} from '../../../util/cities';
 
 export type PortfolioStackParamList = {
   List: undefined;

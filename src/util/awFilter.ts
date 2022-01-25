@@ -1,4 +1,5 @@
-import {CategoryName, CityName, ArtWork} from '.';
+import {CategoryName, ArtWork} from '.';
+import {CityName} from './cities';
 export type FilterFunc<Type> = (a?: Type) => boolean;
 
 const alwaysTrue: FilterFunc<any> = (_: any): boolean => true;
