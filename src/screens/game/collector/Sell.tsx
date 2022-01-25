@@ -7,18 +7,10 @@ import {
 } from '@react-navigation/native-stack';
 
 import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {
-  currentHot,
-  currentNPC,
-  filterArtWorks,
-  selectBalance,
-  selectCity,
-  selectPlayer,
-  transact,
-} from '../../../reducers/game';
+import {currentHot, currentNPC, transact} from '../../../reducers/game';
 
 import {ArtWork, Transaction, considerBuy} from '../../../util';
-import {ArtItem} from '../../../components';
+import {ArtItem, IntegerInput} from '../../../components';
 import BaseStyle from '../../../styles/base';
 import {CollectorStackParamList} from '.';
 
@@ -27,25 +19,21 @@ const Sell = ({navigation, route}: Props) => {
   const game = useAppSelector(state => state.game);
   const artwork = route.params.artwork;
   const npc = currentNPC(game);
-  const hot = currentHot(game);
-  const isHot = artwork.category === hot;
   const [asking, setAsking] = useState<number>(0);
   const [dialogue, setDialogue] = useState<string>('');
   const dispatch = useAppDispatch();
-
   return (
     <View style={BaseStyle.container}>
       <ArtItem artwork={artwork} />
-      <TextInput
-        placeholder="Set a sale price"
-        keyboardType="numeric"
-        onChangeText={value => {
-          const num = parseInt(value);
-          setAsking(num === NaN ? Number.MAX_VALUE : num);
-        }}
-      />
+      {Number.isNaN(asking) ? (
+        <Text style={BaseStyle.error}>Enter a valid number.</Text>
+      ) : (
+        <Text>Asking price: ${asking.toLocaleString()}</Text>
+      )}
+      <IntegerInput placeholder="Enter asking price" setNum={setAsking} />
       <Button
-        title="Offer"
+        title="Set Price"
+        disabled={Number.isNaN(asking)}
         onPress={() => {
           const decision = considerBuy(artwork, asking, npc.preference);
           setDialogue(npc.dialogue.buying[decision]);
@@ -56,8 +44,8 @@ const Sell = ({navigation, route}: Props) => {
               newOwner: npc.name,
             };
             dispatch(transact(t));
+            setTimeout(() => navigation.goBack(), 2000);
           }
-          setTimeout(() => navigation.goBack(), 2000);
         }}
       />
       {dialogue.length > 0 && <Text>{dialogue}</Text>}

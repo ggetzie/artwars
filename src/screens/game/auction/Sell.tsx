@@ -6,7 +6,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {ArtWork, bidIncrement, otherBidders, Transaction} from '../../../util';
 import {AuctionStackParamList} from '.';
-import {ArtItem, CloseButton} from '../../../components';
+import {ArtItem, IntegerInput} from '../../../components';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
 import {currentHot, selectPlayer, transact} from '../../../reducers/game';
 import {initialAsking, randInt} from '../../../util';
@@ -94,13 +94,14 @@ const Sell = ({navigation, route}: Props) => {
   return (
     <View style={BaseStyle.container}>
       <ArtItem artwork={artwork} />
-      <TextInput
-        keyboardType="numeric"
+      {Number.isNaN(asking) ? (
+        <Text style={BaseStyle.error}>Enter a valid number.</Text>
+      ) : (
+        <Text>Asking price: ${asking.toLocaleString()}</Text>
+      )}
+      <IntegerInput
         placeholder="Enter an asking price."
-        onChangeText={value => {
-          const num = parseInt(value);
-          setAsking(num === NaN ? 0 : num);
-        }}
+        setNum={setAsking}
         editable={status === 'notStarted'}
       />
       <Button

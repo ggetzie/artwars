@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {View, Text, StyleSheet, FlatList, Button} from 'react-native';
 
@@ -17,7 +17,7 @@ import {
 } from '../../../reducers/game';
 import {initialAsking} from '../../../util';
 
-import BaseStyles from '../../../styles/base';
+import BaseStyle from '../../../styles/base';
 
 type Props = NativeStackScreenProps<AuctionStackParamList, 'Buy'>;
 
@@ -52,61 +52,66 @@ const Buy = ({navigation, route}: Props) => {
     dispatch(updateArtwork(updated));
     setBidStarted(false);
   }
+  useEffect(() => {
+    navigation.setOptions({headerBackVisible: !bidStarted});
+  }, [bidStarted]);
   return (
-    <View style={BaseStyles.container}>
-      {!bidStarted && <CloseButton onPress={() => navigation.goBack()} />}
+    <View style={BaseStyle.container}>
       <ArtItem artwork={artwork} />
       <Text>Last Bid: ${lastBid.toLocaleString()}</Text>
       <Text>Asking: ${asking.toLocaleString()}</Text>
-      <Button
-        title="Place Bid"
-        disabled={canBid}
-        onPress={() => {
-          setBidStarted(true);
-          setLastBid(asking);
-          const newAsking = asking + bidIncrement(asking);
-          const otherBid = otherBidders(
-            artwork.value,
-            newAsking,
-            hot === artwork.category,
-          );
-          if (otherBid) {
-            setLastBid(newAsking);
-            setAsking(newAsking + bidIncrement(newAsking));
-            setMessage(
-              `Another buyer bid $${newAsking.toLocaleString()}! Bid again?`,
-            );
-
-            if (asking > balance) {
-              setMessage(`Another buyer bid more money than you have!`);
+      <View style={BaseStyle.buttonRow}>
+        {bidStarted && (
+          <Button
+            title="Give Up"
+            color="grey"
+            onPress={() => {
+              setMessage('Too rich for your blood, eh?');
               loseAuction();
               setCanBid(false);
               setTimeout(() => navigation.goBack(), 2000);
-            }
-          } else {
-            setMessage(`You won the auction! Now you own ${artwork.title}`);
-            const t: Transaction = {
-              id: artwork.id,
-              price: -1 * asking,
-              newOwner: player,
-            };
-            dispatch(transact(t));
-            setBidStarted(false);
-            setTimeout(() => navigation.goBack(), 2000);
-          }
-        }}
-      />
-      {bidStarted && (
+            }}
+          />
+        )}
         <Button
-          title="Give Up"
+          title="Place Bid"
+          disabled={canBid}
           onPress={() => {
-            setMessage('Too rich for your blood, eh?');
-            loseAuction();
-            setCanBid(false);
-            setTimeout(() => navigation.goBack(), 2000);
+            setBidStarted(true);
+            setLastBid(asking);
+            const newAsking = asking + bidIncrement(asking);
+            const otherBid = otherBidders(
+              artwork.value,
+              newAsking,
+              hot === artwork.category,
+            );
+            if (otherBid) {
+              setLastBid(newAsking);
+              setAsking(newAsking + bidIncrement(newAsking));
+              setMessage(
+                `Another buyer bid $${newAsking.toLocaleString()}! Bid again?`,
+              );
+
+              if (asking > balance) {
+                setMessage(`Another buyer bid more money than you have!`);
+                loseAuction();
+                setCanBid(false);
+                setTimeout(() => navigation.goBack(), 2000);
+              }
+            } else {
+              setMessage(`You won the auction! Now you own ${artwork.title}`);
+              const t: Transaction = {
+                id: artwork.id,
+                price: -1 * asking,
+                newOwner: player,
+              };
+              dispatch(transact(t));
+              setBidStarted(false);
+              setTimeout(() => navigation.goBack(), 2000);
+            }
           }}
         />
-      )}
+      </View>
       {message.length > 0 && <Text>{message}</Text>}
       {asking > balance && bidStarted && (
         <Text>You don't have enough money to place this bid. 😢</Text>

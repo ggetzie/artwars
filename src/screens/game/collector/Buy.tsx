@@ -26,7 +26,7 @@ const Buy = ({navigation, route}: Props) => {
   const player = selectPlayer(game);
   const npc = currentNPC(game);
   const [offer, setOffer] = useState<number>(0);
-  const [message, setMessage] = useState('Go ahead, make an offer.');
+  const [dialogue, setDialogue] = useState('Give me your best offer.');
   const dispatch = useAppDispatch();
   const balance = selectBalance(game);
   let offerText;
@@ -40,37 +40,28 @@ const Buy = ({navigation, route}: Props) => {
       <ArtItem artwork={artwork} />
       {offerText}
       <IntegerInput placeholder="Enter an offer amount" setNum={setOffer} />
-      <View style={BaseStyle.buttonRow}>
-        <Button
-          title="Cancel"
-          color="grey"
-          onPress={() => navigation.goBack()}
-        />
-        <Button
-          title="Make Offer"
-          disabled={Number.isNaN(offer)}
-          onPress={() => {
-            if (offer > balance) {
-              setMessage("You don't have that much money!");
-              return;
-            }
-            const response = considerSell(artwork, offer, npc.preference);
-            if (response === 'accept' || response === 'enthusiasm') {
-              const t: Transaction = {
-                id: artwork.id,
-                price: -1 * offer,
-                newOwner: player,
-              };
-              dispatch(transact(t));
-              setTimeout(() => navigation.goBack(), 2000);
-            } else {
-              setTimeout(() => setMessage('Try again'), 2000);
-            }
-            setMessage(npc.dialogue.selling[response]);
-          }}
-        />
-      </View>
-      <Text>{message}</Text>
+      <Button
+        title="Make Offer"
+        disabled={Number.isNaN(offer)}
+        onPress={() => {
+          if (offer > balance) {
+            setDialogue("You don't have that much money!");
+            return;
+          }
+          const response = considerSell(artwork, offer, npc.preference);
+          setDialogue(npc.dialogue.selling[response]);
+          if (response === 'accept' || response === 'enthusiasm') {
+            const t: Transaction = {
+              id: artwork.id,
+              price: -1 * offer,
+              newOwner: player,
+            };
+            dispatch(transact(t));
+            setTimeout(() => navigation.goBack(), 2000);
+          }
+        }}
+      />
+      <Text>{dialogue}</Text>
     </View>
   );
 };

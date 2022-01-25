@@ -41,7 +41,7 @@ const Collector = (_: Props) => {
       <CollectorStack.Screen
         name="Buy"
         component={Buy}
-        options={{headerShown: false}}
+        options={{title: 'Make an offer'}}
       />
       <CollectorStack.Screen
         name="SellSelect"

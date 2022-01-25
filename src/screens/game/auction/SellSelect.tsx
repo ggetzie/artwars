@@ -17,7 +17,7 @@ import {
   updateArtwork,
 } from '../../../reducers/game';
 import {AuctionStackParamList} from '.';
-import BaseStyles from '../../../styles/base';
+import BaseStyle from '../../../styles/base';
 import {ArtWorkFilter} from '../../../util/awFilter';
 
 type Props = NativeStackScreenProps<AuctionStackParamList, 'SellSelect'>;
@@ -37,7 +37,7 @@ const SellSelect = ({navigation}: Props) => {
   );
 
   return (
-    <View style={BaseStyles.container}>
+    <View style={BaseStyle.container}>
       <Text>Select an artwork to sell at auction</Text>
       <FlatList
         data={couldAuction}

@@ -9,7 +9,7 @@ import {
 import {useAppSelector} from '../hooks';
 import {currentHot} from '../reducers/game';
 import {ArtWork} from '../util';
-import BaseStyles from '../styles/base';
+import BaseStyle from '../styles/base';
 
 const ArtItem = ({
   artwork,
@@ -29,7 +29,7 @@ const ArtItem = ({
         <Text>Value: ${value}</Text>
         <Text>
           Category:{' '}
-          <Text style={hot === artwork.category ? BaseStyles.hot : {}}>
+          <Text style={hot === artwork.category ? BaseStyle.hot : {}}>
             {artwork.category}
           </Text>
         </Text>
