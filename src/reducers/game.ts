@@ -11,8 +11,9 @@ import {
   diceRoll,
   randomChoiceR,
   randRange,
+  setupDuties,
 } from '../util';
-import {CityName} from '../util/cities';
+import {CityName, DutyMap} from '../util/cities';
 import {NPC} from '../util/npcs';
 import {ArtWorkFilter} from '../util/awFilter';
 import {Transaction} from '../util';
@@ -27,6 +28,7 @@ interface gameState {
   underInvestigation: boolean;
   turn: number;
   messages: string[];
+  duties: DutyMap;
 }
 
 const npcs = setupNPCs();
@@ -42,6 +44,7 @@ const initialState: gameState = {
   underInvestigation: false,
   turn: 0,
   messages: [],
+  duties: setupDuties(),
 };
 
 export const gameSlice = createSlice({
@@ -271,5 +274,7 @@ export const portfolioValue = (game: gameState) =>
     .reduce((p, c) => p + c, 0);
 
 export const getMessages = (game: gameState) => game.messages;
+
+export const getDuty = (game: gameState, city: CityName) => game.duties[city];
 
 export default gameSlice.reducer;

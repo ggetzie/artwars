@@ -5,7 +5,7 @@ import {CityName} from '../../../util/cities';
 export type PortfolioStackParamList = {
   List: undefined;
   Detail: {artwork: ArtWork};
-  Confirm: {artwork: ArtWork; duty: number; destination: CityName};
+  Confirm: {artwork: ArtWork; destination: CityName};
 };
 
 export default Portfolio;

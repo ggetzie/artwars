@@ -11,19 +11,15 @@ const Cities = {
 
 export type CityName = typeof Cities[keyof typeof Cities];
 
-function randDuty(): number {
-  return 1 + randInt(5, 21) * 0.1;
-}
+export type DutyMap = {
+  [key in CityName]: number;
+};
 
-// type DutyMap = {
-//   [key in CityName]: number;
-// };
-
-function setupDuties() {
+function setupDuties(): DutyMap {
   const res = Object.fromEntries(
-    Object.values(Cities).map(v => [v, randDuty()]),
+    Object.values(Cities).map(v => [v, randInt(5, 21) * 0.01]),
   );
-  return res;
+  return res as DutyMap;
 }
 
 export {Cities, setupDuties};

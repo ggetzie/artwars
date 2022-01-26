@@ -15,6 +15,7 @@ import {
 } from '@react-navigation/native-stack';
 import List from './List';
 import Detail from './Detail';
+import Confirm from './Confirm';
 
 type Props = BottomTabNavigationProp<GameTabParamList, 'Portfolio'>;
 
@@ -29,6 +30,11 @@ const Portfolio = (_: Props) => {
         options={{headerShown: false}}
       />
       <PortfolioStack.Screen name={'Detail'} component={Detail} />
+      <PortfolioStack.Screen
+        name={'Confirm'}
+        component={Confirm}
+        options={{title: 'Confirm Move'}}
+      />
     </PortfolioStack.Navigator>
   );
 };

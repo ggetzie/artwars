@@ -1,6 +1,6 @@
 import {NPC, setupNPCs, considerSell, considerBuy, getNPCForCity} from './npcs';
 
-import {Cities, CityName} from './cities';
+import {Cities, CityName, setupDuties} from './cities';
 
 const MAX_OWNED_BY_NPC = 10;
 const MAX_ON_AUCTION = 20;
@@ -191,4 +191,5 @@ export {
   randInt,
   randomChoiceR,
   randomChoiceNR,
+  setupDuties,
 };
