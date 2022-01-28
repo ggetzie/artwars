@@ -55,9 +55,13 @@ const Game = ({route}: Props) => {
       <Tab.Screen
         name="Collector"
         component={Collector}
-        options={{title: npc.name}}
+        options={{title: npc.name, unmountOnBlur: true}}
       />
-      <Tab.Screen name="Auctions" component={Auction} />
+      <Tab.Screen
+        name="Auctions"
+        component={Auction}
+        options={{unmountOnBlur: true}}
+      />
     </Tab.Navigator>
   );
 };

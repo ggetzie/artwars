@@ -113,7 +113,7 @@ const Sell = ({navigation, route}: Props) => {
             `Bidding starts at $${askingText}. Do I have any bids?`,
             `Ladies and Gentlemen we have ${artwork.title} for sale.`,
           ]);
-          setStatus('calledForBid');
+          setStatus('firstBid');
         }}
       />
       <FlatList

@@ -69,7 +69,6 @@ const Buy = ({navigation, route}: Props) => {
               setMessage('Too rich for your blood, eh?');
               loseAuction();
               setCanBid(false);
-              setTimeout(() => navigation.goBack(), 2000);
             }}
           />
         )}
@@ -96,7 +95,6 @@ const Buy = ({navigation, route}: Props) => {
                 setMessage(`Another buyer bid more money than you have!`);
                 loseAuction();
                 setCanBid(false);
-                setTimeout(() => navigation.goBack(), 2000);
               }
             } else {
               setMessage(`You won the auction! Now you own ${artwork.title}`);
@@ -107,7 +105,6 @@ const Buy = ({navigation, route}: Props) => {
               };
               dispatch(transact(t));
               setBidStarted(false);
-              setTimeout(() => navigation.goBack(), 2000);
             }
           }}
         />

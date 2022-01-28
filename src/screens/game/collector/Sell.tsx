@@ -44,7 +44,6 @@ const Sell = ({navigation, route}: Props) => {
               newOwner: npc.name,
             };
             dispatch(transact(t));
-            setTimeout(() => navigation.goBack(), 2000);
           }
         }}
       />
