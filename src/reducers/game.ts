@@ -29,6 +29,8 @@ interface gameState {
   turn: number;
   messages: string[];
   duties: DutyMap;
+  started: string;
+  auctionInProgress: boolean;
 }
 
 const npcs = setupNPCs();
@@ -45,6 +47,8 @@ const initialState: gameState = {
   turn: 0,
   messages: [],
   duties: setupDuties(),
+  started: new Date().toISOString(),
+  auctionInProgress: false,
 };
 
 export const gameSlice = createSlice({
@@ -68,6 +72,9 @@ export const gameSlice = createSlice({
     },
     setHot: (state, action: PayloadAction<CategoryName>) => {
       state.hot = action.payload;
+    },
+    setAuctionInProgress: (state, action: PayloadAction<boolean>) => {
+      state.auctionInProgress = action.payload;
     },
     transact: (state, action: PayloadAction<Transaction>) => {
       // Buy or sell an artwork.
@@ -241,6 +248,7 @@ export const {
   setArtworks,
   setInvestigation,
   processTurn,
+  setAuctionInProgress,
 } = gameSlice.actions;
 
 export const selectPlayer = (game: gameState) => game.player;
@@ -276,5 +284,6 @@ export const portfolioValue = (game: gameState) =>
 export const getMessages = (game: gameState) => game.messages;
 
 export const getDuty = (game: gameState, city: CityName) => game.duties[city];
+export const getAuctionInProgress = (game: gameState) => game.auctionInProgress;
 
 export default gameSlice.reducer;

@@ -18,7 +18,7 @@ import {selectDecimal} from '../../../reducers/settings';
 
 type Props = NativeStackScreenProps<CollectorStackParamList, 'Buy'>;
 
-const Buy = ({navigation, route}: Props) => {
+const Buy = ({route}: Props) => {
   const artwork = route.params.artwork;
   const game = useAppSelector(state => state.game);
   const settings = useAppSelector(state => state.settings);
@@ -27,6 +27,7 @@ const Buy = ({navigation, route}: Props) => {
   const npc = currentNPC(game);
   const [offer, setOffer] = useState<number>(0);
   const [dialogue, setDialogue] = useState('Give me your best offer.');
+  const [sold, setSold] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const balance = selectBalance(game);
   let offerText;
@@ -42,7 +43,7 @@ const Buy = ({navigation, route}: Props) => {
       <IntegerInput placeholder="Enter an offer amount" setNum={setOffer} />
       <Button
         title="Make Offer"
-        disabled={Number.isNaN(offer)}
+        disabled={Number.isNaN(offer) || sold}
         onPress={() => {
           if (offer > balance) {
             setDialogue("You don't have that much money!");
@@ -57,7 +58,7 @@ const Buy = ({navigation, route}: Props) => {
               newOwner: player,
             };
             dispatch(transact(t));
-            setTimeout(() => navigation.goBack(), 2000);
+            setSold(true);
           }
         }}
       />

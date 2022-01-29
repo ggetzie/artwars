@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '..';
@@ -9,7 +9,13 @@ import Portfolio from './portfolio/';
 import Collector from './collector';
 import Auction from './auction/';
 import {useAppSelector} from '../../hooks';
-import {currentNPC, selectCity} from '../../reducers/game';
+import {
+  currentNPC,
+  selectCity,
+  getAuctionInProgress,
+} from '../../reducers/game';
+import {TouchableOpacity} from 'react-native';
+import {TabFactory} from '../../components';
 
 const ACTIVE_COLOR = 'dodgerblue';
 const INACTIVE_COLOR = 'gray';
@@ -17,12 +23,31 @@ const INACTIVE_COLOR = 'gray';
 const Tab = createBottomTabNavigator();
 type Props = NativeStackScreenProps<RootStackParamList, 'Game'>;
 
-const Game = ({route}: Props) => {
+const Game = ({navigation}: Props) => {
   const game = useAppSelector(state => state.game);
   const city = selectCity(game);
   const npc = currentNPC(game);
+  const auctioning = getAuctionInProgress(game);
+
+  const TabBar = TabFactory(auctioning);
+
+  const QuitButton = () => (
+    <TouchableOpacity
+      style={{maxWidth: 40}}
+      onPress={() => navigation.navigate('Home')}>
+      <FontAwesome5 name={'times-circle'} color={'red'} size={20} />
+    </TouchableOpacity>
+  );
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <QuitButton />,
+    });
+  });
+
   return (
     <Tab.Navigator
+      tabBar={TabBar}
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;

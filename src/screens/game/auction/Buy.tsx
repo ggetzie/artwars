@@ -1,6 +1,12 @@
 import React, {useState, useEffect} from 'react';
 
-import {View, Text, StyleSheet, FlatList, Button} from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+  useWindowDimensions,
+  StyleSheet,
+} from 'react-native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
@@ -30,6 +36,7 @@ const Buy = ({navigation, route}: Props) => {
   // and the artwork is sold to them for the last bid.
   const game = useAppSelector(state => state.game);
   const dispatch = useAppDispatch();
+  const window = useWindowDimensions();
   const balance = selectBalance(game);
   const hot = currentHot(game);
   const player = selectPlayer(game);
@@ -55,6 +62,7 @@ const Buy = ({navigation, route}: Props) => {
   useEffect(() => {
     navigation.setOptions({headerBackVisible: !bidStarted});
   }, [bidStarted]);
+
   return (
     <View style={BaseStyle.container}>
       <ArtItem artwork={artwork} />
