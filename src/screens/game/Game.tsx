@@ -9,12 +9,9 @@ import Portfolio from './portfolio/';
 import Collector from './collector';
 import Auction from './auction/';
 import {useAppSelector} from '../../hooks';
-import {
-  currentNPC,
-  selectCity,
-  getAuctionInProgress,
-} from '../../reducers/game';
+import {currentNPC, selectCity} from '../../reducers/game';
 import {TouchableOpacity} from 'react-native';
+import {saveGame} from '../../util';
 
 const ACTIVE_COLOR = 'dodgerblue';
 const INACTIVE_COLOR = 'gray';
@@ -26,7 +23,6 @@ const Game = ({navigation}: Props) => {
   const game = useAppSelector(state => state.game);
   const city = selectCity(game);
   const npc = currentNPC(game);
-  const auctioning = getAuctionInProgress(game);
 
   const QuitButton = () => (
     <TouchableOpacity
@@ -40,7 +36,12 @@ const Game = ({navigation}: Props) => {
     navigation.setOptions({
       headerRight: () => <QuitButton />,
     });
-  });
+  }, []);
+
+  // save whenever game state updated
+  useEffect(() => {
+    saveGame(game);
+  }, [game]);
 
   return (
     <Tab.Navigator

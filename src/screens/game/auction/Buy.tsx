@@ -58,11 +58,7 @@ const Buy = ({navigation, route}: Props) => {
   useEffect(() => {
     navigation.setOptions({headerBackVisible: !bidStarted});
     const parent = navigation.getParent();
-    if (bidStarted) {
-      parent?.setOptions({tabBarStyle: {display: 'none'}});
-    } else {
-      parent?.setOptions({tabBarStyle: {display: 'flex'}});
-    }
+    parent?.setOptions({tabBarStyle: {display: bidStarted ? 'none' : 'flex'}});
   }, [bidStarted]);
 
   return (

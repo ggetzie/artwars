@@ -18,7 +18,7 @@ import {NPC} from '../util/npcs';
 import {ArtWorkFilter} from '../util/awFilter';
 import {Transaction} from '../util';
 
-interface gameState {
+export interface gameState {
   player: string;
   balance: number;
   npcs: NPC[];
@@ -30,7 +30,6 @@ interface gameState {
   messages: string[];
   duties: DutyMap;
   started: string;
-  auctionInProgress: boolean;
 }
 
 const npcs = setupNPCs();
@@ -47,8 +46,7 @@ const initialState: gameState = {
   turn: 0,
   messages: [],
   duties: setupDuties(),
-  started: new Date().toISOString(),
-  auctionInProgress: false,
+  started: new Date().valueOf().toString(),
 };
 
 export const gameSlice = createSlice({
@@ -69,12 +67,6 @@ export const gameSlice = createSlice({
     },
     setCity: (state, action: PayloadAction<CityName>) => {
       state.currentCity = action.payload;
-    },
-    setHot: (state, action: PayloadAction<CategoryName>) => {
-      state.hot = action.payload;
-    },
-    setAuctionInProgress: (state, action: PayloadAction<boolean>) => {
-      state.auctionInProgress = action.payload;
     },
     transact: (state, action: PayloadAction<Transaction>) => {
       // Buy or sell an artwork.
@@ -106,9 +98,6 @@ export const gameSlice = createSlice({
     },
     setInvestigation: (state, action: PayloadAction<boolean>) => {
       state.underInvestigation = action.payload;
-    },
-    nextTurn: state => {
-      state.turn += 1;
     },
     processTurn: state => {
       // randomly select new hot category
@@ -232,6 +221,7 @@ export const gameSlice = createSlice({
       }
       state.artworks = artworks;
       state.messages = messages;
+      state.turn += 1;
     },
   },
 });
@@ -244,11 +234,9 @@ export const {
   setCity,
   transact,
   updateArtwork,
-  setHot,
   setArtworks,
   setInvestigation,
   processTurn,
-  setAuctionInProgress,
 } = gameSlice.actions;
 
 export const selectPlayer = (game: gameState) => game.player;
@@ -284,6 +272,5 @@ export const portfolioValue = (game: gameState) =>
 export const getMessages = (game: gameState) => game.messages;
 
 export const getDuty = (game: gameState, city: CityName) => game.duties[city];
-export const getAuctionInProgress = (game: gameState) => game.auctionInProgress;
 
 export default gameSlice.reducer;

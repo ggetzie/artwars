@@ -1,6 +1,8 @@
+import RNFS from 'react-native-fs';
+import slugify from 'slugify';
 import {NPC, setupNPCs, considerSell, considerBuy, getNPCForCity} from './npcs';
-
 import {Cities, CityName, setupDuties} from './cities';
+import {gameState} from '../reducers/game';
 
 const MAX_OWNED_BY_NPC = 10;
 const MAX_ON_AUCTION = 20;
@@ -174,6 +176,16 @@ function randomCategory(): CategoryName {
   return randomChoiceR(Object.values(Categories));
 }
 
+function saveGame(game: gameState) {
+  RNFS.mkdir(RNFS.DocumentDirectoryPath + '/saved/');
+  const path =
+    RNFS.DocumentDirectoryPath +
+    `/saved/${slugify(game.player)}_${game.started}.json`;
+  RNFS.writeFile(path, game.toString(), 'utf8')
+    .then(success => console.log(`saved game: ${path}`))
+    .catch(error => console.log(error.message));
+}
+
 export {
   Cities,
   setupNPCs,
@@ -192,4 +204,5 @@ export {
   randomChoiceR,
   randomChoiceNR,
   setupDuties,
+  saveGame,
 };
