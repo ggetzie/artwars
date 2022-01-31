@@ -1,18 +1,12 @@
 import React, {useState, useEffect} from 'react';
 
-import {
-  View,
-  Text,
-  Button,
-  useWindowDimensions,
-  StyleSheet,
-} from 'react-native';
+import {View, Text, Button} from 'react-native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {ArtWork, bidIncrement, otherBidders, Transaction} from '../../../util';
+import {bidIncrement, otherBidders, Transaction} from '../../../util';
 import {AuctionStackParamList} from '.';
-import {ArtItem, CloseButton} from '../../../components';
+import {ArtItem} from '../../../components';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
 import {
   currentHot,
@@ -36,7 +30,6 @@ const Buy = ({navigation, route}: Props) => {
   // and the artwork is sold to them for the last bid.
   const game = useAppSelector(state => state.game);
   const dispatch = useAppDispatch();
-  const window = useWindowDimensions();
   const balance = selectBalance(game);
   const hot = currentHot(game);
   const player = selectPlayer(game);
@@ -47,8 +40,11 @@ const Buy = ({navigation, route}: Props) => {
     initialAsking(artwork.value, artwork.category === hot),
   );
   const [lastBid, setLastBid] = useState(0);
-  const [message, setMessage] = useState('');
-  const [canBid, setCanBid] = useState(asking > balance);
+  const [canBid, setCanBid] = useState(asking < balance);
+  const [message, setMessage] = useState(
+    canBid ? '' : "You don't have enough money to bid",
+  );
+
   function loseAuction() {
     const updated = {
       ...artwork,
@@ -61,6 +57,12 @@ const Buy = ({navigation, route}: Props) => {
   }
   useEffect(() => {
     navigation.setOptions({headerBackVisible: !bidStarted});
+    const parent = navigation.getParent();
+    if (bidStarted) {
+      parent?.setOptions({tabBarStyle: {display: 'none'}});
+    } else {
+      parent?.setOptions({tabBarStyle: {display: 'flex'}});
+    }
   }, [bidStarted]);
 
   return (
@@ -77,50 +79,52 @@ const Buy = ({navigation, route}: Props) => {
               setMessage('Too rich for your blood, eh?');
               loseAuction();
               setCanBid(false);
+              setBidStarted(false);
             }}
           />
         )}
-        <Button
-          title="Place Bid"
-          disabled={canBid}
-          onPress={() => {
-            setBidStarted(true);
-            setLastBid(asking);
-            const newAsking = asking + bidIncrement(asking);
-            const otherBid = otherBidders(
-              artwork.value,
-              newAsking,
-              hot === artwork.category,
-            );
-            if (otherBid) {
-              setLastBid(newAsking);
-              setAsking(newAsking + bidIncrement(newAsking));
-              setMessage(
-                `Another buyer bid $${newAsking.toLocaleString()}! Bid again?`,
+        {canBid && (
+          <Button
+            title="Place Bid"
+            disabled={!canBid}
+            onPress={() => {
+              setBidStarted(true);
+              setLastBid(asking);
+              const newAsking = asking + bidIncrement(asking);
+              const otherBid = otherBidders(
+                artwork.value,
+                newAsking,
+                hot === artwork.category,
               );
+              if (otherBid) {
+                setLastBid(newAsking);
+                setAsking(newAsking + bidIncrement(newAsking));
+                setMessage(
+                  `Another buyer bid $${newAsking.toLocaleString()}! Bid again?`,
+                );
 
-              if (asking > balance) {
-                setMessage(`Another buyer bid more money than you have!`);
-                loseAuction();
+                if (asking > balance) {
+                  setMessage(`Another buyer bid more money than you have!`);
+                  loseAuction();
+                  setCanBid(false);
+                  setBidStarted(false);
+                }
+              } else {
+                setMessage(`You won the auction! Now you own ${artwork.title}`);
+                const t: Transaction = {
+                  id: artwork.id,
+                  price: -1 * asking,
+                  newOwner: player,
+                };
+                dispatch(transact(t));
+                setBidStarted(false);
                 setCanBid(false);
               }
-            } else {
-              setMessage(`You won the auction! Now you own ${artwork.title}`);
-              const t: Transaction = {
-                id: artwork.id,
-                price: -1 * asking,
-                newOwner: player,
-              };
-              dispatch(transact(t));
-              setBidStarted(false);
-            }
-          }}
-        />
+            }}
+          />
+        )}
       </View>
       {message.length > 0 && <Text>{message}</Text>}
-      {asking > balance && bidStarted && (
-        <Text>You don't have enough money to place this bid. 😢</Text>
-      )}
     </View>
   );
 };

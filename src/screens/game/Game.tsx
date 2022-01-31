@@ -15,7 +15,6 @@ import {
   getAuctionInProgress,
 } from '../../reducers/game';
 import {TouchableOpacity} from 'react-native';
-import {TabFactory} from '../../components';
 
 const ACTIVE_COLOR = 'dodgerblue';
 const INACTIVE_COLOR = 'gray';
@@ -28,8 +27,6 @@ const Game = ({navigation}: Props) => {
   const city = selectCity(game);
   const npc = currentNPC(game);
   const auctioning = getAuctionInProgress(game);
-
-  const TabBar = TabFactory(auctioning);
 
   const QuitButton = () => (
     <TouchableOpacity
@@ -47,9 +44,8 @@ const Game = ({navigation}: Props) => {
 
   return (
     <Tab.Navigator
-      tabBar={TabBar}
       screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
+        tabBarIcon: ({focused, size}) => {
           let iconName;
           if (route.name === 'City') {
             iconName = 'city';
