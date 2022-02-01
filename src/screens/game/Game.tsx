@@ -73,7 +73,11 @@ const Game = ({navigation}: Props) => {
         tabBarStyle: {paddingBottom: 3, paddingTop: 5},
       })}>
       <Tab.Screen name="City" component={City} options={{title: city}} />
-      <Tab.Screen name="Portfolio" component={Portfolio} />
+      <Tab.Screen
+        name="Portfolio"
+        component={Portfolio}
+        options={{unmountOnBlur: true}}
+      />
       <Tab.Screen
         name="Collector"
         component={Collector}
