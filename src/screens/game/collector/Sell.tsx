@@ -21,6 +21,7 @@ const Sell = ({navigation, route}: Props) => {
   const npc = currentNPC(game);
   const [asking, setAsking] = useState<number>(0);
   const [dialogue, setDialogue] = useState<string>('');
+  const [canSell, setCanSell] = useState<boolean>(true);
   const dispatch = useAppDispatch();
   return (
     <View style={BaseStyle.container}>
@@ -33,7 +34,7 @@ const Sell = ({navigation, route}: Props) => {
       <IntegerInput placeholder="Enter asking price" setNum={setAsking} />
       <Button
         title="Set Price"
-        disabled={Number.isNaN(asking)}
+        disabled={Number.isNaN(asking) || !canSell}
         onPress={() => {
           const decision = considerBuy(artwork, asking, npc.preference);
           setDialogue(npc.dialogue.buying[decision]);
@@ -44,6 +45,7 @@ const Sell = ({navigation, route}: Props) => {
               newOwner: npc.name,
             };
             dispatch(transact(t));
+            setCanSell(false);
           }
         }}
       />
