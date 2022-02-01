@@ -20,16 +20,17 @@ import {Transaction} from '../util';
 
 export interface gameState {
   player: string;
+  started: string;
+  turn: number;
+  maxTurns: number;
   balance: number;
   npcs: NPC[];
   currentCity: CityName;
   artworks: ArtWork[];
   hot: CategoryName;
   underInvestigation: boolean;
-  turn: number;
   messages: string[];
   duties: DutyMap;
-  started: string;
 }
 
 const npcs = setupNPCs();
@@ -37,22 +38,26 @@ const artworks = setupArtworks(Object.values(Cities), npcs);
 
 const initialState: gameState = {
   player: 'Player',
+  started: new Date().valueOf().toString(),
+  turn: 1,
+  maxTurns: 30,
   balance: 2_000_000,
   npcs: npcs,
   currentCity: Cities.London,
   artworks: artworks,
   hot: randomCategory(),
   underInvestigation: false,
-  turn: 0,
   messages: [],
   duties: setupDuties(),
-  started: new Date().valueOf().toString(),
 };
 
 export const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
+    reset: state => {
+      state = initialState;
+    },
     setPlayer: (state, action: PayloadAction<string>) => {
       state.player = action.payload;
     },
@@ -227,6 +232,7 @@ export const gameSlice = createSlice({
 });
 
 export const {
+  reset,
   setPlayer,
   creditBalance,
   debitBalance,
