@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {v4 as uuidv4} from 'uuid';
 import {
   Cities,
   setupNPCs,
@@ -19,6 +20,7 @@ import {ArtWorkFilter} from '../util/awFilter';
 import {Transaction} from '../util';
 
 export interface gameState {
+  readonly id: string;
   player: string;
   started: string;
   turn: number;
@@ -36,27 +38,32 @@ export interface gameState {
 const npcs = setupNPCs();
 const artworks = setupArtworks(Object.values(Cities), npcs);
 
-const initialState: gameState = {
-  player: 'Player',
-  started: new Date().valueOf().toString(),
-  turn: 1,
-  maxTurns: 30,
-  balance: 2_000_000,
-  npcs: npcs,
-  currentCity: Cities.London,
-  artworks: artworks,
-  hot: randomCategory(),
-  underInvestigation: false,
-  messages: [],
-  duties: setupDuties(),
-};
+export function defaultGame(): gameState {
+  return {
+    id: uuidv4(),
+    player: 'Player',
+    started: new Date().toISOString(),
+    turn: 1,
+    maxTurns: 30,
+    balance: 2_000_000,
+    npcs: setupNPCs(),
+    currentCity: Cities.London,
+    artworks: setupArtworks(Object.values(Cities), npcs),
+    hot: randomCategory(),
+    underInvestigation: false,
+    messages: [],
+    duties: setupDuties(),
+  };
+}
+
+const initialState: gameState = defaultGame();
 
 export const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    reset: state => {
-      state = initialState;
+    setGame: (_, action: PayloadAction<gameState>) => {
+      return action.payload;
     },
     setPlayer: (state, action: PayloadAction<string>) => {
       state.player = action.payload;
@@ -232,7 +239,7 @@ export const gameSlice = createSlice({
 });
 
 export const {
-  reset,
+  setGame,
   setPlayer,
   creditBalance,
   debitBalance,

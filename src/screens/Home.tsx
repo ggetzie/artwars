@@ -2,8 +2,7 @@ import React from 'react';
 import {View, Button} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '.';
-import {useAppDispatch, useAppSelector} from '../hooks';
-import {reset} from '../reducers/game';
+import {useAppDispatch} from '../hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -14,7 +13,6 @@ const Home = ({navigation}: Props) => {
       <Button
         title="New Game"
         onPress={() => {
-          dispatch(reset);
           navigation.navigate('NewGame');
         }}
       />

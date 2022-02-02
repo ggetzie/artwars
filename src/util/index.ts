@@ -178,9 +178,7 @@ function randomCategory(): CategoryName {
 
 function saveGame(game: gameState) {
   RNFS.mkdir(RNFS.DocumentDirectoryPath + '/saved/');
-  const path =
-    RNFS.DocumentDirectoryPath +
-    `/saved/${slugify(game.player)}_${game.started}.json`;
+  const path = RNFS.DocumentDirectoryPath + `/saved/${game.id}.json`;
   RNFS.writeFile(path, game.toString(), 'utf8')
     .then(success => console.log(`saved game: ${path}`))
     .catch(error => console.log(error.message));
