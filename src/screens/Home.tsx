@@ -1,20 +1,24 @@
 import React from 'react';
-import {View, Button} from 'react-native';
+import {View, Button, StyleSheet} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '.';
 import {useAppDispatch} from '../hooks';
+import BaseStyle from '../styles/base';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const Home = ({navigation}: Props) => {
-  const dispatch = useAppDispatch();
   return (
-    <View>
+    <View style={[BaseStyle.container, styles.menu]}>
       <Button
         title="New Game"
         onPress={() => {
           navigation.navigate('NewGame');
         }}
+      />
+      <Button
+        title="Continue"
+        onPress={() => navigation.navigate('Continue')}
       />
       <Button
         title="Settings"
@@ -24,5 +28,12 @@ const Home = ({navigation}: Props) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  menu: {
+    justifyContent: 'space-around',
+    marginVertical: '50%',
+  },
+});
 
 export default Home;

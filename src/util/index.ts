@@ -1,5 +1,4 @@
 import RNFS from 'react-native-fs';
-import slugify from 'slugify';
 import {NPC, setupNPCs, considerSell, considerBuy, getNPCForCity} from './npcs';
 import {Cities, CityName, setupDuties} from './cities';
 import {gameState} from '../reducers/game';
