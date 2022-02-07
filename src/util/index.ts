@@ -188,31 +188,21 @@ async function loadGames(): Promise<gameState[]> {
   const files = await RNFS.readDir(SAVE_PATH).then(items => {
     return items.filter(f => f.isFile());
   });
-  console.log(files);
+  console.log(files.map(f => f.name));
   const games = files.map(async f => {
     const contents = await RNFS.readFile(f.path, 'utf8');
     const l = contents.length;
     console.log(contents.slice(l - 195, l));
     return JSON.parse(contents);
   });
-  // let games: gameState[] = [];
-
-  // for (const f of files) {
-  //   RNFS.readFile(f.path, 'utf8')
-  //     .then(contents => {
-  //       const conlen = contents.length;
-  //       console.log(contents.slice(conlen - 500, contents.length));
-  //       // console.log(contents.slice(1395674 - 50, 1395674 + 50));
-  //       games.push(JSON.parse(contents));
-  //     })
-  //     .catch(err => console.log(`error reading file: ${err}`));
-  // }
   return Promise.all(games);
 }
 
 export {
   Cities,
   setupNPCs,
+  considerSell,
+  considerBuy,
   getNPCForCity,
   Categories,
   setupArtworks,
