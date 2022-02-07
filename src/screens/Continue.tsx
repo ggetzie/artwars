@@ -6,31 +6,37 @@ import {RootStackParamList} from '.';
 import {useAppDispatch} from '../hooks';
 import {setGame, gameState} from '../reducers/game';
 import BaseStyle from '../styles/base';
+import {loadGames} from '../util';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Continue'>;
 
 const Continue = ({navigation}: Props) => {
   const dispatch = useAppDispatch();
-  const savedPath = RNFS.DocumentDirectoryPath + '/saved';
   const [loading, setLoading] = useState<boolean>(true);
-  const [files, setFiles] = useState<RNFS.ReadDirItem[]>([]);
+  const [games, setGames] = useState<gameState[]>([]);
 
   useEffect(() => {
-    RNFS.readDir(savedPath)
-      .then(items => setFiles(items.filter(f => f.isFile())))
+    loadGames()
+      .then(games => {
+        setGames(games);
+      })
       .catch(e => console.log(e))
       .finally(() => setLoading(false));
   }, []);
 
   return (
-    <View>
+    <View style={BaseStyle.container}>
       <Text style={BaseStyle.heading1}>Load Saved Game</Text>
       {loading ? (
         <Text>Loading</Text>
       ) : (
         <FlatList
-          data={files}
-          renderItem={({item}) => <Text>{item.name}</Text>}
+          data={games}
+          renderItem={({item}) => (
+            <Text>
+              {item.player} - {item.started}
+            </Text>
+          )}
           ListEmptyComponent={<Text>No saved games.</Text>}
         />
       )}

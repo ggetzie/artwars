@@ -178,9 +178,29 @@ function randomCategory(): CategoryName {
 function saveGame(game: gameState) {
   RNFS.mkdir(RNFS.DocumentDirectoryPath + '/saved/');
   const path = RNFS.DocumentDirectoryPath + `/saved/${game.id}.json`;
-  RNFS.writeFile(path, game.toString(), 'utf8')
+  RNFS.writeFile(path, JSON.stringify(game), 'utf8')
     .then(success => console.log(`saved game: ${path}`))
     .catch(error => console.log(error.message));
+}
+
+async function loadGames(): Promise<gameState[]> {
+  const savePath = RNFS.DocumentDirectoryPath + '/saved/';
+  const files = await RNFS.readDir(savePath).then(items => {
+    return items.filter(f => f.isFile());
+  });
+  console.log(files);
+  let games: gameState[] = [];
+  for (const f of files) {
+    RNFS.readFile(f.path, 'utf8')
+      .then(contents => {
+        const conlen = contents.length;
+        console.log(contents.slice(conlen - 500, contents.length));
+        // console.log(contents.slice(1395674 - 50, 1395674 + 50));
+        games.push(JSON.parse(contents));
+      })
+      .catch(err => console.log(`error reading file: ${err}`));
+  }
+  return games;
 }
 
 export {
@@ -202,4 +222,5 @@ export {
   randomChoiceNR,
   setupDuties,
   saveGame,
+  loadGames,
 };

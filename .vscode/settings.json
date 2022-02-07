@@ -15,5 +15,6 @@
     "reduxjs",
     "uuidv"
   ],
-  "cSpell.words": ["backsies", "Fartin", "Hachi", "Machi", "Nyet"]
+  "cSpell.words": ["backsies", "Fartin", "Hachi", "Machi", "Nyet"],
+  "java.configuration.updateBuildConfiguration": "interactive"
 }
