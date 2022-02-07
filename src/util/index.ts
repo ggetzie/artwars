@@ -5,6 +5,8 @@ import {gameState} from '../reducers/game';
 
 const MAX_OWNED_BY_NPC = 10;
 const MAX_ON_AUCTION = 20;
+const SAVE_PATH = RNFS.DocumentDirectoryPath + '/saved/';
+RNFS.mkdir(SAVE_PATH);
 
 const Categories = {
   AncientAsia: 'Ancient Arts of Asia',
@@ -176,31 +178,36 @@ function randomCategory(): CategoryName {
 }
 
 function saveGame(game: gameState) {
-  RNFS.mkdir(RNFS.DocumentDirectoryPath + '/saved/');
-  const path = RNFS.DocumentDirectoryPath + `/saved/${game.id}.json`;
+  const path = SAVE_PATH + `${game.id}.json`;
   RNFS.writeFile(path, JSON.stringify(game), 'utf8')
     .then(success => console.log(`saved game: ${path}`))
     .catch(error => console.log(error.message));
 }
 
 async function loadGames(): Promise<gameState[]> {
-  const savePath = RNFS.DocumentDirectoryPath + '/saved/';
-  const files = await RNFS.readDir(savePath).then(items => {
+  const files = await RNFS.readDir(SAVE_PATH).then(items => {
     return items.filter(f => f.isFile());
   });
   console.log(files);
-  let games: gameState[] = [];
-  for (const f of files) {
-    RNFS.readFile(f.path, 'utf8')
-      .then(contents => {
-        const conlen = contents.length;
-        console.log(contents.slice(conlen - 500, contents.length));
-        // console.log(contents.slice(1395674 - 50, 1395674 + 50));
-        games.push(JSON.parse(contents));
-      })
-      .catch(err => console.log(`error reading file: ${err}`));
-  }
-  return games;
+  const games = files.map(async f => {
+    const contents = await RNFS.readFile(f.path, 'utf8');
+    const l = contents.length;
+    console.log(contents.slice(l - 195, l));
+    return JSON.parse(contents);
+  });
+  // let games: gameState[] = [];
+
+  // for (const f of files) {
+  //   RNFS.readFile(f.path, 'utf8')
+  //     .then(contents => {
+  //       const conlen = contents.length;
+  //       console.log(contents.slice(conlen - 500, contents.length));
+  //       // console.log(contents.slice(1395674 - 50, 1395674 + 50));
+  //       games.push(JSON.parse(contents));
+  //     })
+  //     .catch(err => console.log(`error reading file: ${err}`));
+  // }
+  return Promise.all(games);
 }
 
 export {
@@ -209,8 +216,6 @@ export {
   getNPCForCity,
   Categories,
   setupArtworks,
-  considerSell,
-  considerBuy,
   initialAsking,
   bidIncrement,
   randomCategory,

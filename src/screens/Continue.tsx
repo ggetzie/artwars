@@ -19,6 +19,7 @@ const Continue = ({navigation}: Props) => {
     loadGames()
       .then(games => {
         setGames(games);
+        console.log(`loading ${games.length} games`);
       })
       .catch(e => console.log(e))
       .finally(() => setLoading(false));

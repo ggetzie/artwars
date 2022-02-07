@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '..';
@@ -21,6 +21,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Game'>;
 
 const Game = ({navigation}: Props) => {
   const game = useAppSelector(state => state.game);
+  const [saveLock, setSaveLock] = useState(false);
   const city = selectCity(game);
   const npc = currentNPC(game);
 
@@ -40,7 +41,11 @@ const Game = ({navigation}: Props) => {
 
   // save whenever game state updated
   useEffect(() => {
-    saveGame(game);
+    if (!saveLock) {
+      setSaveLock(true);
+      saveGame(game);
+    }
+    return () => setSaveLock(false);
   }, [game]);
 
   return (
