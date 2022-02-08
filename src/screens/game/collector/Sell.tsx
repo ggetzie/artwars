@@ -1,15 +1,12 @@
 import React, {useState} from 'react';
 import {View, Text, Button, FlatList, Modal, TextInput} from 'react-native';
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {currentHot, currentNPC, transact} from '../../../reducers/game';
+import {currentNPC, getArtworkData, transact} from '../../../reducers/game';
 
-import {ArtWork, Transaction, considerBuy} from '../../../util';
+import {considerBuy, ARTWORKS} from '../../../util';
+import {Transaction} from '../../../util/types';
 import {ArtItem, IntegerInput} from '../../../components';
 import BaseStyle from '../../../styles/base';
 import {CollectorStackParamList} from '.';
@@ -17,7 +14,9 @@ import {CollectorStackParamList} from '.';
 type Props = NativeStackScreenProps<CollectorStackParamList, 'Sell'>;
 const Sell = ({navigation, route}: Props) => {
   const game = useAppSelector(state => state.game);
-  const artwork = route.params.artwork;
+  const {artworkId} = route.params;
+  const artwork = ARTWORKS[artworkId];
+  const artworkData = getArtworkData(game, artworkId);
   const npc = currentNPC(game);
   const [asking, setAsking] = useState<number>(0);
   const [dialogue, setDialogue] = useState<string>('');
@@ -25,7 +24,7 @@ const Sell = ({navigation, route}: Props) => {
   const dispatch = useAppDispatch();
   return (
     <View style={BaseStyle.container}>
-      <ArtItem artworkData={artwork} />
+      <ArtItem awd={artworkData} />
       {Number.isNaN(asking) ? (
         <Text style={BaseStyle.error}>Enter a valid number.</Text>
       ) : (
@@ -36,13 +35,17 @@ const Sell = ({navigation, route}: Props) => {
         title="Set Price"
         disabled={Number.isNaN(asking) || !canSell}
         onPress={() => {
-          const decision = considerBuy(artwork, asking, npc.preference);
-          setDialogue(npc.dialogue.buying[decision]);
+          const decision = considerBuy(
+            artworkData.currentValue,
+            asking,
+            artwork.category === npc.data.preference,
+          );
+          setDialogue(npc.character.dialogue.buying[decision]);
           if (decision === 'accept' || decision === 'enthusiasm') {
             const t: Transaction = {
               id: artwork.id,
               price: asking,
-              newOwner: npc.name,
+              newOwner: npc.character.name,
             };
             dispatch(transact(t));
             setCanSell(false);

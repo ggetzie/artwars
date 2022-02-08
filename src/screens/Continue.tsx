@@ -1,6 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import RNFS from 'react-native-fs';
-import {View, Text, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  GestureResponderEvent,
+} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '.';
 import {useAppDispatch} from '../hooks';
@@ -9,6 +14,24 @@ import BaseStyle from '../styles/base';
 import {loadGames} from '../util';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Continue'>;
+
+const GameItem = ({
+  player,
+  started,
+  onPress,
+}: {
+  player: string;
+  started: Date;
+  onPress: (event: GestureResponderEvent) => void;
+}) => {
+  return (
+    <TouchableOpacity style={{minHeight: 50}} onPress={onPress}>
+      <Text>
+        {player} - {started.toLocaleString()}
+      </Text>
+    </TouchableOpacity>
+  );
+};
 
 const Continue = ({navigation}: Props) => {
   const dispatch = useAppDispatch();
@@ -34,9 +57,14 @@ const Continue = ({navigation}: Props) => {
         <FlatList
           data={games}
           renderItem={({item}) => (
-            <Text>
-              {item.player} - {item.started}
-            </Text>
+            <GameItem
+              player={item.player}
+              started={new Date(item.started)}
+              onPress={() => {
+                dispatch(setGame(item));
+                navigation.navigate('Game');
+              }}
+            />
           )}
           ListEmptyComponent={<Text>No saved games.</Text>}
         />

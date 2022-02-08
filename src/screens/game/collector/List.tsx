@@ -44,18 +44,17 @@ const List = ({navigation}: Props) => {
           onPress={() => navigation.navigate('SellSelect')}
         />
       </View>
-      <View>
-        <Text style={BaseStyle.heading1}>Collection</Text>
-        <FlatList
-          data={artworksData}
-          renderItem={({item}) => (
-            <ArtItem
-              awd={item}
-              onPress={() => navigation.navigate('Buy', {artworkId: item.id})}
-            />
-          )}
-        />
-      </View>
+
+      <Text style={BaseStyle.heading1}>Collection</Text>
+      <FlatList
+        data={artworksData}
+        renderItem={({item}) => (
+          <ArtItem
+            awd={item}
+            onPress={() => navigation.navigate('Buy', {artworkId: item.id})}
+          />
+        )}
+      />
     </View>
   );
 };
