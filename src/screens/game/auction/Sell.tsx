@@ -1,14 +1,20 @@
 import React, {useState, useEffect} from 'react';
 
-import {View, Text, TextInput, FlatList, Button} from 'react-native';
+import {View, Text, FlatList, Button} from 'react-native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {ArtWork, bidIncrement, otherBidders, Transaction} from '../../../util';
+import {ARTWORKS, bidIncrement, otherBidders} from '../../../util';
+import {Artwork, Transaction} from '../../../util/types';
 import {AuctionStackParamList} from '.';
 import {ArtItem, IntegerInput} from '../../../components';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {currentHot, selectPlayer, transact} from '../../../reducers/game';
+import {
+  currentHot,
+  getArtworkData,
+  selectPlayer,
+  transact,
+} from '../../../reducers/game';
 import {initialAsking, randInt} from '../../../util';
 
 import BaseStyle from '../../../styles/base';
@@ -32,11 +38,13 @@ const Sell = ({navigation, route}: Props) => {
   const dispatch = useAppDispatch();
   const hot = currentHot(game);
   const player = selectPlayer(game);
-  const artwork = route.params.artwork;
+  const awId = route.params.artworkId;
+  const artwork = ARTWORKS[awId];
+  const artworkData = getArtworkData(game, awId);
   const isHot = hot === artwork.category;
 
   const [status, setStatus] = useState<AuctionStatus>('notStarted');
-  const starting = initialAsking(artwork.value, isHot);
+  const starting = initialAsking(artworkData.currentValue, isHot);
   const [asking, setAsking] = useState(starting);
   const [lastBid, setLastBid] = useState(0);
   const [messages, setMessages] = useState<string[]>([]);
@@ -54,7 +62,7 @@ const Sell = ({navigation, route}: Props) => {
   }
 
   function checkBids() {
-    const nextBid = otherBidders(artwork.value, asking, isHot);
+    const nextBid = otherBidders(artworkData.currentValue, asking, isHot);
     if (nextBid) {
       setLastBid(asking);
       setStatus('bidMade');
@@ -93,7 +101,7 @@ const Sell = ({navigation, route}: Props) => {
 
   return (
     <View style={BaseStyle.container}>
-      <ArtItem artwork={artwork} />
+      <ArtItem awd={artworkData} />
       {Number.isNaN(asking) ? (
         <Text style={BaseStyle.error}>Enter a valid number.</Text>
       ) : (

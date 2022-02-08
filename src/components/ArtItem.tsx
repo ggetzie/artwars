@@ -8,17 +8,19 @@ import {
 } from 'react-native';
 import {useAppSelector} from '../hooks';
 import {currentHot} from '../reducers/game';
-import {ArtWork} from '../util';
+import {ARTWORKS} from '../util';
+import {Artwork, ArtworkData} from '../util/types';
 import BaseStyle from '../styles/base';
 
 const ArtItem = ({
-  artwork,
+  awd,
   onPress,
 }: {
-  artwork: ArtWork;
+  awd: ArtworkData;
   onPress?: (event: GestureResponderEvent) => void;
 }) => {
-  const value = Math.round(artwork.value).toLocaleString();
+  const artwork = ARTWORKS[awd.id];
+  const value = Math.round(awd.currentValue).toLocaleString();
   const game = useAppSelector(state => state.game);
   const hot = currentHot(game);
   return (

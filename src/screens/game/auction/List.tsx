@@ -34,8 +34,8 @@ const List = ({navigation}: Props) => {
       <FlatList
         renderItem={({item}) => (
           <ArtItem
-            artwork={item}
-            onPress={() => navigation.navigate('Buy', {artwork: item})}
+            awd={item}
+            onPress={() => navigation.navigate('Buy', {artworkId: item.id})}
           />
         )}
         data={artworks}

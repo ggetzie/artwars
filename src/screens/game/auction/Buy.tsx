@@ -1,10 +1,14 @@
 import React, {useState, useEffect} from 'react';
-
 import {View, Text, Button} from 'react-native';
-
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {bidIncrement, otherBidders, Transaction} from '../../../util';
+import {
+  bidIncrement,
+  otherBidders,
+  initialAsking,
+  ARTWORKS,
+} from '../../../util';
+import {ArtworkData, Transaction} from '../../../util/types';
 import {AuctionStackParamList} from '.';
 import {ArtItem} from '../../../components';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
@@ -14,8 +18,8 @@ import {
   selectPlayer,
   transact,
   updateArtwork,
+  getArtworkData,
 } from '../../../reducers/game';
-import {initialAsking} from '../../../util';
 
 import BaseStyle from '../../../styles/base';
 
@@ -33,11 +37,13 @@ const Buy = ({navigation, route}: Props) => {
   const balance = selectBalance(game);
   const hot = currentHot(game);
   const player = selectPlayer(game);
-  const artwork = route.params.artwork;
+  const awId = route.params.artworkId;
+  const artwork = ARTWORKS[awId];
+  const artworkData = getArtworkData(game, awId);
 
   const [bidStarted, setBidStarted] = useState(false);
   const [asking, setAsking] = useState(
-    initialAsking(artwork.value, artwork.category === hot),
+    initialAsking(artworkData.currentValue, artwork.category === hot),
   );
   const [lastBid, setLastBid] = useState(0);
   const [canBid, setCanBid] = useState(asking < balance);
@@ -46,10 +52,10 @@ const Buy = ({navigation, route}: Props) => {
   );
 
   function loseAuction() {
-    const updated = {
-      ...artwork,
+    const updated: ArtworkData = {
+      ...artworkData,
       auction: false,
-      value: lastBid,
+      currentValue: lastBid,
       owner: 'anon',
     };
     dispatch(updateArtwork(updated));
@@ -63,7 +69,7 @@ const Buy = ({navigation, route}: Props) => {
 
   return (
     <View style={BaseStyle.container}>
-      <ArtItem artwork={artwork} />
+      <ArtItem awd={artworkData} />
       <Text>Last Bid: ${lastBid.toLocaleString()}</Text>
       <Text>Asking: ${asking.toLocaleString()}</Text>
       <View style={BaseStyle.buttonRow}>
@@ -88,7 +94,7 @@ const Buy = ({navigation, route}: Props) => {
               setLastBid(asking);
               const newAsking = asking + bidIncrement(asking);
               const otherBid = otherBidders(
-                artwork.value,
+                artworkData.currentValue,
                 newAsking,
                 hot === artwork.category,
               );
@@ -108,7 +114,7 @@ const Buy = ({navigation, route}: Props) => {
               } else {
                 setMessage(`You won the auction! Now you own ${artwork.title}`);
                 const t: Transaction = {
-                  id: artwork.id,
+                  id: artworkData.id,
                   price: -1 * asking,
                   newOwner: player,
                 };

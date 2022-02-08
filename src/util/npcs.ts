@@ -8,11 +8,10 @@ const NPCs = require('../../res/data/npcs.json');
 function setupNPCs(): NPCData[] {
   let prefs = randomChoiceNR(Object.values(Categories));
   let res: NPCData[] = [];
-  for (let i = 0; i < NPCs.length; i++) {
-    res.push({index: i, preference: prefs.selected});
+  for (const npc of NPCs) {
+    res.push({index: NPCs.id, preference: prefs.selected});
     prefs = randomChoiceNR(prefs.remaining);
   }
-
   return res;
 }
 

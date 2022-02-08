@@ -86,7 +86,7 @@ const Game = ({navigation}: Props) => {
       <Tab.Screen
         name="Collector"
         component={Collector}
-        options={{title: npc.name, unmountOnBlur: true}}
+        options={{title: npc.character.name, unmountOnBlur: true}}
       />
       <Tab.Screen
         name="Auctions"

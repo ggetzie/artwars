@@ -25,7 +25,7 @@ const Sell = ({navigation, route}: Props) => {
   const dispatch = useAppDispatch();
   return (
     <View style={BaseStyle.container}>
-      <ArtItem artwork={artwork} />
+      <ArtItem artworkData={artwork} />
       {Number.isNaN(asking) ? (
         <Text style={BaseStyle.error}>Enter a valid number.</Text>
       ) : (

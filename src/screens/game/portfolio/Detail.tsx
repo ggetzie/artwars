@@ -2,27 +2,29 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Button} from 'react-native';
 
 import {useAppSelector} from '../../../hooks';
-import {currentHot} from '../../../reducers/game';
+import {currentHot, getArtworkData} from '../../../reducers/game';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Picker} from '@react-native-picker/picker';
 import {PortfolioStackParamList} from '.';
 import BaseStyle from '../../../styles/base';
-import {Cities} from '../../../util';
-import {CityName} from '../../../util/cities';
+import {ARTWORKS, Cities} from '../../../util';
+import {CityName} from '../../../util/types';
 
 type Props = NativeStackScreenProps<PortfolioStackParamList, 'Detail'>;
 
 const Detail = ({navigation, route}: Props) => {
-  const artwork = route.params.artwork;
   const game = useAppSelector(state => state.game);
+  const {artworkId} = route.params;
+  const artwork = ARTWORKS[artworkId];
+  const artworkData = getArtworkData(game, artworkId);
   const hot = currentHot(game);
-  const value = Math.round(artwork.value).toLocaleString();
+  const value = Math.round(artworkData.currentValue).toLocaleString();
 
   useEffect(() => {
     navigation.setOptions({title: artwork.title});
   }, [artwork]);
   const otherCities = Object.values(Cities).filter(
-    c => c !== artwork.city,
+    c => c !== artworkData.city,
   ) as CityName[];
   const [dest, setDest] = useState<CityName>(otherCities[0]);
 
@@ -50,7 +52,10 @@ const Detail = ({navigation, route}: Props) => {
       <Button
         title="Move"
         onPress={() =>
-          navigation.navigate('Confirm', {artwork: artwork, destination: dest})
+          navigation.navigate('Confirm', {
+            artworkId: artworkId,
+            destination: dest,
+          })
         }
       />
     </View>

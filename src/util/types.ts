@@ -30,7 +30,7 @@ export type ArtworkData = {
 
 export type ArtByCityItem = {
   title: CityName;
-  data: Artwork[];
+  data: ArtworkData[];
 };
 
 export type Transaction = {
@@ -40,6 +40,7 @@ export type Transaction = {
 };
 
 export type NPC = {
+  id: number;
   name: string;
   city: CityName;
   bio: string;
@@ -62,4 +63,9 @@ export type NPC = {
 export type NPCData = {
   index: number;
   preference: CategoryName;
+};
+
+export type NPCTotal = {
+  character: NPC;
+  data: NPCData;
 };

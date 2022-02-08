@@ -37,8 +37,8 @@ const SellSelect = ({navigation}: Props) => {
         data={forSale}
         renderItem={({item}) => (
           <ArtItem
-            artwork={item}
-            onPress={() => navigation.navigate('Sell', {artwork: item})}
+            awd={item}
+            onPress={() => navigation.navigate('Sell', {artworkId: item.id})}
           />
         )}
         ListEmptyComponent={<Text>You don't have anything to sell.</Text>}

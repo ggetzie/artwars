@@ -1,11 +1,10 @@
 import Auction from './Auction';
-import {ArtWork} from '../../../util';
 
 export type AuctionStackParamList = {
   List: undefined;
-  Buy: {artwork: ArtWork};
+  Buy: {artworkId: number};
   SellSelect: undefined;
-  Sell: {artwork: ArtWork};
+  Sell: {artworkId: number};
 };
 
 export default Auction;

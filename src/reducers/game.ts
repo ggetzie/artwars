@@ -4,20 +4,25 @@ import {
   Cities,
   setupNPCs,
   setupArtworks,
-  ArtWork,
   getNPCForCity,
-  CategoryName,
   Categories,
   randomCategory,
   diceRoll,
   randomChoiceR,
   randRange,
   setupDuties,
+  ARTWORKS,
 } from '../util';
-import {CityName, DutyMap} from '../util/cities';
-import {NPC} from '../util/npcs';
+import {
+  CategoryName,
+  CityName,
+  DutyMap,
+  Transaction,
+  NPCData,
+  NPCTotal,
+  ArtworkData,
+} from '../util/types';
 import {ArtWorkFilter} from '../util/awFilter';
-import {Transaction} from '../util';
 
 export interface gameState {
   readonly id: string;
@@ -26,17 +31,14 @@ export interface gameState {
   turn: number;
   maxTurns: number;
   balance: number;
-  npcs: NPC[];
+  npcs: NPCData[];
   currentCity: CityName;
-  artworks: ArtWork[];
+  artworksData: ArtworkData[];
   hot: CategoryName;
   underInvestigation: boolean;
   messages: string[];
   duties: DutyMap;
 }
-
-const npcs = setupNPCs();
-const artworks = setupArtworks(Object.values(Cities), npcs);
 
 export function defaultGame(): gameState {
   return {
@@ -48,7 +50,7 @@ export function defaultGame(): gameState {
     balance: 2_000_000,
     npcs: setupNPCs(),
     currentCity: Cities.London,
-    artworks: setupArtworks(Object.values(Cities), npcs),
+    artworksData: setupArtworks(),
     hot: randomCategory(),
     underInvestigation: false,
     messages: [],
@@ -85,27 +87,27 @@ export const gameSlice = createSlice({
       // Change the owner. Add/deduct price to/from player's balance.
       // Set value of artwork to last sale price.
       const index = action.payload.id;
-      let aw = state.artworks[index];
+      let aw = state.artworksData[index];
       state.balance += action.payload.price;
       aw.owner = action.payload.newOwner;
-      aw.value = Math.abs(action.payload.price);
+      aw.currentValue = Math.abs(action.payload.price);
       aw.auction = false;
-      state.artworks = state.artworks
+      state.artworksData = state.artworksData
         .slice(0, index)
         .concat([aw])
-        .concat(state.artworks.slice(index + 1));
+        .concat(state.artworksData.slice(index + 1));
     },
-    updateArtwork: (state, action: PayloadAction<ArtWork>) => {
+    updateArtwork: (state, action: PayloadAction<ArtworkData>) => {
       // replace ArtWork with one with updated data
       const index = action.payload.id;
-      state.artworks = state.artworks
+      state.artworksData = state.artworksData
         .slice(0, index)
         .concat([action.payload])
-        .concat(state.artworks.slice(index + 1));
+        .concat(state.artworksData.slice(index + 1));
     },
-    setArtworks: (state, action: PayloadAction<ArtWork[]>) => {
-      state.artworks = action.payload.sort(
-        (a: ArtWork, b: ArtWork): number => a.id - b.id,
+    setArtworks: (state, action: PayloadAction<ArtworkData[]>) => {
+      state.artworksData = action.payload.sort(
+        (a: ArtworkData, b: ArtworkData): number => a.id - b.id,
       );
     },
     setInvestigation: (state, action: PayloadAction<boolean>) => {
@@ -126,7 +128,7 @@ export const gameSlice = createSlice({
       //  - Artist declared problematic: 1% chance, Artworks 0.5x
       //  - Art repatriated: lose artwork 1% chance,
       let messages: string[] = [];
-      let artworks = [...state.artworks];
+      let artworks = [...state.artworksData];
 
       const portfolioIds = artworks
         .filter(artwork => artwork.owner === state.player)
@@ -159,7 +161,7 @@ export const gameSlice = createSlice({
           for (let id of portfolioIds) {
             if (artworks[id].city === fireCity) {
               artworks[id].destroyed = true;
-              artworks[id].value = 0;
+              artworks[id].currentValue = 0;
             }
           }
           messages.push(
@@ -175,20 +177,23 @@ export const gameSlice = createSlice({
           );
           const stolen = randomChoiceR(nonDestroyed);
           artworks[stolen].owner = 'anon';
-          messages.push(`A dastardly thief stole ${artworks[stolen].title}!`);
+          messages.push(
+            `A dastardly thief stole ${ARTWORKS[artworks[stolen].id].title}!`,
+          );
         }
 
         // Retrospective?
         const hadARetro = diceRoll(0.1);
-        const playerArtists = portfolioIds.map(id => artworks[id].artist);
+        const playerArtists = portfolioIds.map(id => ARTWORKS[id].artist);
         if (hadARetro) {
           const selected = randomChoiceR(playerArtists);
           messages.push(
             `A major museum just announced a retrospective of ${selected}. Their work increased in value by 50%!`,
           );
           for (let aw of artworks) {
-            if (aw.artist === selected) {
-              aw.value = Math.round(aw.value * 1.5);
+            const awIm = ARTWORKS[aw.id];
+            if (awIm.artist === selected) {
+              aw.currentValue = Math.round(aw.currentValue * 1.5);
             }
           }
         }
@@ -200,8 +205,9 @@ export const gameSlice = createSlice({
             `${selected} has been declared problematic! Their work decreased in value by 50%!`,
           );
           for (let aw of artworks) {
-            if (aw.artist === selected) {
-              aw.value = Math.round(aw.value * 0.5);
+            const awIm = ARTWORKS[aw.id];
+            if (awIm.artist === selected) {
+              aw.currentValue = Math.round(aw.currentValue * 0.5);
             }
           }
         }
@@ -211,7 +217,7 @@ export const gameSlice = createSlice({
         if (repatriated) {
           const selected = randomChoiceR(portfolioIds);
           messages.push(
-            `${artworks[selected].title} has been repatriated to its home country and returned to the rightful owners.`,
+            `${ARTWORKS[selected].title} has been repatriated to its home country and returned to the rightful owners.`,
           );
           artworks[selected].owner = 'anon';
         }
@@ -228,10 +234,11 @@ export const gameSlice = createSlice({
         );
       }
       for (let aw of artworks) {
-        const factor = adjustments.get(aw.category);
-        aw.value = Math.round(aw.value * factor);
+        const awIm = ARTWORKS[aw.id];
+        const factor = adjustments.get(awIm.category);
+        aw.currentValue = Math.round(aw.currentValue * factor);
       }
-      state.artworks = artworks;
+      state.artworksData = artworks;
       state.messages = messages;
       state.turn += 1;
     },
@@ -258,16 +265,21 @@ export const selectCity = (game: gameState) => game.currentCity;
 
 export const selectBalance = (game: gameState) => game.balance;
 
-export const selectArtworks = (game: gameState) => game.artworks;
+export const selectArtworks = (game: gameState) => game.artworksData;
 
-export const selectNPC = (game: gameState, city: CityName) =>
-  getNPCForCity(city, game.npcs);
+export const getArtworkData = (game: gameState, awId: number) =>
+  game.artworksData[awId];
 
 export const filterArtWorks = (game: gameState, criteria: ArtWorkFilter) =>
-  game.artworks.filter(aw => criteria.match(aw));
+  game.artworksData.filter(aw => criteria.match(aw));
 
-export const currentNPC = (game: gameState) =>
-  getNPCForCity(game.currentCity, game.npcs);
+export const currentNPC = (game: gameState): NPCTotal => {
+  const npc = getNPCForCity(game.currentCity);
+  return {
+    character: npc,
+    data: game.npcs[npc.id],
+  };
+};
 
 export const currentHot = (game: gameState): CategoryName => game.hot;
 
@@ -277,10 +289,10 @@ export const isUnderInvestigation = (game: gameState) =>
 export const currentTurn = (game: gameState) => game.turn;
 
 export const portfolioValue = (game: gameState) =>
-  game.artworks
-    .filter(aw => aw.owner === game.player)
-    .map(aw => aw.value)
-    .reduce((p, c) => p + c, 0);
+  game.artworksData.reduce(
+    (p, c) => (c.owner === game.player ? p + c.currentValue : p),
+    0,
+  );
 
 export const getMessages = (game: gameState) => game.messages;
 

@@ -1,21 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-import {View, Text, FlatList, Button} from 'react-native';
+import {View, Text, FlatList} from 'react-native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {ArtWork, bidIncrement, otherBidders, Transaction} from '../../../util';
-import {ArtItem, CloseButton} from '../../../components';
-import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {
-  currentHot,
-  filterArtWorks,
-  selectBalance,
-  selectCity,
-  selectPlayer,
-  transact,
-  updateArtwork,
-} from '../../../reducers/game';
+import {ArtItem} from '../../../components';
+import {useAppSelector} from '../../../hooks';
+import {filterArtWorks, selectCity, selectPlayer} from '../../../reducers/game';
 import {AuctionStackParamList} from '.';
 import BaseStyle from '../../../styles/base';
 import {ArtWorkFilter} from '../../../util/awFilter';
@@ -43,8 +34,8 @@ const SellSelect = ({navigation}: Props) => {
         data={couldAuction}
         renderItem={({item}) => (
           <ArtItem
-            artwork={item}
-            onPress={() => navigation.navigate('Sell', {artwork: item})}
+            awd={item}
+            onPress={() => navigation.navigate('Sell', {artworkId: item.id})}
           />
         )}
         ListEmptyComponent={() => (

@@ -4,7 +4,8 @@ import {View, Text, StyleSheet, SectionList} from 'react-native';
 import {useAppSelector} from '../../../hooks';
 import {filterArtWorks, selectCity, selectPlayer} from '../../../reducers/game';
 import {ArtWorkFilter} from '../../../util/awFilter';
-import {Cities, ArtByCityItem, ArtWork} from '../../../util';
+import {Cities} from '../../../util';
+import {ArtByCityItem, Artwork, ArtworkData} from '../../../util/types';
 import {ArtItem} from '../../../components';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
@@ -24,7 +25,9 @@ const List = ({navigation}: Props) => {
   const citiesSorted = [city].concat(otherCities);
 
   const ownedArt = filterArtWorks(game, ownedFilter);
-  const totalValue = ownedArt.map(aw => aw.value).reduce((p, c) => p + c, 0);
+  const totalValue = ownedArt
+    .map(aw => aw.currentValue)
+    .reduce((p, c) => p + c, 0);
   const artByCity: ArtByCityItem[] = citiesSorted.map(c => ({
     title: c,
     data: [],
@@ -39,11 +42,11 @@ const List = ({navigation}: Props) => {
       <Text>Portfolio Value: ${totalValue.toLocaleString('en-US')}</Text>
       <SectionList
         sections={artByCity}
-        keyExtractor={(item: ArtWork, _: number) => `${item.id}`}
+        keyExtractor={(item: ArtworkData, _: number) => `${item.id}`}
         renderItem={({item}) => (
           <ArtItem
-            artwork={item}
-            onPress={() => navigation.navigate('Detail', {artwork: item})}
+            awd={item}
+            onPress={() => navigation.navigate('Detail', {artworkId: item.id})}
           />
         )}
         renderSectionHeader={({section}) => (

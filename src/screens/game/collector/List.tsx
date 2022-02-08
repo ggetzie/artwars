@@ -21,21 +21,22 @@ import {ArtWorkFilter} from '../../../util/awFilter';
 import {ArtItem} from '../../../components';
 import BaseStyle from '../../../styles/base';
 import {CollectorStackParamList} from '.';
+import {ArtworkData} from '../../../util/types';
 
 type Props = NativeStackScreenProps<CollectorStackParamList, 'List'>;
 
 const List = ({navigation}: Props) => {
   const game = useAppSelector(state => state.game);
   const npc = currentNPC(game);
-  const artworks = filterArtWorks(
+  const artworksData: ArtworkData[] = filterArtWorks(
     game,
-    new ArtWorkFilter({owner: o => o === npc.name}),
+    new ArtWorkFilter({owner: o => o === npc.character.name}),
   );
   return (
     <View style={BaseStyle.container}>
       <View>
-        <Text>{npc.bio}</Text>
-        <Text>Likes: {npc.preference}</Text>
+        <Text>{npc.character.bio}</Text>
+        <Text>Likes: {npc.data.preference}</Text>
       </View>
       <View>
         <Button
@@ -46,11 +47,11 @@ const List = ({navigation}: Props) => {
       <View>
         <Text style={BaseStyle.heading1}>Collection</Text>
         <FlatList
-          data={artworks}
+          data={artworksData}
           renderItem={({item}) => (
             <ArtItem
-              artwork={item}
-              onPress={() => navigation.navigate('Buy', {artwork: item})}
+              awd={item}
+              onPress={() => navigation.navigate('Buy', {artworkId: item.id})}
             />
           )}
         />

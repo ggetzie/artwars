@@ -5,24 +5,25 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
 import {
   currentNPC,
+  getArtworkData,
   selectBalance,
   selectPlayer,
   transact,
 } from '../../../reducers/game';
 
-import {considerSell, Transaction} from '../../../util';
+import {ARTWORKS, considerSell} from '../../../util';
+import {Transaction} from '../../../util/types';
 import {ArtItem, IntegerInput} from '../../../components';
 import BaseStyle from '../../../styles/base';
 import {CollectorStackParamList} from '.';
-import {selectDecimal} from '../../../reducers/settings';
 
 type Props = NativeStackScreenProps<CollectorStackParamList, 'Buy'>;
 
 const Buy = ({route}: Props) => {
-  const artwork = route.params.artwork;
   const game = useAppSelector(state => state.game);
-  const settings = useAppSelector(state => state.settings);
-  const decSep = selectDecimal(settings);
+  const awId = route.params.artworkId;
+  const artwork = ARTWORKS[awId];
+  const artworkData = getArtworkData(game, awId);
   const player = selectPlayer(game);
   const npc = currentNPC(game);
   const [offer, setOffer] = useState<number>(0);
@@ -38,7 +39,7 @@ const Buy = ({route}: Props) => {
   }
   return (
     <View style={BaseStyle.container}>
-      <ArtItem artwork={artwork} />
+      <ArtItem awd={artworkData} />
       {offerText}
       <IntegerInput placeholder="Enter an offer amount" setNum={setOffer} />
       <Button
@@ -49,8 +50,12 @@ const Buy = ({route}: Props) => {
             setDialogue("You don't have that much money!");
             return;
           }
-          const response = considerSell(artwork, offer, npc.preference);
-          setDialogue(npc.dialogue.selling[response]);
+          const response = considerSell(
+            artworkData.currentValue,
+            offer,
+            artwork.category === npc.data.preference,
+          );
+          setDialogue(npc.character.dialogue.selling[response]);
           if (response === 'accept' || response === 'enthusiasm') {
             const t: Transaction = {
               id: artwork.id,

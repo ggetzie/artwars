@@ -1,11 +1,10 @@
 import Portfolio from './Portfolio';
-import {ArtWork} from '../../../util';
-import {CityName} from '../../../util/cities';
+import {CityName} from '../../../util/types';
 
 export type PortfolioStackParamList = {
   List: undefined;
-  Detail: {artwork: ArtWork};
-  Confirm: {artwork: ArtWork; destination: CityName};
+  Detail: {artworkId: number};
+  Confirm: {artworkId: number; destination: CityName};
 };
 
 export default Portfolio;

@@ -1,8 +1,8 @@
 [
   {
+    "id": 0,
     "name": "Buffy Chadwick",
     "city": "New York",
-    "preference": "",
     "bio": "Heiress to the Chadwick Iron Smelting fortune, My Manhattan penthouse is often considered an unofficial wing of the Guggenheim.",
     "dialogue": {
       "selling": {
@@ -20,9 +20,9 @@
     }
   },
   {
+    "id": 1,
     "name": "Popsy",
     "city": "London",
-    "preference": "",
     "bio": "Hello! I'm Lord Worthinghamshire VII, but my friends call me Popsy. My ancestor Lord Worthinghamshire I was able to obtain art for free by looting it from the colonies. Now, people insist we 'pay' instead. Rubbish!",
     "dialogue": {
       "selling": {
@@ -40,9 +40,9 @@
     }
   },
   {
+    "id": 2,
     "name": "Yuri Smirnoff",
     "city": "Moscow",
-    "preference": "",
     "bio": "I 'made' a lot of money in fall of USSR. Need to get it out of Russia without my friend Vladimir getting suspicious.",
     "dialogue": {
       "selling": {
@@ -60,9 +60,9 @@
     }
   },
   {
+    "id": 3,
     "name": "Gavin Belson",
     "city": "San Francisco",
-    "preference": "",
     "bio": "Every piece I contribute to my private museum is another tax deduction! Of course it's open to the public. Drop by any time between 3:17 and 3:23pm on any third Tuesday of the month during a full moon.",
     "dialogue": {
       "selling": {
@@ -80,9 +80,9 @@
     }
   },
   {
+    "id": 4,
     "name": "The Prince",
     "city": "Dubai",
-    "preference": "",
     "bio": "My grandfather rode a camel. My father drives a Mercedes. I also drive a Mercedes. Sometimes two. I stand with one foot on each and wear them like roller skates. Oh, also I buy art.",
     "dialogue": {
       "selling": {
@@ -100,9 +100,9 @@
     }
   },
   {
+    "id": 5,
     "name": "Bleve Blartin",
     "city": "Los Angeles",
-    "preference": "",
     "bio": "I love art more than most collectors, because I too am an artist. Have you seen my directorial debut, 'Fartin in Memphis'? A triumph!",
     "dialogue": {
       "selling": {
@@ -120,9 +120,9 @@
     }
   },
   {
+    "id": 6,
     "name": "JP Wong",
     "city": "Hong Kong",
-    "preference": "",
     "bio": "The rolling 10-year average ROI on a carefully curated art portfolio can outperform stocks, bonds, and most commodities. It is an underrated investment strategy.",
     "dialogue": {
       "selling": {
