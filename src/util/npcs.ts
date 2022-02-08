@@ -1,42 +1,23 @@
-import {CategoryName, Categories, ArtWork, randomChoiceNR} from '.';
-import {CityName} from './cities';
-
-export type NPC = {
-  name: string;
-  city: CityName;
-  preference: CategoryName;
-  bio: string;
-  dialogue: {
-    selling: {
-      insulted: string;
-      reject: string;
-      accept: string;
-      enthusiasm: string;
-    };
-    buying: {
-      insulted: string;
-      reject: string;
-      accept: string;
-      enthusiasm: string;
-    };
-  };
-};
+import {Categories, randomChoiceNR} from '.';
+import {CategoryName, Artwork, CityName, NPC, NPCData} from './types';
 
 export type OfferResponse = 'insulted' | 'reject' | 'accept' | 'enthusiasm';
 
-function setupNPCs(): NPC[] {
-  const npcs: NPC[] = require('../../res/data/npcs.json');
+const NPCs = require('../../res/data/npcs.json');
+
+function setupNPCs(): NPCData[] {
   let prefs = randomChoiceNR(Object.values(Categories));
-  for (let npc of npcs) {
-    npc.preference = prefs.selected;
+  let res: NPCData[] = [];
+  for (let i = 0; i < NPCs.length; i++) {
+    res.push({index: i, preference: prefs.selected});
     prefs = randomChoiceNR(prefs.remaining);
   }
 
-  return npcs;
+  return res;
 }
 
-function getNPCForCity(city: CityName, npcs: NPC[]) {
-  for (const npc of npcs) {
+function getNPCForCity(city: CityName) {
+  for (const npc of NPCs) {
     if (npc.city === city) {
       return npc;
     }
@@ -45,12 +26,11 @@ function getNPCForCity(city: CityName, npcs: NPC[]) {
 }
 
 function considerSell(
-  artwork: ArtWork,
+  value: number,
   offer: number,
-  preference: CategoryName,
+  preferred: boolean,
 ): OfferResponse {
-  const preferred = artwork.category === preference;
-  const ratio = offer / artwork.value;
+  const ratio = offer / value;
   const minRatio = preferred ? 0.915 : 0.7;
   const maxRatio = preferred ? 1.25 : 1.1;
   if (ratio < minRatio) {
@@ -65,12 +45,11 @@ function considerSell(
 }
 
 function considerBuy(
-  artwork: ArtWork,
+  value: number,
   asking: number,
-  preference: CategoryName,
+  preferred: boolean,
 ): OfferResponse {
-  const ratio = asking / artwork.value;
-  const preferred = artwork.category === preference;
+  const ratio = asking / value;
   const base = 100;
   const minRatio = preferred ? 1.1 : 0.9;
   const maxRatio = preferred ? 2 : 1.5;

@@ -1,12 +1,16 @@
-import RNFS from 'react-native-fs';
-import {NPC, setupNPCs, considerSell, considerBuy, getNPCForCity} from './npcs';
-import {Cities, CityName, setupDuties} from './cities';
-import {gameState} from '../reducers/game';
+import {CategoryName} from './types';
 
-const MAX_OWNED_BY_NPC = 10;
-const MAX_ON_AUCTION = 20;
-const SAVE_PATH = RNFS.DocumentDirectoryPath + '/saved/';
-RNFS.mkdir(SAVE_PATH);
+// NPC imports
+import {setupNPCs, considerSell, considerBuy, getNPCForCity} from './npcs';
+export {setupNPCs, considerBuy, considerSell, getNPCForCity};
+
+// Cities imports
+import {Cities, setupDuties} from './cities';
+export {Cities, setupDuties};
+
+// Artworks imports
+import {setupArtworks, ARTWORKS} from './artworks';
+export {setupArtworks, ARTWORKS};
 
 const Categories = {
   AncientAsia: 'Ancient Arts of Asia',
@@ -32,14 +36,6 @@ const Categories = {
   Photography: 'Photography',
   Contemporary: 'Contemporary',
 } as const;
-
-export type CategoryName = typeof Categories[keyof typeof Categories];
-
-export type Category = {
-  name: CategoryName;
-  start: number;
-  end: number;
-};
 
 function randInt(min: number, max: number): number {
   // return a random integer between min and max (min included, max excluded)
@@ -76,59 +72,6 @@ function randomChoiceR(arr: any[]): any {
   const index = randInt(0, arr.length);
   return arr[index];
 }
-
-export type ArtWork = {
-  id: number;
-  artist: string;
-  title: string;
-  urls: string[];
-  category: CategoryName;
-  year: number;
-  value: number;
-  city: CityName;
-  owner: string;
-  auction: boolean;
-  destroyed: boolean;
-};
-
-export type Transaction = {
-  id: number;
-  price: number;
-  newOwner: string;
-};
-
-function setupArtworks(cities: CityName[], npcs: NPC[]): ArtWork[] {
-  const data: ArtWork[] = require('../../res/data/artworks.json');
-  let res = [];
-  const chanceOwnedByNPC = MAX_OWNED_BY_NPC / (data.length / cities.length);
-  const chanceOnAuction = MAX_ON_AUCTION / (data.length / cities.length);
-  for (const aw of data) {
-    const city = randomChoiceR(cities);
-    let owner = '';
-    let auction = false;
-    if (Math.random() <= chanceOwnedByNPC) {
-      const npc = getNPCForCity(city, npcs);
-      owner = npc.name;
-    } else {
-      if (Math.random() <= chanceOnAuction) {
-        auction = true;
-      }
-    }
-    res.push({
-      ...aw,
-      city: city,
-      auction: auction,
-      owner: owner,
-      destroyed: false,
-    });
-  }
-  return res;
-}
-
-export type ArtByCityItem = {
-  title: CityName;
-  data: ArtWork[];
-};
 
 function initialAsking(value: number, isHot: boolean): number {
   const bidFloor = isHot ? 0.95 : 0.75;
@@ -177,6 +120,12 @@ function randomCategory(): CategoryName {
   return randomChoiceR(Object.values(Categories));
 }
 
+// Save/Load functions
+import RNFS from 'react-native-fs';
+import {gameState} from '../reducers/game';
+const SAVE_PATH = RNFS.DocumentDirectoryPath + '/saved/';
+RNFS.mkdir(SAVE_PATH);
+
 function saveGame(game: gameState) {
   const path = SAVE_PATH + `${game.id}.json`;
   RNFS.writeFile(path, JSON.stringify(game), 'utf8')
@@ -198,14 +147,9 @@ async function loadGames(): Promise<gameState[]> {
   return Promise.all(games);
 }
 
+// local exports
 export {
-  Cities,
-  setupNPCs,
-  considerSell,
-  considerBuy,
-  getNPCForCity,
   Categories,
-  setupArtworks,
   initialAsking,
   bidIncrement,
   randomCategory,
@@ -215,7 +159,6 @@ export {
   randInt,
   randomChoiceR,
   randomChoiceNR,
-  setupDuties,
   saveGame,
   loadGames,
 };

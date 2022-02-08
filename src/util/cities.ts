@@ -1,4 +1,5 @@
 import {randInt} from '.';
+import {DutyMap} from './types';
 const Cities = {
   NewYork: 'New York',
   London: 'London',
@@ -8,12 +9,6 @@ const Cities = {
   HongKong: 'Hong Kong',
   Dubai: 'Dubai',
 } as const;
-
-export type CityName = typeof Cities[keyof typeof Cities];
-
-export type DutyMap = {
-  [key in CityName]: number;
-};
 
 function setupDuties(): DutyMap {
   const res = Object.fromEntries(
