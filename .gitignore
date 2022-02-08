@@ -63,3 +63,5 @@ buck-out/
 .jest/
 
 debug/
+/n**.pyc
+**/__pycache__/
