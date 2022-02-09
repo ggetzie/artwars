@@ -126,10 +126,20 @@ import {gameState} from '../reducers/game';
 const SAVE_PATH = RNFS.DocumentDirectoryPath + '/saved/';
 RNFS.mkdir(SAVE_PATH);
 
-function saveGame(game: gameState) {
+async function saveGame(game: gameState) {
   const path = SAVE_PATH + `${game.id}.json`;
-  RNFS.writeFile(path, JSON.stringify(game), 'utf8')
-    .then(success => console.log(`saved game: ${path}`))
+  const start = new Date();
+  console.log(`starting save ${start.valueOf()}`);
+  const exists = await RNFS.exists(path);
+  if (exists) {
+    await RNFS.unlink(path);
+  }
+  await RNFS.writeFile(path, JSON.stringify(game), 'utf8')
+    .then(() =>
+      console.log(
+        `saved game: ${path} in ${new Date().valueOf() - start.valueOf()}ms`,
+      ),
+    )
     .catch(error => console.log(error.message));
 }
 
@@ -139,7 +149,7 @@ async function loadGames(): Promise<gameState[]> {
   });
   console.log(files.map(f => f.name));
   const games = files.map(async f => {
-    const contents = await RNFS.readFile(f.path, 'utf8');
+    const contents = await RNFS.readFile(f.path);
     const l = contents.length;
     console.log(contents.slice(l - 195, l));
     return JSON.parse(contents);

@@ -9,7 +9,7 @@ import Portfolio from './portfolio/';
 import Collector from './collector';
 import Auction from './auction/';
 import {useAppSelector} from '../../hooks';
-import {currentNPC, selectCity} from '../../reducers/game';
+import {currentNPC, gameState, selectCity} from '../../reducers/game';
 import {TouchableOpacity} from 'react-native';
 import {saveGame} from '../../util';
 
@@ -21,7 +21,6 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Game'>;
 
 const Game = ({navigation}: Props) => {
   const game = useAppSelector(state => state.game);
-  const [saveLock, setSaveLock] = useState(false);
   const city = selectCity(game);
   const npc = currentNPC(game);
 
@@ -41,11 +40,9 @@ const Game = ({navigation}: Props) => {
 
   // save whenever game state updated
   useEffect(() => {
-    if (!saveLock) {
-      setSaveLock(true);
-      saveGame(game);
-    }
-    return () => setSaveLock(false);
+    saveGame(game).catch(err =>
+      console.log(`Error saving ${game.id} - ${err}`),
+    );
   }, [game]);
 
   return (
