@@ -143,6 +143,13 @@ async function saveGame(game: gameState) {
     .catch(error => console.log(error.message));
 }
 
+async function deleteGame(gameId: string) {
+  const path = SAVE_PATH + `${gameId}.json`;
+  await RNFS.unlink(path)
+    .then(() => console.log(`Deleted ${path}`))
+    .catch(err => console.log(`Error deleting ${path}`));
+}
+
 async function loadGames(): Promise<gameState[]> {
   const files = await RNFS.readDir(SAVE_PATH).then(items => {
     return items.filter(f => f.isFile());
@@ -171,4 +178,5 @@ export {
   randomChoiceNR,
   saveGame,
   loadGames,
+  deleteGame,
 };

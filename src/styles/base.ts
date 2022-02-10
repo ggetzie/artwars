@@ -26,9 +26,23 @@ const BaseStyle = StyleSheet.create({
     flexDirection: 'row',
     maxHeight: 40,
     justifyContent: 'space-evenly',
+    paddingTop: 5,
+  },
+  button: {
+    justifyContent: 'center',
+    minWidth: 60,
+    borderRadius: 5,
+  },
+  buttonText: {
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   cancelButton: {
     color: 'grey',
+  },
+  dangerButton: {
+    backgroundColor: 'red',
+    color: 'white',
   },
 });
 

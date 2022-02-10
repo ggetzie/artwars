@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   GestureResponderEvent,
 } from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '.';
 import {useAppDispatch} from '../hooks';
@@ -25,8 +26,10 @@ const GameItem = ({
   onPress: (event: GestureResponderEvent) => void;
 }) => {
   return (
-    <TouchableOpacity style={{minHeight: 50}} onPress={onPress}>
-      <Text>
+    <TouchableOpacity
+      style={{minHeight: 50, flex: 1, justifyContent: 'center'}}
+      onPress={onPress}>
+      <Text style={{fontSize: 18}}>
         {player} - {started.toLocaleString()}
       </Text>
     </TouchableOpacity>
@@ -35,18 +38,21 @@ const GameItem = ({
 
 const Continue = ({navigation}: Props) => {
   const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [games, setGames] = useState<gameState[]>([]);
 
-  useEffect(() => {
-    loadGames()
-      .then(games => {
-        setGames(games);
-        console.log(`loading ${games.length} games`);
-      })
-      .catch(e => console.log(e))
-      .finally(() => setLoading(false));
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(true);
+      loadGames()
+        .then(games => {
+          setGames(games);
+          console.log(`loading ${games.length} games`);
+        })
+        .catch(e => console.log(e))
+        .finally(() => setLoading(false));
+    }, []),
+  );
 
   return (
     <View style={BaseStyle.container}>
@@ -62,7 +68,7 @@ const Continue = ({navigation}: Props) => {
               started={new Date(item.started)}
               onPress={() => {
                 dispatch(setGame(item));
-                navigation.navigate('Game');
+                navigation.navigate('GameDetail', {game: item});
               }}
             />
           )}
