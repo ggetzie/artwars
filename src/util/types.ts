@@ -69,3 +69,9 @@ export type NPCTotal = {
   character: NPC;
   data: NPCData;
 };
+
+export type HighScore = {
+  player: string;
+  date: string;
+  score: number;
+};

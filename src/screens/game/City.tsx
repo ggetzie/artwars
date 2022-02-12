@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, Button} from 'react-native';
 
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {GameTabParamList} from '.';
@@ -12,15 +12,18 @@ import {
   portfolioValue,
   processTurn,
   getMessages,
+  currentTurn,
+  getMaxTurns,
 } from '../../reducers/game';
 import {Picker} from '@react-native-picker/picker';
 import {Cities} from '../../util';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import BaseStyle from '../../styles/base';
+import {NavigationContainer} from '@react-navigation/native';
 
 type Props = BottomTabNavigationProp<GameTabParamList, 'City'>;
 
-const City = (_: Props) => {
+const City = ({navigate}: Props) => {
   const game = useAppSelector(state => state.game);
   const dispatch = useAppDispatch();
   const city = selectCity(game);
@@ -29,6 +32,8 @@ const City = (_: Props) => {
   const hot = currentHot(game);
   const totalValue = portfolioValue(game);
   const messages = getMessages(game);
+  const turn = currentTurn(game);
+  const maxTurns = getMaxTurns(game);
 
   return (
     <View style={BaseStyle.container}>
@@ -38,18 +43,24 @@ const City = (_: Props) => {
       <Text>
         <Text style={BaseStyle.hot}>{hot}</Text> is SO HOT right now!
       </Text>
-      <Text style={BaseStyle.pickerLabel}>Change City</Text>
-      <Picker
-        accessibilityLabel="Change city"
-        selectedValue={city}
-        onValueChange={(itemValue, _) => {
-          dispatch(setCity(itemValue));
-          dispatch(processTurn());
-        }}>
-        {Object.entries(Cities).map(([k, v]) => (
-          <Picker.Item key={k} label={v} value={v} />
-        ))}
-      </Picker>
+
+      {turn < maxTurns && (
+        <>
+          <Text style={BaseStyle.pickerLabel}>Change City</Text>
+          <Picker
+            accessibilityLabel="Change city"
+            selectedValue={city}
+            onValueChange={(itemValue, _) => {
+              dispatch(setCity(itemValue));
+              dispatch(processTurn());
+            }}>
+            {Object.entries(Cities).map(([k, v]) => (
+              <Picker.Item key={k} label={v} value={v} />
+            ))}
+          </Picker>
+        </>
+      )}
+
       <Text style={BaseStyle.heading1}>Messages</Text>
       <FlatList
         data={messages}

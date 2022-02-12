@@ -20,10 +20,10 @@ const Home = ({navigation}: Props) => {
         title="Continue"
         onPress={() => navigation.navigate('Continue')}
       />
-      <Button
+      {/* <Button
         title="Settings"
         onPress={() => navigation.navigate('Settings')}
-      />
+      /> */}
       <Button title="About" onPress={() => navigation.navigate('About')} />
     </View>
   );

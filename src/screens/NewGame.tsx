@@ -34,7 +34,7 @@ const NewGame = ({navigation}: Props) => {
           selectedValue={turns}
           style={styles.formRowInput}
           onValueChange={(itemValue, _) => setTurns(itemValue)}>
-          {[30, 50, 75, 100].map(i => (
+          {[5, 30, 50, 75, 100].map(i => (
             <Picker.Item key={i} value={i} label={i.toString()}></Picker.Item>
           ))}
         </Picker>

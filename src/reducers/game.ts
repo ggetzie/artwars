@@ -288,6 +288,8 @@ export const isUnderInvestigation = (game: gameState) =>
 
 export const currentTurn = (game: gameState) => game.turn;
 
+export const getMaxTurns = (game: gameState) => game.maxTurns;
+
 export const portfolioValue = (game: gameState) =>
   game.artworksData.reduce(
     (p, c) => (c.owner === game.player ? p + c.currentValue : p),

@@ -5,6 +5,8 @@ import About from './About';
 import Game from './game/';
 import Continue from './Continue';
 import GameDetail from './GameDetail';
+import GameOver from './GameOver';
+
 import {gameState} from '../reducers/game';
 
 export type RootStackParamList = {
@@ -15,6 +17,7 @@ export type RootStackParamList = {
   NewGame: undefined;
   About: undefined;
   Game: undefined;
+  GameOver: undefined;
 };
 
-export {Home, Settings, NewGame, About, Game, Continue, GameDetail};
+export {Home, Settings, NewGame, About, Game, Continue, GameDetail, GameOver};

@@ -1,4 +1,4 @@
-import {CategoryName} from './types';
+import {CategoryName, HighScore} from './types';
 
 // NPC imports
 import {setupNPCs, considerSell, considerBuy, getNPCForCity} from './npcs';
@@ -124,6 +124,7 @@ function randomCategory(): CategoryName {
 import RNFS from 'react-native-fs';
 import {gameState} from '../reducers/game';
 const SAVE_PATH = RNFS.DocumentDirectoryPath + '/saved/';
+const HS_PATH = RNFS.DocumentDirectoryPath + '/high_scores.json';
 RNFS.mkdir(SAVE_PATH);
 
 async function saveGame(game: gameState) {
@@ -164,6 +165,48 @@ async function loadGames(): Promise<gameState[]> {
   return Promise.all(games);
 }
 
+async function saveHighScores(scores: HighScore[]) {
+  const exists = await RNFS.exists(HS_PATH);
+  if (exists) {
+    await RNFS.unlink(HS_PATH);
+  }
+  await RNFS.writeFile(JSON.stringify(scores), 'utf8');
+  console.log('saved high scores');
+}
+
+async function loadHighScores(): Promise<HighScore[]> {
+  const exists = await RNFS.exists(HS_PATH);
+  if (exists) {
+    const contents = await RNFS.readFile(HS_PATH, 'utf8');
+    return JSON.parse(contents);
+  } else {
+    return [];
+  }
+}
+
+function sortScoresDescending(a: HighScore, b: HighScore): number {
+  return b.score - a.score;
+}
+
+function insertNewHS(
+  scores: HighScore[],
+  newScore: HighScore,
+): [HighScore[], number] {
+  if (scores.length === 0) {
+    return [[newScore], 0];
+  }
+  for (let i = 0; i < scores.length; i++) {
+    if (newScore.score > scores[i].score) {
+      const res = scores
+        .slice(0, i)
+        .concat([newScore])
+        .concat(scores.slice(i + 1, 10));
+      return [res, i];
+    }
+  }
+  return [scores, -1];
+}
+
 // local exports
 export {
   Categories,
@@ -179,4 +222,8 @@ export {
   saveGame,
   loadGames,
   deleteGame,
+  saveHighScores,
+  loadHighScores,
+  sortScoresDescending,
+  insertNewHS,
 };

@@ -23,6 +23,7 @@ import {
   About,
   Game,
   GameDetail,
+  GameOver,
 } from './src/screens';
 import {RootStackParamList} from './src/screens';
 
@@ -50,31 +51,20 @@ const App = () => {
           <Stack.Screen
             name="Game"
             component={Game}
-            options={{headerBackVisible: false, title: 'Art Wars'}}
+            options={{
+              headerBackVisible: false,
+              title: 'Art Wars',
+            }}
+          />
+          <Stack.Screen
+            name="GameOver"
+            component={GameOver}
+            options={{title: 'Game Over', headerBackVisible: false}}
           />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   );
 };
-
-// const styles = StyleSheet.create({
-//   sectionContainer: {
-//     marginTop: 32,
-//     paddingHorizontal: 24,
-//   },
-//   sectionTitle: {
-//     fontSize: 24,
-//     fontWeight: '600',
-//   },
-//   sectionDescription: {
-//     marginTop: 8,
-//     fontSize: 18,
-//     fontWeight: '400',
-//   },
-//   highlight: {
-//     fontWeight: '700',
-//   },
-// });
 
 export default App;
