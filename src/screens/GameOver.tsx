@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
-import {View, Text, FlatList} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {RootStackParamList} from '.';
-import {useAppDispatch, useAppSelector} from '../hooks';
+import {useAppSelector} from '../hooks';
 import BaseStyle from '../styles/base';
 import {
   getMaxTurns,
@@ -12,31 +13,16 @@ import {
 } from '../reducers/game';
 import {useFocusEffect} from '@react-navigation/native';
 import {
+  deleteGame,
   insertNewHS,
   loadHighScores,
   saveHighScores,
   sortScoresDescending,
 } from '../util';
 import {HighScore} from '../util/types';
+import {ScoreList} from '../components';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'GameOver'>;
-
-const ScoreList = ({scores}: {scores: HighScore[]}) => {
-  return (
-    <View>
-      <Text style={BaseStyle.heading1}>High Scores</Text>
-      <FlatList
-        data={scores}
-        renderItem={({item}) => (
-          <Text>
-            {item.player} - {new Date(item.date).toLocaleDateString()} -{' '}
-            {item.score}
-          </Text>
-        )}
-      />
-    </View>
-  );
-};
 
 const GameOver = ({navigation}: Props) => {
   const game = useAppSelector(state => state.game);
@@ -48,6 +34,20 @@ const GameOver = ({navigation}: Props) => {
   const [loading, setLoading] = useState(false);
   const [highScores, setHighScores] = useState<HighScore[]>([]);
   const [newHSIndex, setNewHSIndex] = useState(-1);
+
+  const QuitButton = () => (
+    <TouchableOpacity
+      style={{maxWidth: 40}}
+      onPress={() => navigation.navigate('Home')}>
+      <FontAwesome5 name={'times-circle'} color={'red'} size={20} />
+    </TouchableOpacity>
+  );
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <QuitButton />,
+    });
+  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -62,8 +62,12 @@ const GameOver = ({navigation}: Props) => {
           });
           setHighScores(newScores);
           setNewHSIndex(index);
+          deleteGame(game.id);
+          saveHighScores(newScores).catch(err =>
+            console.log(`Error saving high scores: ${err}`),
+          );
         })
-        .catch(err => console.log(`Error with high scores: ${err}`))
+        .catch(err => console.log(`Error loading high scores: ${err}`))
         .finally(() => setLoading(false));
     }, [score]),
   );
@@ -74,9 +78,13 @@ const GameOver = ({navigation}: Props) => {
         <Text>Loading</Text>
       ) : (
         <>
-          <Text>Game Over</Text>
-          <Text>Score: {score}</Text>
-          {highScores.length > 0 && <ScoreList scores={highScores} />}
+          <Text>Score: {score.toLocaleString()}</Text>
+          {newHSIndex > -1 && (
+            <Text>Congratulations! You achieved a new high score!</Text>
+          )}
+          {highScores.length > 0 && (
+            <ScoreList scores={highScores} highlight={newHSIndex} />
+          )}
         </>
       )}
     </View>

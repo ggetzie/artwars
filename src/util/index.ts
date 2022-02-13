@@ -170,7 +170,7 @@ async function saveHighScores(scores: HighScore[]) {
   if (exists) {
     await RNFS.unlink(HS_PATH);
   }
-  await RNFS.writeFile(JSON.stringify(scores), 'utf8');
+  await RNFS.writeFile(HS_PATH, JSON.stringify(scores), 'utf8');
   console.log('saved high scores');
 }
 

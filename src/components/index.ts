@@ -1,5 +1,5 @@
 import ArtItem from './ArtItem';
-import CloseButton from './CloseButton';
 import IntegerInput from './IntegerInput';
+import ScoreList from './ScoreList';
 
-export {ArtItem, CloseButton, IntegerInput};
+export {ArtItem, IntegerInput, ScoreList};

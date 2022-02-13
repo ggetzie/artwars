@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Button} from 'react-native';
+import {View, Button, TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '..';
@@ -16,7 +16,6 @@ import {
   currentTurn,
   getMaxTurns,
 } from '../../reducers/game';
-import {TouchableOpacity} from 'react-native';
 import {saveGame} from '../../util';
 
 const ACTIVE_COLOR = 'dodgerblue';
