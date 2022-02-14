@@ -198,11 +198,14 @@ function insertNewHS(
   for (let i = 0; i < scores.length; i++) {
     if (newScore.score > scores[i].score) {
       const res = scores
-        .slice(0, i)
+        .slice(0, i - 1)
         .concat([newScore])
-        .concat(scores.slice(i + 1, 10));
+        .concat(scores.slice(i, 10));
       return [res, i];
     }
+  }
+  if (scores.length < 10) {
+    return [scores.concat([newScore]), scores.length];
   }
   return [scores, -1];
 }

@@ -20,7 +20,7 @@ import {
   sortScoresDescending,
 } from '../util';
 import {HighScore} from '../util/types';
-import {ScoreList} from '../components';
+import {ScoreList, QuitButton} from '../components';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'GameOver'>;
 
@@ -35,17 +35,9 @@ const GameOver = ({navigation}: Props) => {
   const [highScores, setHighScores] = useState<HighScore[]>([]);
   const [newHSIndex, setNewHSIndex] = useState(-1);
 
-  const QuitButton = () => (
-    <TouchableOpacity
-      style={{maxWidth: 40}}
-      onPress={() => navigation.navigate('Home')}>
-      <FontAwesome5 name={'times-circle'} color={'red'} size={20} />
-    </TouchableOpacity>
-  );
-
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <QuitButton />,
+      headerRight: () => <QuitButton navigation={navigation} />,
     });
   }, []);
 

@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {View, Button, TouchableOpacity} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, Button} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '..';
@@ -17,6 +17,7 @@ import {
   getMaxTurns,
 } from '../../reducers/game';
 import {saveGame} from '../../util';
+import {QuitButton} from '../../components';
 
 const ACTIVE_COLOR = 'dodgerblue';
 const INACTIVE_COLOR = 'gray';
@@ -31,17 +32,9 @@ const Game = ({navigation}: Props) => {
   const turn = currentTurn(game);
   const maxTurns = getMaxTurns(game);
 
-  const QuitButton = () => (
-    <TouchableOpacity
-      style={{maxWidth: 40}}
-      onPress={() => navigation.navigate('Home')}>
-      <FontAwesome5 name={'times-circle'} color={'red'} size={20} />
-    </TouchableOpacity>
-  );
-
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <QuitButton />,
+      headerRight: () => <QuitButton navigation={navigation} />,
       title: `Art Wars - ${turn} / ${maxTurns}`,
     });
   }, [turn, maxTurns]);
