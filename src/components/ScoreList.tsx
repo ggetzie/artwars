@@ -12,7 +12,6 @@ const ScoreList = ({
 }) => {
   return (
     <View>
-      <Text style={BaseStyle.heading1}>High Scores</Text>
       <FlatList
         data={scores}
         renderItem={({item, index}) => (

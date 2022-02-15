@@ -75,7 +75,10 @@ const GameOver = ({navigation}: Props) => {
             <Text>Congratulations! You achieved a new high score!</Text>
           )}
           {highScores.length > 0 && (
-            <ScoreList scores={highScores} highlight={newHSIndex} />
+            <>
+              <Text style={BaseStyle.heading1}>High Scores</Text>
+              <ScoreList scores={highScores} highlight={newHSIndex} />
+            </>
           )}
         </>
       )}

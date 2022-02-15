@@ -24,6 +24,7 @@ import {
   Game,
   GameDetail,
   GameOver,
+  HighScores,
 } from './src/screens';
 import {RootStackParamList} from './src/screens';
 
@@ -60,6 +61,11 @@ const App = () => {
             name="GameOver"
             component={GameOver}
             options={{title: 'Game Over', headerBackVisible: false}}
+          />
+          <Stack.Screen
+            name="HighScores"
+            component={HighScores}
+            options={{title: 'High Scores'}}
           />
         </Stack.Navigator>
       </NavigationContainer>
