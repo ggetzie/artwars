@@ -184,6 +184,12 @@ async function loadHighScores(): Promise<HighScore[]> {
   }
 }
 
+async function loadImage(filename: string): Promise<string> {
+  console.log(RNFS.MainBundlePath);
+  const imageB64 = await RNFS.readFileAssets(`images/${filename}`);
+  return imageB64;
+}
+
 function sortScoresDescending(a: HighScore, b: HighScore): number {
   return b.score - a.score;
 }

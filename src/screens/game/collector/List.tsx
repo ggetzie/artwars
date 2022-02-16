@@ -1,21 +1,17 @@
 import React, {useState} from 'react';
-import {View, Text, Button, FlatList, Modal, TextInput} from 'react-native';
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+  View,
+  Text,
+  Button,
+  FlatList,
+  Modal,
+  TextInput,
+  Image,
+} from 'react-native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {GameTabParamList} from '..';
-
-import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {
-  currentNPC,
-  filterArtWorks,
-  selectBalance,
-  selectPlayer,
-  transact,
-} from '../../../reducers/game';
+import {useAppSelector} from '../../../hooks';
+import {currentNPC, filterArtWorks} from '../../../reducers/game';
 
 import {ArtWorkFilter} from '../../../util/awFilter';
 import {ArtItem} from '../../../components';
@@ -35,7 +31,12 @@ const List = ({navigation}: Props) => {
   return (
     <View style={BaseStyle.container}>
       <View>
+        <Image
+          style={{width: 150, height: 150}}
+          source={{uri: `data:image/png;base64,${npc.character.imageB64}`}}
+        />
         <Text>{npc.character.bio}</Text>
+
         <Text>Likes: {npc.data.preference}</Text>
       </View>
       <View>
