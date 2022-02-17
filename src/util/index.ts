@@ -1,8 +1,14 @@
 import {CategoryName, HighScore} from './types';
 
 // NPC imports
-import {setupNPCs, considerSell, considerBuy, getNPCForCity} from './npcs';
-export {setupNPCs, considerBuy, considerSell, getNPCForCity};
+import {
+  setupNPCs,
+  considerSell,
+  considerBuy,
+  getNPCForCity,
+  NPCImages,
+} from './npcs';
+export {setupNPCs, considerBuy, considerSell, getNPCForCity, NPCImages};
 
 // Cities imports
 import {Cities, setupDuties} from './cities';

@@ -1,11 +1,15 @@
-import {Categories, Cities} from '.';
+import {Categories, Cities, NPCImages} from '.';
 
+// Category types
 export type CategoryName = typeof Categories[keyof typeof Categories];
+
+// City types
 export type CityName = typeof Cities[keyof typeof Cities];
 export type DutyMap = {
   [key in CityName]: number;
 };
 
+// Artwork types
 export type Artwork = {
   id: number;
   artist: string;
@@ -39,12 +43,16 @@ export type Transaction = {
   newOwner: string;
 };
 
+// NPC types
+
+export type NPCImageName = keyof typeof NPCImages;
+
 export type NPC = {
   id: number;
   name: string;
   city: CityName;
   bio: string;
-  image: string;
+  image: NPCImageName;
   dialogue: {
     selling: {
       insulted: string;
@@ -72,6 +80,7 @@ export type NPCTotal = {
   data: NPCData;
 };
 
+// Game Types
 export type HighScore = {
   player: string;
   date: string;

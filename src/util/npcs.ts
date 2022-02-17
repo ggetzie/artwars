@@ -63,4 +63,20 @@ function considerBuy(
   }
 }
 
-export {setupNPCs, considerSell, considerBuy, getNPCForCity};
+const NPCImages = {
+  aristocrat: require('../../res/images/aristocrat.png'),
+  artAppraiser: require('../../res/images/art_appraiser.png'),
+  artCop: require('../../res/images/art_cop.png'),
+  auctioneer: require('../../res/images/auctioneer.png'),
+  freeportOp: require('../../res/images/freeport_op.png'),
+  heiress: require('../../res/images/heiress.png'),
+  hollywoodActor: require('../../res/images/hollywood_actor.png'),
+  financier: require('../../res/images/hongkong_financier.png'),
+  irsAgent: require('../../res/images/irs_agent.png'),
+  oligarch: require('../../res/images/russian_oligarch.png'),
+  artDealer: require('../../res/images/smarmy_art_dealer.png'),
+  techBillionaire: require('../../res/images/tech_billionaire.png'),
+  prince: require('../../res/images/the_prince.png'),
+} as const;
+
+export {setupNPCs, considerSell, considerBuy, getNPCForCity, NPCImages};
