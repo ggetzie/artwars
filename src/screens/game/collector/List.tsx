@@ -18,6 +18,7 @@ import {ArtItem} from '../../../components';
 import BaseStyle from '../../../styles/base';
 import {CollectorStackParamList} from '.';
 import {ArtworkData} from '../../../util/types';
+import {NPCImages} from '../../../util';
 
 type Props = NativeStackScreenProps<CollectorStackParamList, 'List'>;
 
@@ -33,7 +34,7 @@ const List = ({navigation}: Props) => {
       <View>
         <Image
           style={{width: 150, height: 150}}
-          source={{uri: `data:image/png;base64,${npc.character.imageB64}`}}
+          source={NPCImages[npc.character.image]}
         />
         <Text>{npc.character.bio}</Text>
 

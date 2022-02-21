@@ -20,3 +20,12 @@ def immutify():
     ]
     with open("artworks.json", "w") as outfile:
         outfile.write(json.dumps(res))
+
+
+def NPC_remove_b64():
+    npcs = json.loads(open("npcs.json").read())
+    for npc in npcs:
+        del npc["imageB64"]
+
+    with open("npcs.json", "w") as outfile:
+        outfile.write(json.dumps(npcs))

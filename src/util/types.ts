@@ -67,7 +67,6 @@ export type NPC = {
       enthusiasm: string;
     };
   };
-  imageB64: string;
 };
 
 export type NPCData = {
