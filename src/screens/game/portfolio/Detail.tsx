@@ -4,14 +4,14 @@ import {View, Text, Button, Image} from 'react-native';
 import {useAppSelector} from '../../../hooks';
 import {
   currentHot,
-  getArtworkData,
+  getArtwork,
   isUnderInvestigation,
 } from '../../../reducers/game';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Picker} from '@react-native-picker/picker';
 import {PortfolioStackParamList} from '.';
 import BaseStyle from '../../../styles/base';
-import {ARTWORKS, Cities, NPCImages} from '../../../util';
+import {Cities, NPCImages} from '../../../util';
 import {CityName} from '../../../util/types';
 
 type Props = NativeStackScreenProps<PortfolioStackParamList, 'Detail'>;
@@ -29,28 +29,27 @@ const Investigation = () => {
 const Detail = ({navigation, route}: Props) => {
   const game = useAppSelector(state => state.game);
   const {artworkId} = route.params;
-  const artwork = ARTWORKS[artworkId];
-  const artworkData = getArtworkData(game, artworkId);
+  const artwork = getArtwork(game, artworkId);
   const hot = currentHot(game);
   const investigated = isUnderInvestigation(game);
-  const value = Math.round(artworkData.currentValue).toLocaleString();
+  const value = Math.round(artwork.data.currentValue).toLocaleString();
 
   useEffect(() => {
-    navigation.setOptions({title: artwork.title});
+    navigation.setOptions({title: artwork.static.title});
   }, [artwork]);
   const otherCities = Object.values(Cities).filter(
-    c => c !== artworkData.city,
+    c => c !== artwork.data.city,
   ) as CityName[];
   const [dest, setDest] = useState<CityName>(otherCities[0]);
 
   return (
     <View style={BaseStyle.container}>
-      <Text>Artist: {artwork.artist}</Text>
+      <Text>Artist: {artwork.static.artist}</Text>
       <Text>Value: ${value}</Text>
       <Text>
         Category:{' '}
-        <Text style={hot === artwork.category ? BaseStyle.hot : {}}>
-          {artwork.category}
+        <Text style={hot === artwork.static.category ? BaseStyle.hot : {}}>
+          {artwork.static.category}
         </Text>
       </Text>
       {investigated ? (

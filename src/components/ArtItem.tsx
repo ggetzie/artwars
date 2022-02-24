@@ -13,26 +13,25 @@ import {Artwork, ArtworkData} from '../util/types';
 import BaseStyle from '../styles/base';
 
 const ArtItem = ({
-  awd,
+  artwork,
   onPress,
 }: {
-  awd: ArtworkData;
+  artwork: Artwork;
   onPress?: (event: GestureResponderEvent) => void;
 }) => {
-  const artwork = ARTWORKS[awd.id];
-  const value = Math.round(awd.currentValue).toLocaleString();
+  const value = Math.round(artwork.data.currentValue).toLocaleString();
   const game = useAppSelector(state => state.game);
   const hot = currentHot(game);
   return (
     <TouchableHighlight onPress={onPress}>
       <View style={styles.card}>
-        <Text>{artwork.title}</Text>
-        <Text>by {artwork.artist}</Text>
+        <Text>{artwork.static.title}</Text>
+        <Text>by {artwork.static.artist}</Text>
         <Text>Value: ${value}</Text>
         <Text>
           Category:{' '}
-          <Text style={hot === artwork.category ? BaseStyle.hot : {}}>
-            {artwork.category}
+          <Text style={hot === artwork.static.category ? BaseStyle.hot : {}}>
+            {artwork.static.category}
           </Text>
         </Text>
       </View>

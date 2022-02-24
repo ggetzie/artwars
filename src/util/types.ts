@@ -10,7 +10,7 @@ export type DutyMap = {
 };
 
 // Artwork types
-export type Artwork = {
+export type ArtworkStatic = {
   id: number;
   artist: string;
   title: string;
@@ -31,10 +31,14 @@ export type ArtworkData = {
   owner: string;
   destroyed: boolean;
 };
+export type Artwork = {
+  static: ArtworkStatic;
+  data: ArtworkData;
+};
 
 export type ArtByCityItem = {
   title: CityName;
-  data: ArtworkData[];
+  data: Artwork[];
 };
 
 export type Transaction = {

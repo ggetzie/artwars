@@ -5,13 +5,13 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
 import {
   currentNPC,
-  getArtworkData,
+  getArtwork,
   selectBalance,
   selectPlayer,
   transact,
 } from '../../../reducers/game';
 
-import {ARTWORKS, considerSell} from '../../../util';
+import {considerSell} from '../../../util';
 import {Transaction} from '../../../util/types';
 import {ArtItem, IntegerInput} from '../../../components';
 import BaseStyle from '../../../styles/base';
@@ -21,9 +21,8 @@ type Props = NativeStackScreenProps<CollectorStackParamList, 'Buy'>;
 
 const Buy = ({route}: Props) => {
   const game = useAppSelector(state => state.game);
-  const awId = route.params.artworkId;
-  const artwork = ARTWORKS[awId];
-  const artworkData = getArtworkData(game, awId);
+  const artworkId = route.params.artworkId;
+  const artwork = getArtwork(game, artworkId);
   const player = selectPlayer(game);
   const npc = currentNPC(game);
   const [offer, setOffer] = useState<number>(0);
@@ -39,7 +38,7 @@ const Buy = ({route}: Props) => {
   }
   return (
     <View style={BaseStyle.container}>
-      <ArtItem awd={artworkData} />
+      <ArtItem artwork={artwork} />
       {offerText}
       <IntegerInput placeholder="Enter an offer amount" setNum={setOffer} />
       <Button
@@ -51,14 +50,14 @@ const Buy = ({route}: Props) => {
             return;
           }
           const response = considerSell(
-            artworkData.currentValue,
+            artwork.data.currentValue,
             offer,
-            artwork.category === npc.data.preference,
+            artwork.static.category === npc.data.preference,
           );
           setDialogue(npc.character.dialogue.selling[response]);
           if (response === 'accept' || response === 'enthusiasm') {
             const t: Transaction = {
-              id: artwork.id,
+              id: artwork.data.id,
               price: -1 * offer,
               newOwner: player,
             };

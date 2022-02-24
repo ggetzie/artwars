@@ -1,9 +1,9 @@
-import {Artwork, ArtworkData, CityName} from './types';
+import {Artwork, ArtworkData, ArtworkStatic, CityName} from './types';
 import {randomChoiceR, getNPCForCity, Cities} from '.';
 
 const MAX_OWNED_BY_NPC = 10;
 const MAX_ON_AUCTION = 20;
-const ARTWORKS: Artwork[] = require('../../res/data/artworks.json');
+const ARTWORKS: ArtworkStatic[] = require('../../res/data/artworks.json');
 
 function setupArtworks(): ArtworkData[] {
   let res = [];

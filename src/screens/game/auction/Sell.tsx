@@ -4,18 +4,18 @@ import {View, Text, FlatList, Button} from 'react-native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {ARTWORKS, bidIncrement, otherBidders} from '../../../util';
-import {Artwork, Transaction} from '../../../util/types';
+import {bidIncrement, otherBidders} from '../../../util';
+import {Transaction} from '../../../util/types';
 import {AuctionStackParamList} from '.';
 import {ArtItem, IntegerInput} from '../../../components';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
 import {
   currentHot,
-  getArtworkData,
+  getArtwork,
   selectPlayer,
   transact,
 } from '../../../reducers/game';
-import {initialAsking, randInt} from '../../../util';
+import {initialAsking} from '../../../util';
 
 import BaseStyle from '../../../styles/base';
 
@@ -38,13 +38,14 @@ const Sell = ({navigation, route}: Props) => {
   const dispatch = useAppDispatch();
   const hot = currentHot(game);
   const player = selectPlayer(game);
-  const awId = route.params.artworkId;
-  const artwork = ARTWORKS[awId];
-  const artworkData = getArtworkData(game, awId);
-  const isHot = hot === artwork.category;
+  const artworkId = route.params.artworkId;
+  const artwork = getArtwork(game, artworkId);
+  // const artwork = ARTWORKS[awId];
+  // const artworkData = getArtworkData(game, awId);
+  const isHot = hot === artwork.static.category;
 
   const [status, setStatus] = useState<AuctionStatus>('notStarted');
-  const starting = initialAsking(artworkData.currentValue, isHot);
+  const starting = initialAsking(artwork.data.currentValue, isHot);
   const [asking, setAsking] = useState(starting);
   const [lastBid, setLastBid] = useState(0);
   const [messages, setMessages] = useState<string[]>([]);
@@ -62,7 +63,7 @@ const Sell = ({navigation, route}: Props) => {
   }
 
   function checkBids() {
-    const nextBid = otherBidders(artworkData.currentValue, asking, isHot);
+    const nextBid = otherBidders(artwork.data.currentValue, asking, isHot);
     if (nextBid) {
       setLastBid(asking);
       setStatus('bidMade');
@@ -75,7 +76,7 @@ const Sell = ({navigation, route}: Props) => {
           [`Sold! for $${lastBid.toLocaleString()}`].concat(messages),
         );
         const t: Transaction = {
-          id: artwork.id,
+          id: artwork.data.id,
           newOwner: 'anon',
           price: lastBid,
         };
@@ -101,7 +102,7 @@ const Sell = ({navigation, route}: Props) => {
 
   return (
     <View style={BaseStyle.container}>
-      <ArtItem awd={artworkData} />
+      <ArtItem artwork={artwork} />
       {Number.isNaN(asking) ? (
         <Text style={BaseStyle.error}>Enter a valid number.</Text>
       ) : (
@@ -119,7 +120,7 @@ const Sell = ({navigation, route}: Props) => {
           const askingText = asking.toLocaleString();
           setMessages([
             `Bidding starts at $${askingText}. Do I have any bids?`,
-            `Ladies and Gentlemen we have ${artwork.title} for sale.`,
+            `Ladies and Gentlemen we have ${artwork.static.title} for sale.`,
           ]);
           setStatus('firstBid');
         }}

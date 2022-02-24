@@ -6,6 +6,7 @@ import {useAppSelector} from '../../../hooks';
 import {filterArtWorks, selectCity, selectPlayer} from '../../../reducers/game';
 
 import {ArtWorkFilter} from '../../../util/awFilter';
+import {Artwork} from '../../../util/types';
 import {ArtItem} from '../../../components';
 import BaseStyle from '../../../styles/base';
 import {CollectorStackParamList} from '.';
@@ -15,7 +16,7 @@ const SellSelect = ({navigation}: Props) => {
   const game = useAppSelector(state => state.game);
   const city = selectCity(game);
   const player = selectPlayer(game);
-  const forSale = filterArtWorks(
+  const forSale: Artwork[] = filterArtWorks(
     game,
     new ArtWorkFilter({owner: o => o === player, city: c => c === city}),
   );
@@ -26,8 +27,10 @@ const SellSelect = ({navigation}: Props) => {
         data={forSale}
         renderItem={({item}) => (
           <ArtItem
-            awd={item}
-            onPress={() => navigation.navigate('Sell', {artworkId: item.id})}
+            artwork={item}
+            onPress={() =>
+              navigation.navigate('Sell', {artworkId: item.data.id})
+            }
           />
         )}
         ListEmptyComponent={<Text>You don't have anything to sell.</Text>}

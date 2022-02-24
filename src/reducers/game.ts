@@ -20,6 +20,7 @@ import {
   Transaction,
   NPCData,
   NPCTotal,
+  Artwork,
   ArtworkData,
 } from '../util/types';
 import {ArtWorkFilter} from '../util/awFilter';
@@ -270,8 +271,23 @@ export const selectArtworks = (game: gameState) => game.artworksData;
 export const getArtworkData = (game: gameState, awId: number) =>
   game.artworksData[awId];
 
-export const filterArtWorks = (game: gameState, criteria: ArtWorkFilter) =>
-  game.artworksData.filter(aw => criteria.match(aw));
+export const getArtwork = (game: gameState, awId: number): Artwork => {
+  return {
+    static: ARTWORKS[awId],
+    data: game.artworksData[awId],
+  };
+};
+
+export const filterArtWorks = (
+  game: gameState,
+  criteria: ArtWorkFilter,
+): Artwork[] => {
+  return game.artworksData
+    .filter(aw => criteria.match(aw))
+    .map(data => {
+      return {static: ARTWORKS[data.id], data: data};
+    });
+};
 
 export const currentNPC = (game: gameState): NPCTotal => {
   const npc = getNPCForCity(game.currentCity);

@@ -10,6 +10,7 @@ import {filterArtWorks, selectCity, selectPlayer} from '../../../reducers/game';
 import {AuctionStackParamList} from '.';
 import BaseStyle from '../../../styles/base';
 import {ArtWorkFilter} from '../../../util/awFilter';
+import {Artwork} from '../../../util/types';
 
 type Props = NativeStackScreenProps<AuctionStackParamList, 'SellSelect'>;
 
@@ -18,7 +19,7 @@ const SellSelect = ({navigation}: Props) => {
   const city = selectCity(game);
   const player = selectPlayer(game);
 
-  const couldAuction = filterArtWorks(
+  const couldAuction: Artwork[] = filterArtWorks(
     game,
     new ArtWorkFilter({
       owner: o => o === player,
@@ -34,8 +35,10 @@ const SellSelect = ({navigation}: Props) => {
         data={couldAuction}
         renderItem={({item}) => (
           <ArtItem
-            awd={item}
-            onPress={() => navigation.navigate('Sell', {artworkId: item.id})}
+            artwork={item}
+            onPress={() =>
+              navigation.navigate('Sell', {artworkId: item.data.id})
+            }
           />
         )}
         ListEmptyComponent={() => (

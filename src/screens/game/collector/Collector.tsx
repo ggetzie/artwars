@@ -1,26 +1,10 @@
 import React, {useState} from 'react';
 import {View, Text, Button, FlatList, Modal, TextInput} from 'react-native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {GameTabParamList} from '..';
 
-import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {
-  currentNPC,
-  filterArtWorks,
-  selectBalance,
-  selectPlayer,
-  transact,
-} from '../../../reducers/game';
-
-import {ArtWorkFilter} from '../../../util/awFilter';
-import {ArtItem} from '../../../components';
-import BaseStyle from '../../../styles/base';
-import {CollectorStackParamList} from '.';
 import Buy from './Buy';
 import List from './List';
 import SellSelect from './SellSelect';

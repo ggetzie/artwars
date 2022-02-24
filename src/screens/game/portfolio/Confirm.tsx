@@ -7,12 +7,11 @@ import {
   selectBalance,
   updateArtwork,
   debitBalance,
-  getArtworkData,
+  getArtwork,
 } from '../../../reducers/game';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {PortfolioStackParamList} from '.';
 import BaseStyle from '../../../styles/base';
-import {ARTWORKS} from '../../../util';
 
 type Props = NativeStackScreenProps<PortfolioStackParamList, 'Confirm'>;
 
@@ -20,12 +19,11 @@ const Confirm = ({navigation, route}: Props) => {
   const {artworkId, destination} = route.params;
 
   const game = useAppSelector(state => state.game);
-  const artwork = ARTWORKS[artworkId];
-  const artworkData = getArtworkData(game, artworkId);
+  const artwork = getArtwork(game, artworkId);
   const dispatch = useAppDispatch();
   const balance = selectBalance(game);
   const duty = getDuty(game, destination);
-  const taxBill = Math.round(duty * artworkData.currentValue);
+  const taxBill = Math.round(duty * artwork.data.currentValue);
   const canMove = balance > taxBill;
   const [message, setMessage] = useState('');
   const [moved, setMoved] = useState(false);
@@ -35,7 +33,7 @@ const Confirm = ({navigation, route}: Props) => {
       {canMove ? (
         <>
           <Text>
-            Confirm moving {artwork.title} from {artworkData.city} to{' '}
+            Confirm moving {artwork.static.title} from {artwork.data.city} to{' '}
             {destination}.
           </Text>
           <Text>
@@ -51,7 +49,7 @@ const Confirm = ({navigation, route}: Props) => {
             onPress={() => {
               dispatch(
                 updateArtwork({
-                  ...artworkData,
+                  ...artwork.data,
                   city: destination,
                 }),
               );

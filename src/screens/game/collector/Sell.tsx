@@ -3,7 +3,12 @@ import {View, Text, Button, FlatList, Modal, TextInput} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {currentNPC, getArtworkData, transact} from '../../../reducers/game';
+import {
+  currentNPC,
+  getArtwork,
+  getArtworkData,
+  transact,
+} from '../../../reducers/game';
 
 import {considerBuy, ARTWORKS} from '../../../util';
 import {Transaction} from '../../../util/types';
@@ -15,8 +20,7 @@ type Props = NativeStackScreenProps<CollectorStackParamList, 'Sell'>;
 const Sell = ({navigation, route}: Props) => {
   const game = useAppSelector(state => state.game);
   const {artworkId} = route.params;
-  const artwork = ARTWORKS[artworkId];
-  const artworkData = getArtworkData(game, artworkId);
+  const artwork = getArtwork(game, artworkId);
   const npc = currentNPC(game);
   const [asking, setAsking] = useState<number>(0);
   const [dialogue, setDialogue] = useState<string>('');
@@ -24,7 +28,7 @@ const Sell = ({navigation, route}: Props) => {
   const dispatch = useAppDispatch();
   return (
     <View style={BaseStyle.container}>
-      <ArtItem awd={artworkData} />
+      <ArtItem artwork={artwork} />
       {Number.isNaN(asking) ? (
         <Text style={BaseStyle.error}>Enter a valid number.</Text>
       ) : (
@@ -36,14 +40,14 @@ const Sell = ({navigation, route}: Props) => {
         disabled={Number.isNaN(asking) || !canSell}
         onPress={() => {
           const decision = considerBuy(
-            artworkData.currentValue,
+            artwork.data.currentValue,
             asking,
-            artwork.category === npc.data.preference,
+            artwork.static.category === npc.data.preference,
           );
           setDialogue(npc.character.dialogue.buying[decision]);
           if (decision === 'accept' || decision === 'enthusiasm') {
             const t: Transaction = {
-              id: artwork.id,
+              id: artwork.data.id,
               price: asking,
               newOwner: npc.character.name,
             };

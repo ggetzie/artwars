@@ -24,16 +24,16 @@ const List = ({navigation}: Props) => {
     .sort();
   const citiesSorted = [city].concat(otherCities);
 
-  const ownedArt = filterArtWorks(game, ownedFilter);
+  const ownedArt: Artwork[] = filterArtWorks(game, ownedFilter);
   const totalValue = ownedArt
-    .map(aw => aw.currentValue)
+    .map(aw => aw.data.currentValue)
     .reduce((p, c) => p + c, 0);
   const artByCity: ArtByCityItem[] = citiesSorted.map(c => ({
     title: c,
     data: [],
   }));
   for (const aw of ownedArt) {
-    const index = citiesSorted.indexOf(aw.city);
+    const index = citiesSorted.indexOf(aw.data.city);
     artByCity[index].data.push(aw);
   }
 
@@ -42,11 +42,13 @@ const List = ({navigation}: Props) => {
       <Text>Portfolio Value: ${totalValue.toLocaleString('en-US')}</Text>
       <SectionList
         sections={artByCity}
-        keyExtractor={(item: ArtworkData, _: number) => `${item.id}`}
+        keyExtractor={(item: Artwork, _: number) => `${item.data.id}`}
         renderItem={({item}) => (
           <ArtItem
-            awd={item}
-            onPress={() => navigation.navigate('Detail', {artworkId: item.id})}
+            artwork={item}
+            onPress={() =>
+              navigation.navigate('Detail', {artworkId: item.data.id})
+            }
           />
         )}
         renderSectionHeader={({section}) => (
