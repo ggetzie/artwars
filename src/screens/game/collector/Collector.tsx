@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import {View, Text, Button, FlatList, Modal, TextInput} from 'react-native';
+import React from 'react';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 

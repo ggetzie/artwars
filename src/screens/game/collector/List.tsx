@@ -11,6 +11,7 @@ import BaseStyle from '../../../styles/base';
 import {CollectorStackParamList} from '.';
 import {Artwork} from '../../../util/types';
 import {NPCImages} from '../../../util';
+import PicStyle from '../../../styles/pics';
 
 type Props = NativeStackScreenProps<CollectorStackParamList, 'List'>;
 
@@ -24,10 +25,7 @@ const List = ({navigation}: Props) => {
   return (
     <View style={BaseStyle.container}>
       <View>
-        <Image
-          style={{width: 150, height: 150}}
-          source={NPCImages[npc.character.image]}
-        />
+        <Image style={PicStyle.large} source={NPCImages[npc.character.image]} />
         <Text>{npc.character.bio}</Text>
 
         <Text>Likes: {npc.data.preference}</Text>

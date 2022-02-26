@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Button, TextInput} from 'react-native';
+import {View, Text, Button, Image} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {useAppDispatch, useAppSelector} from '../../../hooks';
@@ -11,10 +11,11 @@ import {
   transact,
 } from '../../../reducers/game';
 
-import {considerSell} from '../../../util';
+import {considerSell, NPCImages} from '../../../util';
 import {Transaction} from '../../../util/types';
-import {ArtItem, IntegerInput} from '../../../components';
+import {ArtItem, IntegerInput, NPCDialog} from '../../../components';
 import BaseStyle from '../../../styles/base';
+import PicStyle from '../../../styles/pics';
 import {CollectorStackParamList} from '.';
 
 type Props = NativeStackScreenProps<CollectorStackParamList, 'Buy'>;
@@ -66,7 +67,7 @@ const Buy = ({route}: Props) => {
           }
         }}
       />
-      <Text>{dialogue}</Text>
+      <NPCDialog dialogue={dialogue} image={npc.character.image} />
     </View>
   );
 };

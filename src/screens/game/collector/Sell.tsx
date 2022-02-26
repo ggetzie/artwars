@@ -10,9 +10,9 @@ import {
   transact,
 } from '../../../reducers/game';
 
-import {considerBuy, ARTWORKS} from '../../../util';
+import {considerBuy} from '../../../util';
 import {Transaction} from '../../../util/types';
-import {ArtItem, IntegerInput} from '../../../components';
+import {ArtItem, IntegerInput, NPCDialog} from '../../../components';
 import BaseStyle from '../../../styles/base';
 import {CollectorStackParamList} from '.';
 
@@ -56,7 +56,9 @@ const Sell = ({navigation, route}: Props) => {
           }
         }}
       />
-      {dialogue.length > 0 && <Text>{dialogue}</Text>}
+      {dialogue.length > 0 && (
+        <NPCDialog dialogue={dialogue} image={npc.character.image} />
+      )}
     </View>
   );
 };
