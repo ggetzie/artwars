@@ -12,6 +12,7 @@ import {
   randRange,
   setupDuties,
   ARTWORKS,
+  setupPowerUps,
 } from '../util';
 import {
   CategoryName,
@@ -22,6 +23,7 @@ import {
   NPCTotal,
   Artwork,
   ArtworkData,
+  PowerUp,
 } from '../util/types';
 import {ArtWorkFilter} from '../util/awFilter';
 
@@ -39,6 +41,7 @@ export interface gameState {
   underInvestigation: boolean;
   messages: string[];
   duties: DutyMap;
+  powerUps: PowerUp[];
 }
 
 export function defaultGame(): gameState {
@@ -56,6 +59,7 @@ export function defaultGame(): gameState {
     underInvestigation: false,
     messages: [],
     duties: setupDuties(),
+    powerUps: setupPowerUps(),
   };
 }
 
@@ -113,6 +117,19 @@ export const gameSlice = createSlice({
     },
     setInvestigation: (state, action: PayloadAction<boolean>) => {
       state.underInvestigation = action.payload;
+    },
+    buyPowerUp: (state, action: PayloadAction<string>) => {
+      state.powerUps = state.powerUps.map(p => {
+        if (p.name === action.payload) {
+          state.balance -= p.price;
+          return {
+            ...p,
+            purchased: true,
+          };
+        } else {
+          return p;
+        }
+      });
     },
     processTurn: state => {
       // randomly select new hot category
@@ -315,5 +332,25 @@ export const portfolioValue = (game: gameState) =>
 export const getMessages = (game: gameState) => game.messages;
 
 export const getDuty = (game: gameState, city: CityName) => game.duties[city];
+
+export const listPowerUps = (game: gameState) => game.powerUps;
+
+export const getPowerUp = (game: gameState, name: string) => {
+  for (const p of game.powerUps) {
+    if (p.name === name) {
+      return p;
+    }
+  }
+  throw 'Invalid PowerUp Name';
+};
+
+export const hasToPayDuties = (game: gameState, city: CityName) => {
+  for (const p of game.powerUps) {
+    if (p.purchased && (p.name === `Freeport: ${city}` || p.name === 'Yacht')) {
+      return false;
+    }
+  }
+  return true;
+};
 
 export default gameSlice.reducer;

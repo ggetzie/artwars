@@ -89,3 +89,11 @@ export type HighScore = {
   date: string;
   score: number;
 };
+
+// Shop Types
+export type PowerUp = {
+  name: string;
+  description: string;
+  price: number;
+  purchased: boolean;
+};

@@ -43,6 +43,12 @@ const Categories = {
   Contemporary: 'Contemporary',
 } as const;
 
+// shop imports
+import {setupPowerUps} from './shop';
+export {setupPowerUps};
+
+// Random functions
+
 function randInt(min: number, max: number): number {
   // return a random integer between min and max (min included, max excluded)
   const res = Math.floor(Math.random() * (max - min)) + min;
@@ -79,6 +85,7 @@ function randomChoiceR(arr: any[]): any {
   return arr[index];
 }
 
+// Auction functions
 function initialAsking(value: number, isHot: boolean): number {
   const bidFloor = isHot ? 0.95 : 0.75;
   const bidCeiling = isHot ? 1.25 : 1.05;
