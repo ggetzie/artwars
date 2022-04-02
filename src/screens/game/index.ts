@@ -5,6 +5,7 @@ export type GameTabParamList = {
   Portfolio: undefined;
   Collector: undefined;
   Auction: undefined;
+  Shop: undefined;
 };
 
 export default Game;

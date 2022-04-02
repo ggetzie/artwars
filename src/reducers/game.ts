@@ -275,6 +275,7 @@ export const {
   setArtworks,
   setInvestigation,
   processTurn,
+  buyPowerUp,
 } = gameSlice.actions;
 
 export const selectPlayer = (game: gameState) => game.player;
@@ -344,13 +345,13 @@ export const getPowerUp = (game: gameState, name: string) => {
   throw 'Invalid PowerUp Name';
 };
 
-export const hasToPayDuties = (game: gameState, city: CityName) => {
+export const ownsPowerUp = (game: gameState, name: string): boolean => {
   for (const p of game.powerUps) {
-    if (p.purchased && (p.name === `Freeport: ${city}` || p.name === 'Yacht')) {
-      return false;
+    if (p.name === name) {
+      return p.purchased;
     }
   }
-  return true;
+  throw `Unknown PowerUp: ${name}`;
 };
 
 export default gameSlice.reducer;

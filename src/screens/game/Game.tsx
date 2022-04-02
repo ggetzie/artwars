@@ -60,6 +60,8 @@ const Game = ({navigation}: Props) => {
               iconName = 'user-tie';
             } else if (route.name === 'Auctions') {
               iconName = 'gavel';
+            } else if (route.name === 'Shop') {
+              iconName = 'cart-shopping';
             } else {
               iconName = 'question';
             }
