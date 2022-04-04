@@ -45,6 +45,12 @@ const NewGame = ({navigation}: Props) => {
           navigation.navigate('Game');
           newGame.player = name;
           newGame.maxTurns = turns;
+          if (name === 'MoneyBags') {
+            newGame.balance = 100_000_000_000;
+            newGame.messages = [
+              `Cheat code activated! You now have $${newGame.balance.toLocaleString()}`,
+            ];
+          }
           dispatch(setGame(newGame));
         }}
       />
