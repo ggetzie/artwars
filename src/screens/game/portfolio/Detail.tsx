@@ -6,6 +6,7 @@ import {
   currentHot,
   getArtwork,
   isUnderInvestigation,
+  ownsPowerUp,
 } from '../../../reducers/game';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Picker} from '@react-native-picker/picker';
@@ -33,6 +34,7 @@ const Detail = ({navigation, route}: Props) => {
   const hot = currentHot(game);
   const investigated = isUnderInvestigation(game);
   const value = Math.round(artwork.data.currentValue).toLocaleString();
+  const ownsYacht = ownsPowerUp(game, 'Yacht');
 
   useEffect(() => {
     navigation.setOptions({title: artwork.static.title});
@@ -75,7 +77,14 @@ const Detail = ({navigation, route}: Props) => {
                 destination: dest,
               })
             }
+            disabled={ownsYacht}
           />
+          {ownsYacht && (
+            <Text>
+              No need to schlep your art from city to city, Commodore. You can
+              sell anywhere from your Yacht!
+            </Text>
+          )}
         </>
       )}
     </View>

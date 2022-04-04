@@ -6,7 +6,12 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {ArtItem} from '../../../components';
 import {useAppSelector} from '../../../hooks';
-import {filterArtWorks, selectCity, selectPlayer} from '../../../reducers/game';
+import {
+  filterArtWorks,
+  ownsPowerUp,
+  selectCity,
+  selectPlayer,
+} from '../../../reducers/game';
 import {AuctionStackParamList} from '.';
 import BaseStyle from '../../../styles/base';
 import {ArtWorkFilter} from '../../../util/awFilter';
@@ -18,15 +23,16 @@ const SellSelect = ({navigation}: Props) => {
   const game = useAppSelector(state => state.game);
   const city = selectCity(game);
   const player = selectPlayer(game);
+  const ownsYacht = ownsPowerUp(game, 'Yacht');
+  const artFilter = new ArtWorkFilter({
+    owner: o => o === player,
+    destroyed: d => !d,
+  });
+  if (!ownsYacht) {
+    artFilter.city = c => c === city;
+  }
 
-  const couldAuction: Artwork[] = filterArtWorks(
-    game,
-    new ArtWorkFilter({
-      owner: o => o === player,
-      city: c => c === city,
-      destroyed: d => d === false,
-    }),
-  );
+  const couldAuction: Artwork[] = filterArtWorks(game, artFilter);
 
   return (
     <View style={BaseStyle.container}>
