@@ -178,6 +178,13 @@ async function loadGames(): Promise<gameState[]> {
   return Promise.all(games);
 }
 
+async function loadGame(gameId: string): Promise<gameState> {
+  const filename = SAVE_PATH + `${gameId}.json`;
+  const contents = await RNFS.readFile(filename, 'utf8');
+  const game = JSON.parse(contents);
+  return game;
+}
+
 async function saveHighScores(scores: HighScore[]) {
   const exists = await RNFS.exists(HS_PATH);
   if (exists) {
@@ -195,12 +202,6 @@ async function loadHighScores(): Promise<HighScore[]> {
   } else {
     return [];
   }
-}
-
-async function loadImage(filename: string): Promise<string> {
-  console.log(RNFS.MainBundlePath);
-  const imageB64 = await RNFS.readFileAssets(`images/${filename}`);
-  return imageB64;
 }
 
 function sortScoresDescending(a: HighScore, b: HighScore): number {
@@ -243,6 +244,7 @@ export {
   randomChoiceNR,
   saveGame,
   loadGames,
+  loadGame,
   deleteGame,
   saveHighScores,
   loadHighScores,
