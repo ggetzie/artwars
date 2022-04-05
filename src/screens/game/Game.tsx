@@ -9,6 +9,7 @@ import City from './City';
 import Portfolio from './portfolio/';
 import Collector from './collector';
 import Auction from './auction/';
+import Shop from './shop';
 import {useAppSelector} from '../../hooks';
 import {
   currentNPC,
@@ -61,7 +62,7 @@ const Game = ({navigation}: Props) => {
             } else if (route.name === 'Auctions') {
               iconName = 'gavel';
             } else if (route.name === 'Shop') {
-              iconName = 'cart-shopping';
+              iconName = 'store';
             } else {
               iconName = 'question';
             }
@@ -92,6 +93,11 @@ const Game = ({navigation}: Props) => {
         <Tab.Screen
           name="Auctions"
           component={Auction}
+          options={{unmountOnBlur: true}}
+        />
+        <Tab.Screen
+          name="Shop"
+          component={Shop}
           options={{unmountOnBlur: true}}
         />
       </Tab.Navigator>

@@ -15,9 +15,11 @@ import BaseStyle from '../styles/base';
 const ArtItem = ({
   artwork,
   onPress,
+  location = false,
 }: {
   artwork: Artwork;
   onPress?: (event: GestureResponderEvent) => void;
+  location?: boolean;
 }) => {
   const value = Math.round(artwork.data.currentValue).toLocaleString();
   const game = useAppSelector(state => state.game);
@@ -34,6 +36,7 @@ const ArtItem = ({
             {artwork.static.category}
           </Text>
         </Text>
+        {location && <Text>Location: {artwork.data.city}</Text>}
       </View>
     </TouchableHighlight>
   );

@@ -14,7 +14,7 @@ type Props = BottomTabNavigationProp<GameTabParamList, 'Shop'>;
 const Shop = (_: Props) => {
   return (
     <ShopStack.Navigator>
-      <ShopStack.Screen name="Shop" component={List} />
+      <ShopStack.Screen name="List" component={List} />
       <ShopStack.Screen name="Buy" component={Buy} />
     </ShopStack.Navigator>
   );

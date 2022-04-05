@@ -41,6 +41,7 @@ const SellSelect = ({navigation}: Props) => {
             onPress={() =>
               navigation.navigate('Sell', {artworkId: item.data.id})
             }
+            location={ownsYacht}
           />
         )}
         ListEmptyComponent={<Text>You don't have anything to sell.</Text>}

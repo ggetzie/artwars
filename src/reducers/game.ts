@@ -147,6 +147,9 @@ export const gameSlice = createSlice({
       //  - Art repatriated: lose artwork 1% chance,
       let messages: string[] = [];
       let artworks = [...state.artworksData];
+      const ownsYacht = state.powerUps
+        .filter(p => p.name === 'Yacht')
+        .map(p => p.purchased)[0];
 
       const portfolioIds = artworks
         .filter(artwork => artwork.owner === state.player)
@@ -157,13 +160,16 @@ export const gameSlice = createSlice({
         // IRS investigation, start or lift
         const irs = state.underInvestigation;
         if (irs) {
-          if (diceRoll(0.33)) {
+          const irsLeaveChance = ownsYacht ? 1.0 : 0.33;
+          const irsLeaveMsg = ownsYacht
+            ? "You're in the clear! Your tax fraud investigation has been cleared."
+            : "The IRS can't get to the art on your yacht! The investigation is abandoned.";
+          if (diceRoll(irsLeaveChance)) {
             setInvestigation(false);
-            messages.push(
-              "You're in the clear! Your tax fraud investigation has been cleared.",
-            );
+            messages.push(irsLeaveMsg);
           } else {
-            if (diceRoll(0.05)) {
+            const irsChance = ownsYacht ? 0.001 : 0.05;
+            if (diceRoll(irsChance)) {
               setInvestigation(true);
               messages.push(
                 "Tax authorities have become suspicious of your dealings. You're unable to move artworks between cities.",
