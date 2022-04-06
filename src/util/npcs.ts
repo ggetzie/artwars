@@ -1,15 +1,15 @@
 import {Categories, randomChoiceNR} from '.';
-import {CategoryName, Artwork, CityName, NPC, NPCData} from './types';
+import {CityName, NPCData} from './types';
 
 export type OfferResponse = 'insulted' | 'reject' | 'accept' | 'enthusiasm';
 
-const NPCs = require('../../res/data/npcs.json');
+const NPCs = require('../res/data/npcs.json');
 
 function setupNPCs(): NPCData[] {
   let prefs = randomChoiceNR(Object.values(Categories));
   let res: NPCData[] = [];
   for (const npc of NPCs) {
-    res.push({index: NPCs.id, preference: prefs.selected});
+    res.push({index: npc.id, preference: prefs.selected});
     prefs = randomChoiceNR(prefs.remaining);
   }
   return res;
@@ -38,7 +38,6 @@ function considerSell(
     return 'enthusiasm';
   } else {
     const threshold = Math.exp(ratio) - Math.exp(minRatio);
-    const roll = Math.random();
     return Math.random() <= threshold ? 'accept' : 'reject';
   }
 }
@@ -64,19 +63,19 @@ function considerBuy(
 }
 
 const NPCImages = {
-  aristocrat: require('../../res/images/aristocrat.png'),
-  artAppraiser: require('../../res/images/art_appraiser.png'),
-  artCop: require('../../res/images/art_cop.png'),
-  auctioneer: require('../../res/images/auctioneer.png'),
-  freeportOp: require('../../res/images/freeport_op.png'),
-  heiress: require('../../res/images/heiress.png'),
-  hollywoodActor: require('../../res/images/hollywood_actor.png'),
-  financier: require('../../res/images/hongkong_financier.png'),
-  irsAgent: require('../../res/images/irs_agent.png'),
-  oligarch: require('../../res/images/russian_oligarch.png'),
-  artDealer: require('../../res/images/smarmy_art_dealer.png'),
-  techBillionaire: require('../../res/images/tech_billionaire.png'),
-  prince: require('../../res/images/the_prince.png'),
+  aristocrat: require('../res/images/aristocrat.png'),
+  artAppraiser: require('../res/images/art_appraiser.png'),
+  artCop: require('../res/images/art_cop.png'),
+  auctioneer: require('../res/images/auctioneer.png'),
+  freeportOp: require('../res/images/freeport_op.png'),
+  heiress: require('../res/images/heiress.png'),
+  hollywoodActor: require('../res/images/hollywood_actor.png'),
+  financier: require('../res/images/hongkong_financier.png'),
+  irsAgent: require('../res/images/irs_agent.png'),
+  oligarch: require('../res/images/russian_oligarch.png'),
+  artDealer: require('../res/images/smarmy_art_dealer.png'),
+  techBillionaire: require('../res/images/tech_billionaire.png'),
+  prince: require('../res/images/the_prince.png'),
 } as const;
 
 export {setupNPCs, considerSell, considerBuy, getNPCForCity, NPCImages};
