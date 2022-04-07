@@ -15,10 +15,11 @@ import {
   currentTurn,
   getMaxTurns,
 } from '../../reducers/game';
-import {Picker} from '@react-native-picker/picker';
+import {Dropdown} from '../../components';
 import {Cities} from '../../util';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import BaseStyle from '../../styles/base';
+import {CityName} from '../../util/types';
 
 type Props = BottomTabNavigationProp<GameTabParamList, 'City'>;
 
@@ -33,6 +34,10 @@ const City = (_: Props) => {
   const messages = getMessages(game);
   const turn = currentTurn(game);
   const maxTurns = getMaxTurns(game);
+  const onValueChange = (itemValue: CityName, _: number) => {
+    dispatch(setCity(itemValue));
+    dispatch(processTurn());
+  };
 
   return (
     <View style={BaseStyle.container}>
@@ -44,20 +49,12 @@ const City = (_: Props) => {
       </Text>
 
       {turn < maxTurns && (
-        <>
-          <Text style={BaseStyle.pickerLabel}>Change City</Text>
-          <Picker
-            accessibilityLabel="Change city"
-            selectedValue={city}
-            onValueChange={(itemValue, _) => {
-              dispatch(setCity(itemValue));
-              dispatch(processTurn());
-            }}>
-            {Object.entries(Cities).map(([k, v]) => (
-              <Picker.Item key={k} label={v} value={v} />
-            ))}
-          </Picker>
-        </>
+        <Dropdown
+          selectedValue={city}
+          itemList={Object.values(Cities)}
+          onValueChange={onValueChange}
+          label="Change City"
+        />
       )}
 
       <Text style={BaseStyle.heading1}>Messages</Text>

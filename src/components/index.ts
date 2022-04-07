@@ -3,5 +3,6 @@ import IntegerInput from './IntegerInput';
 import QuitButton from './QuitButton';
 import ScoreList from './ScoreList';
 import NPCDialog from './NPCDialog';
+import Dropdown from './Dropdown';
 
-export {ArtItem, IntegerInput, ScoreList, QuitButton, NPCDialog};
+export {ArtItem, IntegerInput, ScoreList, QuitButton, NPCDialog, Dropdown};

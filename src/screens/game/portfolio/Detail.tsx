@@ -9,11 +9,11 @@ import {
   ownsPowerUp,
 } from '../../../reducers/game';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Picker} from '@react-native-picker/picker';
 import {PortfolioStackParamList} from '.';
 import BaseStyle from '../../../styles/base';
 import {Cities, NPCImages} from '../../../util';
 import {CityName} from '../../../util/types';
+import {Dropdown} from '../../../components';
 
 type Props = NativeStackScreenProps<PortfolioStackParamList, 'Detail'>;
 
@@ -65,17 +65,14 @@ const Detail = ({navigation, route}: Props) => {
         <Investigation />
       ) : (
         <>
-          <Text style={BaseStyle.pickerLabel}>Move to city</Text>
-          <Picker
-            accessibilityLabel="Move to city"
+          <Dropdown
             selectedValue={dest}
-            onValueChange={(itemValue: CityName, _) => {
+            onValueChange={(itemValue: CityName, _: number) => {
               setDest(itemValue);
-            }}>
-            {otherCities.map((c, i) => (
-              <Picker.Item key={i} label={c} value={c} />
-            ))}
-          </Picker>
+            }}
+            itemList={otherCities}
+            label="Move to City"
+          />
           <Button
             title="Move"
             onPress={() =>
