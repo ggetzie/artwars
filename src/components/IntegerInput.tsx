@@ -22,7 +22,7 @@ const IntegerInput = ({
         keyboardType="number-pad"
         onChangeText={value => {
           const cleaned = value.split(decSep)[0].replace(/\D+/g, '');
-          const num = parseInt(cleaned);
+          const num = parseInt(cleaned, 10);
           setNum(num);
         }}
       />

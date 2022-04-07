@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button, Image} from 'react-native';
+import {View, Text, Button, Image, StyleSheet} from 'react-native';
 
 import {useAppSelector} from '../../../hooks';
 import {
@@ -20,12 +20,19 @@ type Props = NativeStackScreenProps<PortfolioStackParamList, 'Detail'>;
 const Investigation = () => {
   return (
     <>
-      <Image style={{width: 75, height: 75}} source={NPCImages.irsAgent} />
+      <Image style={InvestigationStyle.image} source={NPCImages.irsAgent} />
       <Text>The IRS is investigating your nefarious dealings!</Text>
       <Text>You can't move art between cities until you're cleared.</Text>
     </>
   );
 };
+
+const InvestigationStyle = StyleSheet.create({
+  image: {
+    width: 75,
+    height: 75,
+  },
+});
 
 const Detail = ({navigation, route}: Props) => {
   const game = useAppSelector(state => state.game);
@@ -38,7 +45,7 @@ const Detail = ({navigation, route}: Props) => {
 
   useEffect(() => {
     navigation.setOptions({title: artwork.static.title});
-  }, [artwork]);
+  }, [artwork, navigation]);
   const otherCities = Object.values(Cities).filter(
     c => c !== artwork.data.city,
   ) as CityName[];

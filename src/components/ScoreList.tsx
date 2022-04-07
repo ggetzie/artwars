@@ -1,7 +1,6 @@
 import React from 'react';
-import {View, FlatList, Text} from 'react-native';
+import {View, FlatList, Text, StyleSheet} from 'react-native';
 import {HighScore} from '../util/types';
-import BaseStyle from '../styles/base';
 
 const ScoreList = ({
   scores,
@@ -18,8 +17,8 @@ const ScoreList = ({
           <Text
             style={
               index === highlight
-                ? {fontWeight: 'bold'}
-                : {fontWeight: 'normal'}
+                ? ScoreListStyle.highlight
+                : ScoreListStyle.normal
             }>
             {item.player} - {new Date(item.date).toLocaleDateString()} -{' '}
             {item.score.toLocaleString()}
@@ -29,5 +28,14 @@ const ScoreList = ({
     </View>
   );
 };
+
+const ScoreListStyle = StyleSheet.create({
+  normal: {
+    fontWeight: 'normal',
+  },
+  highlight: {
+    fontWeight: 'bold',
+  },
+});
 
 export default ScoreList;

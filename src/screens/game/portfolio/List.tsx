@@ -5,7 +5,7 @@ import {useAppSelector} from '../../../hooks';
 import {filterArtWorks, selectCity, selectPlayer} from '../../../reducers/game';
 import {ArtWorkFilter} from '../../../util/awFilter';
 import {Cities} from '../../../util';
-import {ArtByCityItem, Artwork, ArtworkData} from '../../../util/types';
+import {ArtByCityItem, Artwork} from '../../../util/types';
 import {ArtItem} from '../../../components';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 

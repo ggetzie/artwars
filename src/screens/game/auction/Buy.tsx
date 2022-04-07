@@ -59,7 +59,7 @@ const Buy = ({navigation, route}: Props) => {
     navigation.setOptions({headerBackVisible: !bidStarted});
     const parent = navigation.getParent();
     parent?.setOptions({tabBarStyle: {display: bidStarted ? 'none' : 'flex'}});
-  }, [bidStarted]);
+  }, [bidStarted, navigation]);
 
   return (
     <View style={BaseStyle.container}>
@@ -100,7 +100,7 @@ const Buy = ({navigation, route}: Props) => {
                 );
 
                 if (asking > balance) {
-                  setMessage(`Another buyer bid more money than you have!`);
+                  setMessage('Another buyer bid more money than you have!');
                   loseAuction();
                   setCanBid(false);
                   setBidStarted(false);

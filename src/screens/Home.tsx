@@ -2,7 +2,6 @@ import React from 'react';
 import {View, Button, StyleSheet} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '.';
-import {useAppDispatch} from '../hooks';
 import BaseStyle from '../styles/base';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;

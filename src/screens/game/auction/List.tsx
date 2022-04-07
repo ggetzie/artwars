@@ -1,15 +1,11 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, FlatList, Button} from 'react-native';
+import React from 'react';
+import {View, Text, FlatList, Button} from 'react-native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {ArtItem} from '../../../components';
 import {useAppSelector} from '../../../hooks';
-import {
-  filterArtWorks,
-  selectArtworks,
-  selectCity,
-} from '../../../reducers/game';
+import {filterArtWorks, selectCity} from '../../../reducers/game';
 import {Artwork} from '../../../util/types';
 import {ArtWorkFilter} from '../../../util/awFilter';
 import {AuctionStackParamList} from '.';
