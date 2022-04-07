@@ -1,17 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {
   View,
   Text,
   TouchableOpacity,
   GestureResponderEvent,
+  StyleSheet,
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '.';
 import {useAppDispatch} from '../hooks';
 import {setGame, portfolioValue} from '../reducers/game';
 import BaseStyle from '../styles/base';
-import {deleteGame, loadGame} from '../util';
+import {deleteGame, loadGame} from '../util/persist';
 import {gameState} from '../reducers/game';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'GameDetail'>;
@@ -34,25 +35,30 @@ const GameInfo = ({
       </Text>
       <Text>Balance: ${game.balance.toLocaleString()}</Text>
       <Text>Portfolio Value: ${portfolioValue(game).toLocaleString()}</Text>
-      <View
-        style={[
-          BaseStyle.buttonRow,
-          {justifyContent: 'space-between', paddingHorizontal: '15%'},
-        ]}>
+      <View style={[BaseStyle.buttonRow, GameInfoStyle.row]}>
         <TouchableOpacity
           style={[BaseStyle.button, BaseStyle.dangerButton]}
           onPress={onDelete}>
-          <Text style={[BaseStyle.buttonText, {color: 'white'}]}>Delete</Text>
+          <Text style={[BaseStyle.buttonText, BaseStyle.whiteText]}>
+            Delete
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[BaseStyle.button, {backgroundColor: 'green'}]}
+          style={[BaseStyle.button, BaseStyle.successButton]}
           onPress={onConfirm}>
-          <Text style={[BaseStyle.buttonText, {color: 'white'}]}>Load</Text>
+          <Text style={[BaseStyle.buttonText, BaseStyle.whiteText]}>Load</Text>
         </TouchableOpacity>
       </View>
     </>
   );
 };
+
+const GameInfoStyle = StyleSheet.create({
+  row: {
+    justifyContent: 'space-between',
+    paddingHorizontal: '15%',
+  },
+});
 
 const GameDetail = ({navigation, route}: Props) => {
   const dispatch = useAppDispatch();
@@ -68,7 +74,7 @@ const GameDetail = ({navigation, route}: Props) => {
         })
         .catch(e => console.log(e))
         .finally(() => setLoading(false));
-    }, []),
+    }, [route.params.gameId]),
   );
 
   return (

@@ -17,7 +17,7 @@ import {
   currentTurn,
   getMaxTurns,
 } from '../../reducers/game';
-import {saveGame} from '../../util';
+import {saveGame} from '../../util/persist';
 import {QuitButton} from '../../components';
 
 const ACTIVE_COLOR = 'dodgerblue';
@@ -38,7 +38,7 @@ const Game = ({navigation}: Props) => {
       headerRight: () => <QuitButton navigation={navigation} />,
       title: `Art Wars - ${turn} / ${maxTurns}`,
     });
-  }, [turn, maxTurns]);
+  }, [turn, maxTurns, navigation]);
 
   // save whenever game state updated
   useEffect(() => {
