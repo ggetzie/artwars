@@ -1,29 +1,19 @@
 import React from 'react';
-import {View, Button, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '.';
 import BaseStyle from '../styles/base';
+import {LinkButton} from '../components';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
-const Home = ({navigation}: Props) => {
+const Home = (_: Props) => {
   return (
     <View style={[BaseStyle.container, styles.menu]}>
-      <Button
-        title="New Game"
-        onPress={() => {
-          navigation.navigate('NewGame');
-        }}
-      />
-      <Button
-        title="Continue"
-        onPress={() => navigation.navigate('Continue')}
-      />
-      <Button
-        title="High Scores"
-        onPress={() => navigation.navigate('HighScores')}
-      />
-      <Button title="About" onPress={() => navigation.navigate('About')} />
+      <LinkButton to={{screen: 'NewGame'}}>New Game</LinkButton>
+      <LinkButton to={{screen: 'Continue'}}>Continue</LinkButton>
+      <LinkButton to={{screen: 'HighScores'}}>High Scores</LinkButton>
+      <LinkButton to={{screen: 'About'}}>About</LinkButton>
     </View>
   );
 };

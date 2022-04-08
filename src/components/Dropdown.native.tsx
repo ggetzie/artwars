@@ -4,27 +4,30 @@ import {Picker} from '@react-native-picker/picker';
 import BaseStyle from '../styles/base';
 
 type valueChangeFunc = (v: any, i: number) => void;
-
+type listItem = [any, string];
 const Dropdown = ({
   onValueChange,
   selectedValue,
   itemList,
   label,
+  style,
 }: {
   onValueChange: valueChangeFunc;
   selectedValue: any;
-  itemList: any[];
+  itemList: listItem[];
   label: string;
+  style?: {label: {}; control: {}};
 }) => {
   return (
     <>
-      <Text style={BaseStyle.pickerLabel}>{label}</Text>
+      <Text style={style?.label || BaseStyle.pickerLabel}>{label}</Text>
       <Picker
         onValueChange={onValueChange}
         selectedValue={selectedValue}
-        accessibilityLabel={label}>
-        {itemList.map((c, i) => (
-          <Picker.Item key={i} label={c} value={c} />
+        accessibilityLabel={label}
+        style={style?.control}>
+        {itemList.map(([v, l], i) => (
+          <Picker.Item key={i} label={l} value={v} />
         ))}
       </Picker>
     </>

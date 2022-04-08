@@ -70,7 +70,7 @@ const Detail = ({navigation, route}: Props) => {
             onValueChange={(itemValue: CityName, _: number) => {
               setDest(itemValue);
             }}
-            itemList={otherCities}
+            itemList={otherCities.map(c => [c, c])}
             label="Move to City"
           />
           <Button
