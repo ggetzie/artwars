@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
   StyleSheet,
 } from 'react-native';
+import {useLinkTo} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {listPowerUps, selectBalance} from '../../../reducers/game';
 import {PowerUp} from '../../../util/types';
@@ -60,8 +61,9 @@ const PowerUpItem = ({
   );
 };
 
-const List = ({navigation}: Props) => {
+const List = (_: Props) => {
   const game = useAppSelector(state => state.game);
+  const linkTo = useLinkTo();
   const powerUps = listPowerUps(game).filter(p => !p.purchased);
   const purchased = listPowerUps(game).filter(p => p.purchased);
   const balance = selectBalance(game);
@@ -75,7 +77,7 @@ const List = ({navigation}: Props) => {
         renderItem={({item}) => (
           <PowerUpItem
             powerUp={item}
-            onPress={() => navigation.navigate('Buy', {name: item.name})}
+            onPress={() => linkTo(`/game/shop/${item.name}`)}
             balance={balance}
           />
         )}

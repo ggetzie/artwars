@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {View, Text, FlatList} from 'react-native';
-
+import {useLinkTo} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {ArtItem} from '../../../components';
@@ -19,8 +19,9 @@ import {Artwork} from '../../../util/types';
 
 type Props = NativeStackScreenProps<AuctionStackParamList, 'SellSelect'>;
 
-const SellSelect = ({navigation}: Props) => {
+const SellSelect = (_: Props) => {
   const game = useAppSelector(state => state.game);
+  const linkTo = useLinkTo();
   const city = selectCity(game);
   const player = selectPlayer(game);
   const ownsYacht = ownsPowerUp(game, 'Yacht');
@@ -42,9 +43,7 @@ const SellSelect = ({navigation}: Props) => {
         renderItem={({item}) => (
           <ArtItem
             artwork={item}
-            onPress={() =>
-              navigation.navigate('Sell', {artworkId: item.data.id})
-            }
+            onPress={() => linkTo(`/game/auction/sell/${item.data.id}/`)}
             location={ownsYacht}
           />
         )}

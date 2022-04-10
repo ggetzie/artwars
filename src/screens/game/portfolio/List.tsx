@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, SectionList} from 'react-native';
+import {useLinkTo} from '@react-navigation/native';
 
 import {useAppSelector} from '../../../hooks';
 import {filterArtWorks, selectCity, selectPlayer} from '../../../reducers/game';
@@ -13,8 +14,9 @@ import {PortfolioStackParamList} from '.';
 
 type Props = NativeStackScreenProps<PortfolioStackParamList, 'List'>;
 
-const List = ({navigation}: Props) => {
+const List = (_: Props) => {
   const game = useAppSelector(state => state.game);
+  const linkTo = useLinkTo();
   const city = selectCity(game);
   const player = selectPlayer(game);
   const ownedFilter = new ArtWorkFilter({owner: o => o === player});
@@ -46,9 +48,7 @@ const List = ({navigation}: Props) => {
         renderItem={({item}) => (
           <ArtItem
             artwork={item}
-            onPress={() =>
-              navigation.navigate('Detail', {artworkId: item.data.id})
-            }
+            onPress={() => linkTo(`/game/portfolio/${item.data.id}`)}
           />
         )}
         renderSectionHeader={({section}) => (

@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, Button, FlatList, Image} from 'react-native';
+import {useLinkTo} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {useAppSelector} from '../../../hooks';
@@ -15,8 +16,9 @@ import PicStyle from '../../../styles/pics';
 
 type Props = NativeStackScreenProps<CollectorStackParamList, 'List'>;
 
-const List = ({navigation}: Props) => {
+const List = (_: Props) => {
   const game = useAppSelector(state => state.game);
+  const linkTo = useLinkTo();
   const npc = currentNPC(game);
   const artworks: Artwork[] = filterArtWorks(
     game,
@@ -31,10 +33,7 @@ const List = ({navigation}: Props) => {
         <Text>Likes: {npc.data.preference}</Text>
       </View>
       <View>
-        <Button
-          title="Sell"
-          onPress={() => navigation.navigate('SellSelect')}
-        />
+        <Button title="Sell" onPress={() => linkTo('/game/collector/sell/')} />
       </View>
 
       <Text style={BaseStyle.heading1}>Collection</Text>
@@ -43,9 +42,7 @@ const List = ({navigation}: Props) => {
         renderItem={({item}) => (
           <ArtItem
             artwork={item}
-            onPress={() =>
-              navigation.navigate('Buy', {artworkId: item.data.id})
-            }
+            onPress={() => linkTo(`/game/collector/buy/${item.data.id}/`)}
           />
         )}
       />
