@@ -1,4 +1,7 @@
 import {StyleSheet} from 'react-native';
+export const AW_RED = '#f57179';
+export const AW_BLUE = '#8f8798';
+export const AW_YELLOW = '#feedba';
 
 const BaseStyle = StyleSheet.create({
   container: {
@@ -10,7 +13,7 @@ const BaseStyle = StyleSheet.create({
     fontWeight: 'bold',
   },
   hot: {
-    color: 'orangered',
+    color: AW_RED,
   },
   pickerLabel: {
     marginTop: 5,
@@ -48,6 +51,18 @@ const BaseStyle = StyleSheet.create({
     backgroundColor: 'green',
   },
   whiteText: {
+    color: 'white',
+  },
+  navButton: {
+    marginHorizontal: '15%',
+    height: 30,
+    backgroundColor: AW_RED,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  navButtonText: {
+    fontSize: 14,
     color: 'white',
   },
 });

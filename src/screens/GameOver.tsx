@@ -31,7 +31,7 @@ const GameOver = ({navigation}: Props) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <QuitButton navigation={navigation} />,
+      headerRight: () => <QuitButton />,
     });
   }, [navigation]);
 

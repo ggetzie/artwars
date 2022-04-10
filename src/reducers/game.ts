@@ -81,7 +81,7 @@ export const gameSlice = createSlice({
     debitBalance: (state, action: PayloadAction<number>) => {
       state.balance = state.balance - action.payload;
     },
-    updateBalance: (state, action: PayloadAction<number>) => {
+    setBalance: (state, action: PayloadAction<number>) => {
       state.balance = action.payload;
     },
     setCity: (state, action: PayloadAction<CityName>) => {
@@ -130,6 +130,12 @@ export const gameSlice = createSlice({
           return p;
         }
       });
+    },
+    setMessages: (state, action: PayloadAction<string[]>) => {
+      state.messages = action.payload;
+    },
+    setMaxTurns: (state, action: PayloadAction<number>) => {
+      state.maxTurns = action.payload;
     },
     processTurn: state => {
       // randomly select new hot category
@@ -274,7 +280,7 @@ export const {
   setPlayer,
   creditBalance,
   debitBalance,
-  updateBalance,
+  setBalance,
   setCity,
   transact,
   updateArtwork,
@@ -282,6 +288,8 @@ export const {
   setInvestigation,
   processTurn,
   buyPowerUp,
+  setMessages,
+  setMaxTurns,
 } = gameSlice.actions;
 
 export const selectPlayer = (game: gameState) => game.player;

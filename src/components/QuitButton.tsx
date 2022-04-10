@@ -1,13 +1,12 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {AWIcon} from '.';
+import {LinkButton} from '.';
 
-const QuitButton = ({navigation}: {navigation: any}) => (
-  <TouchableOpacity
-    style={QuitButtonStyle.outer}
-    onPress={() => navigation.navigate('Home')}>
+const QuitButton = () => (
+  <LinkButton style={QuitButtonStyle.outer} to={{screen: 'Home'}}>
     <AWIcon name={'times-circle'} color={'red'} style={QuitButtonStyle.icon} />
-  </TouchableOpacity>
+  </LinkButton>
 );
 
 const QuitButtonStyle = StyleSheet.create({
