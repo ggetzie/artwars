@@ -1,18 +1,14 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Button} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '.';
-import {LinkButton} from '../components';
-import BaseStyle from '../styles/base';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 
-const Settings = () => {
+const Settings = ({navigation}: Props) => {
   return (
     <View>
-      <LinkButton to={{screen: 'Home'}} style={BaseStyle.navButton}>
-        <Text style={BaseStyle.navButtonText}>Home</Text>
-      </LinkButton>
+      <Button title="Home" onPress={() => navigation.navigate('Home')} />
     </View>
   );
 };

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {View, Button} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '..';
@@ -17,8 +17,7 @@ import {
   getMaxTurns,
 } from '../../reducers/game';
 import {saveGame} from '../../util/persist';
-import {QuitButton, AWIcon, LinkButton} from '../../components';
-import BaseStyle from '../../styles/base';
+import {QuitButton, AWIcon} from '../../components';
 
 const ACTIVE_COLOR = 'dodgerblue';
 const INACTIVE_COLOR = 'gray';
@@ -35,7 +34,7 @@ const Game = ({navigation}: Props) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <QuitButton />,
+      headerRight: () => <QuitButton navigation={navigation} />,
       title: `Art Wars - ${turn} / ${maxTurns}`,
     });
   }, [turn, maxTurns, navigation]);
@@ -103,9 +102,10 @@ const Game = ({navigation}: Props) => {
       </Tab.Navigator>
       {turn >= maxTurns && (
         <View>
-          <LinkButton to={{screen: 'GameOver'}} style={BaseStyle.navButton}>
-            <Text style={BaseStyle.navButtonText}>End Game</Text>
-          </LinkButton>
+          <Button
+            title="End Game"
+            onPress={() => navigation.navigate('GameOver')}
+          />
         </View>
       )}
     </>
