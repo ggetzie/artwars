@@ -1,7 +1,7 @@
 import {AppRegistry} from 'react-native';
 import App from '../App';
 
-const appName = 'Art Wars';
+const appName = 'Your app name';
 
 AppRegistry.registerComponent(appName, () => App);
 AppRegistry.runApplication(appName, {
