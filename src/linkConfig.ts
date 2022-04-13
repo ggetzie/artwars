@@ -52,13 +52,13 @@ const config: any = {
           screens: {
             List: 'game/auction/',
             Buy: {
-              path: 'game/auction/buy/:artworkId/',
+              path: 'game/auction/buy/:artworkId',
               parse: {artworkId: parseInt},
               stringify: {artworkId: numToString},
             },
             SellSelect: 'game/auction/sell/',
             Sell: {
-              path: 'game/auction/sell/:artworkId/',
+              path: 'game/auction/sell/:artworkId',
               parse: {artworkId: parseInt},
               stringify: {artworkId: numToString},
             },
@@ -67,7 +67,7 @@ const config: any = {
         Shop: {
           screens: {
             List: 'game/shop/',
-            Buy: 'game/shop/:name/',
+            Buy: 'game/shop/:name',
           },
         },
       },

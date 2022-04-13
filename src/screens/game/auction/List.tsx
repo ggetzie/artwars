@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, Text, FlatList, Button} from 'react-native';
-import {useLinkTo} from '@react-navigation/native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
@@ -14,10 +13,9 @@ import BaseStyle from '../../../styles/base';
 
 type Props = NativeStackScreenProps<AuctionStackParamList, 'List'>;
 
-const List = (_: Props) => {
+const List = ({navigation}: Props) => {
   const game = useAppSelector(state => state.game);
   const city = selectCity(game);
-  const linkTo = useLinkTo();
   const artworks: Artwork[] = filterArtWorks(
     game,
     new ArtWorkFilter({
@@ -29,12 +27,14 @@ const List = (_: Props) => {
 
   return (
     <View style={BaseStyle.container}>
-      <Button title="Sell" onPress={() => linkTo('/game/auction/sell/')} />
+      <Button title="Sell" onPress={() => navigation.navigate('SellSelect')} />
       <FlatList
         renderItem={({item}) => (
           <ArtItem
             artwork={item}
-            onPress={() => linkTo(`/game/auction/buy/${item.data.id}`)}
+            onPress={() =>
+              navigation.navigate('Buy', {artworkId: item.data.id})
+            }
           />
         )}
         data={artworks}

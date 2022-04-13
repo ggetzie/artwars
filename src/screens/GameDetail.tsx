@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useFocusEffect, useLinkTo} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import {
   View,
   Text,
@@ -60,18 +60,17 @@ const GameInfoStyle = StyleSheet.create({
   },
 });
 
-const GameDetail = ({route}: Props) => {
+const GameDetail = ({navigation, route}: Props) => {
   const dispatch = useAppDispatch();
-  const linkTo = useLinkTo();
   const [loading, setLoading] = useState<boolean>(false);
-  const [loadedGame, setLoadedGame] = useState<gameState[]>([]);
+  const [loaded, setLoaded] = useState<gameState[]>([]);
 
   useFocusEffect(
     React.useCallback(() => {
       setLoading(true);
       loadGame(route.params.gameId)
         .then(game => {
-          setLoadedGame([game]);
+          setLoaded([game]);
         })
         .catch(e => console.log(e))
         .finally(() => setLoading(false));
@@ -84,16 +83,16 @@ const GameDetail = ({route}: Props) => {
         <Text>Loading...</Text>
       ) : (
         [
-          loadedGame.map(g => (
+          loaded.map(g => (
             <GameInfo
               key={g.id}
               game={g}
               onConfirm={() => {
-                dispatch(setGame(loadedGame[0]));
-                linkTo('/game/city/');
+                dispatch(setGame(loaded[0]));
+                navigation.navigate('Game');
               }}
               onDelete={() => {
-                deleteGame(g.id).then(() => linkTo('/continue/'));
+                deleteGame(g.id).then(() => navigation.navigate('Continue'));
               }}
             />
           )),

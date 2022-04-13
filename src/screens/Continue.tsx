@@ -7,7 +7,7 @@ import {
   GestureResponderEvent,
   StyleSheet,
 } from 'react-native';
-import {useFocusEffect, useLinkTo} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '.';
 import {useAppDispatch} from '../hooks';
@@ -46,11 +46,10 @@ const GameItemStyle = StyleSheet.create({
   },
 });
 
-const Continue = (_: Props) => {
+const Continue = ({navigation}: Props) => {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const [games, setGames] = useState<gameState[]>([]);
-  const linkTo = useLinkTo();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -79,7 +78,7 @@ const Continue = (_: Props) => {
               started={new Date(item.started)}
               onPress={() => {
                 dispatch(setGame(item));
-                linkTo(`/continue/${item.id}/`);
+                navigation.navigate('GameDetail', {gameId: item.id});
               }}
             />
           )}

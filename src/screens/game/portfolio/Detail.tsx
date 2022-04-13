@@ -8,7 +8,6 @@ import {
   isUnderInvestigation,
   ownsPowerUp,
 } from '../../../reducers/game';
-import {useLinkTo} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {PortfolioStackParamList} from '.';
 import BaseStyle from '../../../styles/base';
@@ -37,7 +36,6 @@ const InvestigationStyle = StyleSheet.create({
 
 const Detail = ({navigation, route}: Props) => {
   const game = useAppSelector(state => state.game);
-  const linkTo = useLinkTo();
   const {artworkId} = route.params;
   const artwork = getArtwork(game, artworkId);
   const hot = currentHot(game);
@@ -77,7 +75,12 @@ const Detail = ({navigation, route}: Props) => {
           />
           <Button
             title="Move"
-            onPress={() => linkTo(`/game/portfolio/${artworkId}/${dest}/`)}
+            onPress={() =>
+              navigation.navigate('Confirm', {
+                artworkId: artworkId,
+                destination: dest,
+              })
+            }
             disabled={ownsYacht}
           />
           {ownsYacht && (
