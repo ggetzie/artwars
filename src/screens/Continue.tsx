@@ -12,7 +12,7 @@ import {RootStackParamList} from '.';
 import {useAppDispatch} from '../hooks';
 import {setGame, gameState} from '../reducers/game';
 import BaseStyle from '../styles/base';
-import {loadGames} from '../util';
+import {loadGames} from '../util/persist';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Continue'>;
 
@@ -68,7 +68,7 @@ const Continue = ({navigation}: Props) => {
               started={new Date(item.started)}
               onPress={() => {
                 dispatch(setGame(item));
-                navigation.navigate('GameDetail', {game: item});
+                navigation.navigate('GameDetail', {gameId: item.id});
               }}
             />
           )}

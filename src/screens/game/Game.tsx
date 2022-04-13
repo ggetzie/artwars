@@ -16,7 +16,7 @@ import {
   currentTurn,
   getMaxTurns,
 } from '../../reducers/game';
-import {saveGame} from '../../util';
+import {saveGame} from '../../util/persist';
 import {QuitButton} from '../../components';
 
 const ACTIVE_COLOR = 'dodgerblue';

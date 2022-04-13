@@ -11,13 +11,8 @@ import {
   selectPlayer,
 } from '../reducers/game';
 import {useFocusEffect} from '@react-navigation/native';
-import {
-  deleteGame,
-  insertNewHS,
-  loadHighScores,
-  saveHighScores,
-  sortScoresDescending,
-} from '../util';
+import {insertNewHS, sortScoresDescending} from '../util';
+import {deleteGame, loadHighScores, saveHighScores} from '../util/persist';
 import {HighScore} from '../util/types';
 import {ScoreList, QuitButton} from '../components';
 

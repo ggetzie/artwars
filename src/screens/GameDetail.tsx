@@ -1,49 +1,102 @@
-import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  GestureResponderEvent,
+} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '.';
 import {useAppDispatch} from '../hooks';
 import {setGame, gameState, portfolioValue} from '../reducers/game';
 import BaseStyle from '../styles/base';
-import {deleteGame} from '../util';
+import {deleteGame, loadGame} from '../util/persist';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'GameDetail'>;
 
-const GameDetail = ({navigation, route}: Props) => {
-  const dispatch = useAppDispatch();
-  const game = route.params.game;
-  const started = new Date(game.started);
-
+const GameInfo = ({
+  game,
+  onConfirm,
+  onDelete,
+}: {
+  game: gameState;
+  onConfirm: (event: GestureResponderEvent) => void;
+  onDelete: (event: GestureResponderEvent) => void;
+}) => {
   return (
-    <View style={BaseStyle.container}>
+    <>
       <Text>{game.player}</Text>
-      <Text>Started: {started.toLocaleString()}</Text>
+      <Text>Started: {new Date(game.started).toLocaleString()}</Text>
       <Text>
         Turn {game.turn} of {game.maxTurns}
       </Text>
       <Text>Balance: ${game.balance.toLocaleString()}</Text>
       <Text>Portfolio Value: ${portfolioValue(game).toLocaleString()}</Text>
-      <View
-        style={[
-          BaseStyle.buttonRow,
-          {justifyContent: 'space-between', paddingHorizontal: '15%'},
-        ]}>
+      <View style={[BaseStyle.buttonRow, GameInfoStyle.row]}>
         <TouchableOpacity
           style={[BaseStyle.button, BaseStyle.dangerButton]}
-          onPress={() => {
-            deleteGame(game.id).then(() => navigation.navigate('Continue'));
-          }}>
-          <Text style={[BaseStyle.buttonText, {color: 'white'}]}>Delete</Text>
+          onPress={onDelete}>
+          <Text style={[BaseStyle.buttonText, BaseStyle.whiteText]}>
+            Delete
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[BaseStyle.button, {backgroundColor: 'green'}]}
-          onPress={() => {
-            dispatch(setGame(game));
-            navigation.navigate('Game');
-          }}>
-          <Text style={[BaseStyle.buttonText, {color: 'white'}]}>Load</Text>
+          style={[BaseStyle.button, BaseStyle.successButton]}
+          onPress={onConfirm}>
+          <Text style={[BaseStyle.buttonText, BaseStyle.whiteText]}>Load</Text>
         </TouchableOpacity>
       </View>
+    </>
+  );
+};
+
+const GameInfoStyle = StyleSheet.create({
+  row: {
+    justifyContent: 'space-between',
+    paddingHorizontal: '15%',
+  },
+});
+
+const GameDetail = ({navigation, route}: Props) => {
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [loadedGame, setLoadedGame] = useState<gameState[]>([]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(true);
+      loadGame(route.params.gameId)
+        .then(game => {
+          setLoadedGame([game]);
+        })
+        .catch(e => console.log(e))
+        .finally(() => setLoading(false));
+    }, [route.params.gameId]),
+  );
+
+  return (
+    <View style={BaseStyle.container}>
+      {loading ? (
+        <Text>Loading...</Text>
+      ) : (
+        [
+          loadedGame.map(g => (
+            <GameInfo
+              key={g.id}
+              game={g}
+              onConfirm={() => {
+                dispatch(setGame(loadedGame[0]));
+                navigation.navigate('Game');
+              }}
+              onDelete={() => {
+                deleteGame(g.id).then(() => navigation.navigate('Continue'));
+              }}
+            />
+          )),
+        ]
+      )}
     </View>
   );
 };
