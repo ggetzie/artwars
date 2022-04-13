@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {View, Text, Button, TextInput, StyleSheet} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Picker} from '@react-native-picker/picker';
 
 import {RootStackParamList} from '.';
 import {setGame, defaultGame} from '../reducers/game';
 import {useAppDispatch} from '../hooks';
-import {Dropdown} from '../components';
 
 import BaseStyle from '../styles/base';
 
@@ -27,12 +27,16 @@ const NewGame = ({navigation}: Props) => {
         />
       </View>
       <View style={styles.formRow}>
-        <Dropdown
-          label="Turns:"
+        <Text style={styles.formRowLabel}>Turns:</Text>
+        <Picker
+          accessibilityLabel="Number of Turns"
           selectedValue={turns}
-          itemList={[5, 30, 50, 75, 100]}
-          onValueChange={(itemValue: number, _: number) => setTurns(itemValue)}
-        />
+          style={styles.formRowInput}
+          onValueChange={(itemValue, _) => setTurns(itemValue)}>
+          {[5, 30, 50, 75, 100].map(i => (
+            <Picker.Item key={i} value={i} label={i.toString()} />
+          ))}
+        </Picker>
       </View>
       <Button
         title="Start"
