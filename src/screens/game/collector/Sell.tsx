@@ -1,9 +1,14 @@
 import React, {useState} from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, FlatList, Modal, TextInput} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {currentNPC, getArtwork, transact} from '../../../reducers/game';
+import {
+  currentNPC,
+  getArtwork,
+  getArtworkData,
+  transact,
+} from '../../../reducers/game';
 
 import {considerBuy} from '../../../util';
 import {Transaction} from '../../../util/types';
@@ -12,7 +17,7 @@ import BaseStyle from '../../../styles/base';
 import {CollectorStackParamList} from '.';
 
 type Props = NativeStackScreenProps<CollectorStackParamList, 'Sell'>;
-const Sell = ({route}: Props) => {
+const Sell = ({navigation, route}: Props) => {
   const game = useAppSelector(state => state.game);
   const {artworkId} = route.params;
   const artwork = getArtwork(game, artworkId);

@@ -8,6 +8,8 @@ import GameDetail from './GameDetail';
 import GameOver from './GameOver';
 import HighScores from './HighScores';
 
+import {gameState} from '../reducers/game';
+
 export type RootStackParamList = {
   Home: undefined;
   Continue: undefined;

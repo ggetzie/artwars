@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 import {useAppSelector} from '../hooks';
 import {currentHot} from '../reducers/game';
-import {Artwork} from '../util/types';
+import {ARTWORKS} from '../util';
+import {Artwork, ArtworkData} from '../util/types';
 import BaseStyle from '../styles/base';
 
 const ArtItem = ({

@@ -26,7 +26,7 @@ const DutyMsg = ({txt}: {txt: string}) => {
   );
 };
 
-const Confirm = ({route}: Props) => {
+const Confirm = ({navigation, route}: Props) => {
   const {artworkId, destination} = route.params;
 
   const game = useAppSelector(state => state.game);

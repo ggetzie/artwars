@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '.';
 import {ScoreList} from '../components';
-import {loadHighScores} from '../util/persist';
+import {loadHighScores} from '../util';
 import {HighScore} from '../util/types';
 import BaseStyle from '../styles/base';
 

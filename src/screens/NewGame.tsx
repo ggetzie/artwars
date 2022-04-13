@@ -5,13 +5,14 @@ import {Picker} from '@react-native-picker/picker';
 
 import {RootStackParamList} from '.';
 import {setGame, defaultGame} from '../reducers/game';
-import {useAppDispatch} from '../hooks';
+import {useAppDispatch, useAppSelector} from '../hooks';
 
 import BaseStyle from '../styles/base';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'NewGame'>;
 
 const NewGame = ({navigation}: Props) => {
+  const game = useAppSelector(state => state.game);
   const dispatch = useAppDispatch();
   let newGame = defaultGame();
   const [name, setName] = useState<string>(newGame.player);
@@ -34,7 +35,7 @@ const NewGame = ({navigation}: Props) => {
           style={styles.formRowInput}
           onValueChange={(itemValue, _) => setTurns(itemValue)}>
           {[5, 30, 50, 75, 100].map(i => (
-            <Picker.Item key={i} value={i} label={i.toString()} />
+            <Picker.Item key={i} value={i} label={i.toString()}></Picker.Item>
           ))}
         </Picker>
       </View>

@@ -9,7 +9,12 @@ import {Transaction} from '../../../util/types';
 import {AuctionStackParamList} from '.';
 import {ArtItem, IntegerInput} from '../../../components';
 import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {currentHot, getArtwork, transact} from '../../../reducers/game';
+import {
+  currentHot,
+  getArtwork,
+  selectPlayer,
+  transact,
+} from '../../../reducers/game';
 import {initialAsking} from '../../../util';
 
 import BaseStyle from '../../../styles/base';
@@ -22,7 +27,7 @@ type AuctionStatus =
   | 'bidMade'
   | 'finished';
 
-const Sell = ({route}: Props) => {
+const Sell = ({navigation, route}: Props) => {
   // Auction Sell Logic:
   // Player sets asking price
   // roll to decide if a bid
@@ -32,6 +37,7 @@ const Sell = ({route}: Props) => {
   const game = useAppSelector(state => state.game);
   const dispatch = useAppDispatch();
   const hot = currentHot(game);
+  const player = selectPlayer(game);
   const artworkId = route.params.artworkId;
   const artwork = getArtwork(game, artworkId);
   // const artwork = ARTWORKS[awId];

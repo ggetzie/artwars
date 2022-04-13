@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, Button} from 'react-native';
 
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {GameTabParamList} from '.';
@@ -19,10 +19,11 @@ import {Picker} from '@react-native-picker/picker';
 import {Cities} from '../../util';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import BaseStyle from '../../styles/base';
+import {NavigationContainer} from '@react-navigation/native';
 
 type Props = BottomTabNavigationProp<GameTabParamList, 'City'>;
 
-const City = (_: Props) => {
+const City = ({navigate}: Props) => {
   const game = useAppSelector(state => state.game);
   const dispatch = useAppDispatch();
   const city = selectCity(game);

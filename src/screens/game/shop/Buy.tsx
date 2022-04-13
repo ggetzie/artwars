@@ -1,5 +1,13 @@
 import React from 'react';
-import {View, Text, Button} from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+  FlatList,
+  Image,
+  GestureResponderEvent,
+  TouchableHighlight,
+} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {getPowerUp, buyPowerUp} from '../../../reducers/game';
 import {ShopStackParamList} from '.';

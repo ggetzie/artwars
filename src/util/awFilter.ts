@@ -1,4 +1,4 @@
-import {ArtworkData, CityName} from './types';
+import {CategoryName, Artwork, ArtworkData, CityName} from './types';
 export type FilterFunc<Type> = (a?: Type) => boolean;
 
 const alwaysTrue: FilterFunc<any> = (_: any): boolean => true;
