@@ -10,12 +10,11 @@
 
 import React from 'react';
 import {Provider} from 'react-redux';
-import {Text} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {store} from './store';
+import {store} from './src/store';
 import {
   Home,
   Continue,
@@ -26,21 +25,15 @@ import {
   GameDetail,
   GameOver,
   HighScores,
-} from './screens';
-import {RootStackParamList} from './screens';
-import config from './linkConfig';
+} from './src/screens';
+import {RootStackParamList} from './src/screens';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
-const linking = {
-  prefixes: ['artwars://', 'https://artwars.art', 'http://localhost:3000'],
-  config,
-};
 
 const App = () => {
   return (
     <Provider store={store}>
-      <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
+      <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
             name="Home"
