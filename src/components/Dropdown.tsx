@@ -2,30 +2,24 @@ import React, {ChangeEventHandler} from 'react';
 import {Text} from 'react-native';
 import BaseStyle from '../styles/base';
 
-type listItem = [any, string];
-
 const Dropdown = ({
   onValueChange,
   selectedValue,
   itemList,
   label,
-  style,
 }: {
   onValueChange: Function;
   selectedValue: any;
-  itemList: listItem[];
+  itemList: any[];
   label: string;
-  style?: any;
 }) => {
   return (
     <>
-      <Text style={style?.label || BaseStyle.pickerLabel}>{label}</Text>
-      <select
-        style={style?.control}
-        onChange={onValueChange as ChangeEventHandler<HTMLSelectElement>}>
-        {itemList.map(([v, l], i) => (
-          <option key={i} selected={v === selectedValue}>
-            {l}
+      <Text style={BaseStyle.pickerLabel}>{label}</Text>
+      <select onChange={onValueChange as ChangeEventHandler<HTMLSelectElement>}>
+        {itemList.map(([c, i]) => (
+          <option key={i} selected={c === selectedValue}>
+            {c}
           </option>
         ))}
       </select>

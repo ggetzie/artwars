@@ -18,21 +18,20 @@ const NewGame = ({navigation}: Props) => {
   const [turns, setTurns] = useState<number>(30);
   return (
     <View style={BaseStyle.container}>
-      <View style={styles.outer}>
-        <Text style={styles.label}>Name:</Text>
+      <View style={styles.formRow}>
+        <Text style={styles.formRowLabel}>Name:</Text>
         <TextInput
           value={name}
-          style={styles.control}
+          style={styles.formRowInput}
           onChangeText={value => setName(value)}
         />
       </View>
-      <View style={styles.outer}>
+      <View style={styles.formRow}>
         <Dropdown
           label="Turns:"
           selectedValue={turns}
-          itemList={[5, 30, 50, 75, 100].map(i => [i, i.toString()])}
+          itemList={[5, 30, 50, 75, 100]}
           onValueChange={(itemValue: number, _: number) => setTurns(itemValue)}
-          style={styles}
         />
       </View>
       <Button
@@ -55,14 +54,14 @@ const NewGame = ({navigation}: Props) => {
 };
 
 const styles = StyleSheet.create({
-  outer: {
+  formRow: {
     flexDirection: 'row',
     marginBottom: 5,
   },
-  label: {
+  formRowLabel: {
     flex: 1,
   },
-  control: {
+  formRowInput: {
     flex: 3,
   },
 });
