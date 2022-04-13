@@ -51,7 +51,7 @@ const City = (_: Props) => {
       {turn < maxTurns && (
         <Dropdown
           selectedValue={city}
-          itemList={Object.values(Cities).map(v => [v, v])}
+          itemList={Object.entries(Cities)}
           onValueChange={onValueChange}
           label="Change City"
         />

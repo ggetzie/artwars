@@ -3,6 +3,7 @@ import {View, Button} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '..';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import City from './City';
 import Portfolio from './portfolio/';
@@ -17,7 +18,7 @@ import {
   getMaxTurns,
 } from '../../reducers/game';
 import {saveGame} from '../../util/persist';
-import {QuitButton, AWIcon} from '../../components';
+import {QuitButton} from '../../components';
 
 const ACTIVE_COLOR = 'dodgerblue';
 const INACTIVE_COLOR = 'gray';
@@ -67,10 +68,10 @@ const Game = ({navigation}: Props) => {
             }
 
             return (
-              <AWIcon
+              <FontAwesome5
                 name={iconName}
                 color={focused ? ACTIVE_COLOR : INACTIVE_COLOR}
-                style={{fontSize: size}}
+                size={size}
               />
             );
           },

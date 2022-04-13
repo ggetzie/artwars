@@ -5,7 +5,6 @@ import ScoreList from './ScoreList';
 import NPCDialog from './NPCDialog';
 import Dropdown from './Dropdown';
 import LinkButton from './LinkButton';
-import AWIcon from './AWIcon';
 
 export {
   ArtItem,
@@ -15,5 +14,4 @@ export {
   NPCDialog,
   Dropdown,
   LinkButton,
-  AWIcon,
 };
