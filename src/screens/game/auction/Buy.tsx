@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, Button} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-
 import {bidIncrement, otherBidders, initialAsking} from '../../../util';
 import {ArtworkData, Transaction} from '../../../util/types';
 import {AuctionStackParamList} from '.';

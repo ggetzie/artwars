@@ -1,9 +1,6 @@
 import React from 'react';
-
 import {View, Text, FlatList} from 'react-native';
-
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-
 import {ArtItem} from '../../../components';
 import {useAppSelector} from '../../../hooks';
 import {

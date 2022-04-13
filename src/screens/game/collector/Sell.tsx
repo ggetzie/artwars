@@ -1,15 +1,8 @@
 import React, {useState} from 'react';
-import {View, Text, Button, FlatList, Modal, TextInput} from 'react-native';
+import {View, Text, Button} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-
 import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {
-  currentNPC,
-  getArtwork,
-  getArtworkData,
-  transact,
-} from '../../../reducers/game';
-
+import {currentNPC, getArtwork, transact} from '../../../reducers/game';
 import {considerBuy} from '../../../util';
 import {Transaction} from '../../../util/types';
 import {ArtItem, IntegerInput, NPCDialog} from '../../../components';

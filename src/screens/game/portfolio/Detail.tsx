@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Button, Image} from 'react-native';
-
 import {useAppSelector} from '../../../hooks';
 import {
   currentHot,

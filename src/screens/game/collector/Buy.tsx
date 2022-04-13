@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, Button, Image} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-
 import {useAppDispatch, useAppSelector} from '../../../hooks';
 import {
   currentNPC,
@@ -10,12 +9,10 @@ import {
   selectPlayer,
   transact,
 } from '../../../reducers/game';
-
-import {considerSell, NPCImages} from '../../../util';
+import {considerSell} from '../../../util';
 import {Transaction} from '../../../util/types';
 import {ArtItem, IntegerInput, NPCDialog} from '../../../components';
 import BaseStyle from '../../../styles/base';
-import PicStyle from '../../../styles/pics';
 import {CollectorStackParamList} from '.';
 
 type Props = NativeStackScreenProps<CollectorStackParamList, 'Buy'>;

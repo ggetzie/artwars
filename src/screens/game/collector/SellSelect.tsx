@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text, FlatList} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-
 import {useAppSelector} from '../../../hooks';
 import {
   filterArtWorks,
@@ -9,7 +8,6 @@ import {
   selectCity,
   selectPlayer,
 } from '../../../reducers/game';
-
 import {ArtWorkFilter} from '../../../util/awFilter';
 import {Artwork} from '../../../util/types';
 import {ArtItem} from '../../../components';

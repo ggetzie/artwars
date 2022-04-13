@@ -1,13 +1,8 @@
-import React, {useState} from 'react';
-
-import {View, Text, StyleSheet, FlatList, Button} from 'react-native';
+import React from 'react';
 
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {GameTabParamList} from '..';
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Buy from './Buy';
 import List from './List';

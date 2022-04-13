@@ -4,7 +4,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '..';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-
 import City from './City';
 import Portfolio from './portfolio/';
 import Collector from './collector';

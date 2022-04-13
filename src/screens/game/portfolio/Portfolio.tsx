@@ -1,8 +1,6 @@
 import React from 'react';
-
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {GameTabParamList} from '..';
-
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import List from './List';
 import Detail from './Detail';

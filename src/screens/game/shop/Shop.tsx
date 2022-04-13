@@ -1,8 +1,6 @@
 import React from 'react';
-import {View} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-
 import Buy from './Buy';
 import List from './List';
 

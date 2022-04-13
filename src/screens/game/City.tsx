@@ -1,6 +1,5 @@
 import React from 'react';
-import {View, Text, FlatList, Button} from 'react-native';
-
+import {View, Text, FlatList} from 'react-native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {GameTabParamList} from '.';
 import {

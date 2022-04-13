@@ -1,10 +1,8 @@
 import React from 'react';
 import {View, Text, Button, FlatList, Image} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-
 import {useAppSelector} from '../../../hooks';
 import {currentNPC, filterArtWorks} from '../../../reducers/game';
-
 import {ArtWorkFilter} from '../../../util/awFilter';
 import {ArtItem} from '../../../components';
 import BaseStyle from '../../../styles/base';
