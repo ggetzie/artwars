@@ -13,7 +13,7 @@ import {gameState} from '../reducers/game';
 export type RootStackParamList = {
   Home: undefined;
   Continue: undefined;
-  GameDetail: {gameId: string};
+  GameDetail: {game: gameState};
   Settings: undefined;
   NewGame: undefined;
   About: undefined;

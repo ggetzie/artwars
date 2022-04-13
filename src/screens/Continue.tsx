@@ -68,7 +68,7 @@ const Continue = ({navigation}: Props) => {
               started={new Date(item.started)}
               onPress={() => {
                 dispatch(setGame(item));
-                navigation.navigate('GameDetail', {gameId: item.id});
+                navigation.navigate('GameDetail', {game: item});
               }}
             />
           )}
