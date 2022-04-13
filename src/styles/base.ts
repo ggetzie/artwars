@@ -44,12 +44,6 @@ const BaseStyle = StyleSheet.create({
     backgroundColor: 'red',
     color: 'white',
   },
-  successButton: {
-    backgroundColor: 'green',
-  },
-  whiteText: {
-    color: 'white',
-  },
 });
 
 export default BaseStyle;

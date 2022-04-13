@@ -5,7 +5,6 @@ import {
   FlatList,
   TouchableOpacity,
   GestureResponderEvent,
-  StyleSheet,
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -13,7 +12,7 @@ import {RootStackParamList} from '.';
 import {useAppDispatch} from '../hooks';
 import {setGame, gameState} from '../reducers/game';
 import BaseStyle from '../styles/base';
-import {loadGames} from '../util/persist';
+import {loadGames} from '../util';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Continue'>;
 
@@ -27,24 +26,15 @@ const GameItem = ({
   onPress: (event: GestureResponderEvent) => void;
 }) => {
   return (
-    <TouchableOpacity style={GameItemStyle.container} onPress={onPress}>
-      <Text style={GameItemStyle.text}>
+    <TouchableOpacity
+      style={{minHeight: 50, flex: 1, justifyContent: 'center'}}
+      onPress={onPress}>
+      <Text style={{fontSize: 18}}>
         {player} - {started.toLocaleString()}
       </Text>
     </TouchableOpacity>
   );
 };
-
-const GameItemStyle = StyleSheet.create({
-  container: {
-    minHeight: 50,
-    flex: 1,
-    justifyContent: 'center',
-  },
-  text: {
-    fontSize: 18,
-  },
-});
 
 const Continue = ({navigation}: Props) => {
   const dispatch = useAppDispatch();
@@ -55,9 +45,9 @@ const Continue = ({navigation}: Props) => {
     React.useCallback(() => {
       setLoading(true);
       loadGames()
-        .then(gameList => {
-          setGames(gameList);
-          console.log(`loading ${gameList.length} games`);
+        .then(games => {
+          setGames(games);
+          console.log(`loading ${games.length} games`);
         })
         .catch(e => console.log(e))
         .finally(() => setLoading(false));

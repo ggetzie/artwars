@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {RootStackParamList} from '.';
 import {useAppSelector} from '../hooks';
 import BaseStyle from '../styles/base';
@@ -11,8 +12,13 @@ import {
   selectPlayer,
 } from '../reducers/game';
 import {useFocusEffect} from '@react-navigation/native';
-import {insertNewHS, sortScoresDescending} from '../util';
-import {deleteGame, loadHighScores, saveHighScores} from '../util/persist';
+import {
+  deleteGame,
+  insertNewHS,
+  loadHighScores,
+  saveHighScores,
+  sortScoresDescending,
+} from '../util';
 import {HighScore} from '../util/types';
 import {ScoreList, QuitButton} from '../components';
 
@@ -33,7 +39,7 @@ const GameOver = ({navigation}: Props) => {
     navigation.setOptions({
       headerRight: () => <QuitButton navigation={navigation} />,
     });
-  }, [navigation]);
+  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -55,7 +61,7 @@ const GameOver = ({navigation}: Props) => {
         })
         .catch(err => console.log(`Error loading high scores: ${err}`))
         .finally(() => setLoading(false));
-    }, [score, game.id, player]),
+    }, [score]),
   );
 
   return (
